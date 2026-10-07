@@ -45,6 +45,9 @@ struct AssistantView: View {
             }
             .safeAreaInset(edge: .bottom) { inputBar }
             .navigationTitle(L10n.t("tab.assistant"))
+            .onAppear {
+                if history.isEmpty, let q = DemoMode.question { ask(q) }
+            }
             .toolbar {
                 if !history.isEmpty {
                     ToolbarItem(placement: .primaryAction) {

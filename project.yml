@@ -47,7 +47,7 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleDevelopmentRegion: uk
-        CFBundleLocalizations: [uk, en]
+        CFBundleLocalizations: [uk, ru, en]
         ITSAppUsesNonExemptEncryption: false
         LSRequiresIPhoneOS: true
         NSFaceIDUsageDescription: CarCare Log uses Face ID to protect your data.

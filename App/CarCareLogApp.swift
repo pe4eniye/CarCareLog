@@ -4,7 +4,7 @@ import CarCareCore
 
 @main
 struct CarCareLogApp: App {
-    @StateObject private var persistence = Persistence()
+    @StateObject private var persistence = Persistence(inMemory: DemoMode.isOn)
     @StateObject private var settings = AppSettings.shared
     @StateObject private var lock = AppLock()
     @StateObject private var router = Router()
@@ -28,7 +28,7 @@ struct CarCareLogApp: App {
 /// Tab selection, shared so the Home empty state and widget deep links can switch tabs.
 final class Router: ObservableObject {
     enum Tab: Hashable { case home, history, parts, assistant, settings }
-    @Published var tab: Tab = .home
+    @Published var tab: Tab = DemoMode.isOn ? DemoMode.startTab : .home
 }
 
 struct RootView: View {
@@ -54,6 +54,7 @@ struct RootView: View {
         .onAppear {
             guard !didLaunch else { return }
             didLaunch = true
+            if DemoMode.isOn { DemoMode.seed(context) }
             lock.lockIfEnabled(settings.faceIDEnabled)
             lock.unlockIfNeeded(enabled: settings.faceIDEnabled)
             DataEvents.appDidBecomeActive(context)

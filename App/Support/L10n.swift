@@ -4,7 +4,10 @@ import CarCareCore
 /// In-app language override. All UI and notification texts go through `L10n.t`, which reads the
 /// compiled String Catalog from the chosen language's .lproj instead of the system language.
 enum L10n {
-    static let supported = ["uk", "en"]
+    static let supported = ["uk", "ru", "en"]
+
+    /// Language names for pickers, each in its own language.
+    static let choices: [(code: String, name: String)] = [("uk", "Українська"), ("ru", "Русский"), ("en", "English")]
 
     private(set) static var language = "uk"
     private(set) static var bundle: Bundle = loadBundle("uk")
@@ -20,9 +23,9 @@ enum L10n {
         return .main
     }
 
-    static var locale: Locale { Locale(identifier: language == "en" ? "en_GB" : "uk_UA") }
+    static var assistantLanguage: AssistantLanguage { AssistantLanguage(rawValue: language) ?? .uk }
 
-    static var assistantLanguage: AssistantLanguage { language == "en" ? .en : .uk }
+    static var locale: Locale { Locale(identifier: AssistantFormat.localeIdentifier(assistantLanguage)) }
 
     static func t(_ key: String) -> String {
         bundle.localizedString(forKey: key, value: key, table: "Localizable")

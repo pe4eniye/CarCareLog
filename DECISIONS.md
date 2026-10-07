@@ -71,7 +71,7 @@
 - Without history, "due at N km" lists the item names under "No records, not included" rather than guessing.
 
 ## UI
-- Ukrainian is the default UI language, English is the second one. Russian is understood by the assistant only.
+- UI languages: Ukrainian (default), Russian, English. The assistant understands all three and replies in the language of the question.
 - Light theme by default. The language switch rebuilds the UI, so on the first onboarding page pick the language before
   filling in the car fields.
 - Face ID uses `deviceOwnerAuthentication` (biometrics with passcode fallback). Turning it on asks for

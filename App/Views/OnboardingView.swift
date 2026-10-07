@@ -36,8 +36,7 @@ struct OnboardingView: View {
             }
             Section {
                 Picker(L10n.t("settings.language"), selection: $settings.language) {
-                    Text("Українська").tag("uk")
-                    Text("English").tag("en")
+                    ForEach(L10n.choices, id: \.code) { Text($0.name).tag($0.code) }
                 }
                 .frame(minHeight: 44)
             }

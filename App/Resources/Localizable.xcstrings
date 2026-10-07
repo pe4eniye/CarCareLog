@@ -5,6 +5,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Очистить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Очистити" } }
       }
     },
@@ -12,6 +13,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Copied" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скопировано" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скопійовано" } }
       }
     },
@@ -19,6 +21,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Ask about maintenance in Ukrainian, Russian or English. You can dictate with the microphone key on the keyboard. The assistant works offline and answers only from your records." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Спросите про обслуживание на украинском, русском или английском. Можно диктовать — кнопка микрофона на клавиатуре. Помощник работает без интернета и отвечает только по вашим записям." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запитайте про обслуговування українською, російською чи англійською. Можна диктувати — кнопка мікрофона на клавіатурі. Помічник працює без інтернету і відповідає лише за вашими записами." } }
       }
     },
@@ -26,6 +29,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Your question" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ваш вопрос" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ваше запитання" } }
       }
     },
@@ -33,6 +37,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Send" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отправить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Надіслати" } }
       }
     },
@@ -40,6 +45,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Файл от %1$@: позиций — %2$d, записей — %3$d. Все текущие данные на этом iPhone будут заменены." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено." } }
       }
     },
@@ -47,6 +53,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace data?" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Заменить данные?" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити дані?" } }
       }
     },
@@ -54,6 +61,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Export backup" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Экспортировать резервную копию" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Експортувати резервну копію" } }
       }
     },
@@ -61,6 +69,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not create the file." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось создать файл." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Не вдалося створити файл." } }
       }
     },
@@ -68,6 +77,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "One file with all your data. Save it to Files or send it via AirDrop." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Один файл со всеми данными. Сохраните его в «Файлы» или отправьте через AirDrop." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Один файл з усіма даними. Збережіть його у «Файли» або надішліть через AirDrop." } }
       }
     },
@@ -75,6 +85,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Import backup" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Импортировать резервную копию" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Імпортувати резервну копію" } }
       }
     },
@@ -82,6 +93,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "This is not a CarCare Log backup file." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Это не файл резервной копии CarCare Log." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Це не файл резервної копії CarCare Log." } }
       }
     },
@@ -89,6 +101,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "The file was made by a newer app version. Please update the app." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Файл создан более новой версией приложения. Обновите приложение." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Файл створено новішою версією застосунку. Оновіть застосунок." } }
       }
     },
@@ -96,6 +109,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Заменить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити" } }
       }
     },
@@ -103,6 +117,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Data restored." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Данные восстановлены." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дані відновлено." } }
       }
     },
@@ -110,6 +125,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not restore the data." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Не удалось восстановить данные." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Не вдалося відновити дані." } }
       }
     },
@@ -117,6 +133,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Backup" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Резервная копия" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Резервна копія" } }
       }
     },
@@ -124,6 +141,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Make" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Марка" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Марка" } }
       }
     },
@@ -131,6 +149,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Model" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Модель" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Модель" } }
       }
     },
@@ -138,6 +157,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "VIN (optional)" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "VIN (необязательно)" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "VIN (необов’язково)" } }
       }
     },
@@ -145,6 +165,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "A VIN usually has 17 characters, this one has %d. You can still save it." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "VIN обычно состоит из 17 символов, сейчас — %d. Можно сохранить и так." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "VIN зазвичай має 17 символів, зараз — %d. Можна зберегти й так." } }
       }
     },
@@ -152,6 +173,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Year" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Год" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Рік" } }
       }
     },
@@ -159,6 +181,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отмена" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скасувати" } }
       }
     },
@@ -166,6 +189,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити" } }
       }
     },
@@ -173,6 +197,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Готово" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Готово" } }
       }
     },
@@ -180,6 +205,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сохранить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Зберегти" } }
       }
     },
@@ -187,6 +213,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Save anyway" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Всё равно сохранить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Все одно зберегти" } }
       }
     },
@@ -194,6 +221,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Date" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Дата" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дата" } }
       }
     },
@@ -201,6 +229,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete entry" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалить запись" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити запис" } }
       }
     },
@@ -208,6 +237,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete this entry?" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалить эту запись?" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити цей запис?" } }
       }
     },
@@ -215,6 +245,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Entry" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Запись" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запис" } }
       }
     },
@@ -222,6 +253,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "km" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "км" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "км" } }
       }
     },
@@ -229,6 +261,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add at least one part." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавьте хотя бы одну позицию." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте хоча б одну позицію." } }
       }
     },
@@ -236,6 +269,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "New entry" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Новая запись" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Новий запис" } }
       }
     },
@@ -243,6 +277,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Odometer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пробег" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
       }
     },
@@ -250,6 +285,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "What was replaced" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Что заменено" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Що замінено" } }
       }
     },
@@ -257,6 +293,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose parts" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выбрать позиции" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вибрати позиції" } }
       }
     },
@@ -264,6 +301,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add entry" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавить запись" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додати запис" } }
       }
     },
@@ -271,6 +309,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Your service entries will appear here. Tap “+” to add the first one." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Здесь появятся ваши записи об обслуживании. Нажмите «+», чтобы добавить первую." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший." } }
       }
     },
@@ -278,6 +317,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add parts" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавить запчасти" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додати запчастини" } }
       }
     },
@@ -285,6 +325,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "at %@" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "на %@" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "при %@" } }
       }
     },
@@ -292,6 +333,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add the parts and fluids you replace (e.g. “Engine oil”, every 10,000 km or 12 months), then add entries to History. The forecast will appear here." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавьте запчасти и жидкости, которые вы меняете (например, «Моторное масло», интервал 10 000 км или 12 месяцев), а затем записи в историю. Тогда здесь появится прогноз." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте запчастини й рідини, які ви міняєте (наприклад, «Моторне масло», інтервал 10 000 км або 12 місяців), а потім записи в історію. Тоді тут з’явиться прогноз." } }
       }
     },
@@ -299,6 +341,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Let’s start" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Начнём" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Почнімо" } }
       }
     },
@@ -306,6 +349,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add to History when you last replaced each part, and the forecast will appear." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавьте в историю, когда вы последний раз меняли каждую позицию, — и появится прогноз." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте в історію, коли ви востаннє міняли кожну позицію, — і з’явиться прогноз." } }
       }
     },
@@ -313,6 +357,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No records, no forecast: %d" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Без записей, прогноза нет: %d" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Без записів, прогнозу немає: %d" } }
       }
     },
@@ -320,6 +365,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "You haven’t updated the odometer for a while. Enter the current value to keep the forecast accurate." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Давно не обновляли пробег. Введите текущий — так прогноз будет точнее." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Давно не оновлювали пробіг. Введіть поточний — так прогноз буде точнішим." } }
       }
     },
@@ -327,6 +373,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Odometer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пробег" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
       }
     },
@@ -334,6 +381,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Open History" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Открыть историю" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Відкрити історію" } }
       }
     },
@@ -341,6 +389,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Overdue" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Просрочено" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Прострочено" } }
       }
     },
@@ -348,6 +397,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "was due: %@" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "срок: %@" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "термін: %@" } }
       }
     },
@@ -355,6 +405,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "By mileage" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "По пробегу" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "За пробігом" } }
       }
     },
@@ -362,6 +413,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No date estimate: set the average km per month in Settings." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Дата не рассчитана: укажите средний пробег за месяц в настройках." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дату не розраховано: вкажіть середній пробіг за місяць у налаштуваннях." } }
       }
     },
@@ -369,6 +421,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Update" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Обновить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оновити" } }
       }
     },
@@ -376,6 +429,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter odometer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ввести пробег" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ввести пробіг" } }
       }
     },
@@ -383,6 +437,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Checking…" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Проверка…" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Перевірка…" } }
       }
     },
@@ -390,6 +445,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Sync error" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ошибка синхронизации" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Помилка синхронізації" } }
       }
     },
@@ -397,6 +453,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud storage is full, so backup has stopped. Your data on this iPhone is safe; free up space or export a backup file." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Хранилище iCloud заполнено — резервное копирование остановлено. Данные на iPhone в безопасности; освободите место или сделайте экспорт в файл." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сховище iCloud заповнене — резервне копіювання зупинено. Дані на iPhone у безпеці; звільніть місце або зробіть експорт у файл." } }
       }
     },
@@ -404,6 +461,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Storage full" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Хранилище заполнено" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сховище заповнене" } }
       }
     },
@@ -411,6 +469,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is unavailable (not signed in?). Data is stored on this iPhone only." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступен (не выполнен вход?). Данные хранятся только на этом iPhone." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступний (не виконано вхід?). Дані зберігаються лише на цьому iPhone." } }
       }
     },
@@ -418,6 +477,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Not signed in" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет входа" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Немає входу" } }
       }
     },
@@ -425,6 +485,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Off" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выключено" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вимкнено" } }
       }
     },
@@ -432,6 +493,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "On" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Включено" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Увімкнено" } }
       }
     },
@@ -439,6 +501,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud sync error. Your data on this iPhone is safe; we’ll retry later." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ошибка синхронизации с iCloud. Данные на iPhone в безопасности; попробуем позже." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Помилка синхронізації з iCloud. Дані на iPhone у безпеці; спробуємо пізніше." } }
       }
     },
@@ -446,6 +509,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is unavailable; the app works with data on this iPhone only." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступен — приложение работает только с данными на этом iPhone." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступний — застосунок працює лише з даними на цьому iPhone." } }
       }
     },
@@ -453,6 +517,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Unavailable" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Недоступен" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Недоступний" } }
       }
     },
@@ -460,6 +525,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Other names (optional)" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Другие названия (необязательно)" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Інші назви (необов’язково)" } }
       }
     },
@@ -467,6 +533,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Comma-separated. Helps the assistant find the part, e.g. “ATF, gearbox oil”." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Через запятую. Помогает помощнику найти позицию, например: «АКПП, ATF»." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Через кому. Допомагає помічнику знайти позицію, наприклад: «АКПП, ATF»." } }
       }
     },
@@ -474,6 +541,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Analogs (optional)" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Аналоги (необязательно)" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Аналоги (необов’язково)" } }
       }
     },
@@ -481,6 +549,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Analog numbers, comma-separated. Spaces, hyphens and dots are ignored." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Номера аналогов — через запятую. Пробелы, дефисы и точки не учитываются." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Номери аналогів — через кому. Пробіли, дефіси й крапки не враховуються." } }
       }
     },
@@ -488,6 +557,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ is already on “%2$@”" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ уже есть в «%2$@»" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ вже є у «%2$@»" } }
       }
     },
@@ -495,6 +565,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Number already used" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Такой номер уже есть" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Такий номер уже є" } }
       }
     },
@@ -502,6 +573,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Part" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Позиция" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиція" } }
       }
     },
@@ -509,6 +581,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Replacement interval" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Интервал замены" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Інтервал заміни" } }
       }
     },
@@ -516,6 +589,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Every, km" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Каждые, км" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Кожні, км" } }
       }
     },
@@ -523,6 +597,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Every, months" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Каждые, месяцев" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Кожні, місяців" } }
       }
     },
@@ -530,6 +605,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Keep as is" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Оставить как есть" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Залишити як є" } }
       }
     },
@@ -537,6 +613,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Name (required)" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Название (обязательно)" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Назва (обов’язково)" } }
       }
     },
@@ -544,6 +621,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "New part" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Новая позиция" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нова позиція" } }
       }
     },
@@ -551,6 +629,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Part numbers" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Номера деталей" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Номери деталей" } }
       }
     },
@@ -558,6 +637,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "OEM number (optional)" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "OEM-номер (необязательно)" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "OEM-номер (необов’язково)" } }
       }
     },
@@ -565,6 +645,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "—" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "—" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "—" } }
       }
     },
@@ -572,6 +653,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Заменить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити" } }
       }
     },
@@ -579,6 +661,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Old: %1$@\nNew: %2$@" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Было: %1$@\nНовый: %2$@" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Було: %1$@\nНове: %2$@" } }
       }
     },
@@ -586,6 +669,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace the OEM number?" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Заменить OEM-номер?" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити OEM-номер?" } }
       }
     },
@@ -593,6 +677,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "1 month before" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За месяц" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "За місяць" } }
       }
     },
@@ -600,6 +685,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "1 week before" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За неделю" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "За тиждень" } }
       }
     },
@@ -607,6 +693,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "On the day" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "В день замены" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "У день заміни" } }
       }
     },
@@ -614,6 +701,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "3 weeks before" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 3 недели" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "За 3 тижні" } }
       }
     },
@@ -621,6 +709,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "2 weeks before" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "За 2 недели" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "За 2 тижні" } }
       }
     },
@@ -628,6 +717,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отмена" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скасувати" } }
       }
     },
@@ -635,6 +725,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock to see your car data" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разблокируйте, чтобы посмотреть данные об авто" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розблокуйте, щоб переглянути дані про авто" } }
       }
     },
@@ -642,6 +733,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разблокировать" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розблокувати" } }
       }
     },
@@ -649,6 +741,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "%1$@: %2$@" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "%1$@: %2$@" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "%1$@: %2$@" } }
       }
     },
@@ -656,6 +749,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Service coming up" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Скоро обслуживание" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скоро обслуговування" } }
       }
     },
@@ -663,6 +757,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the current odometer to keep the forecast accurate." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Введите текущий пробег, чтобы прогноз оставался точным." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Введіть поточний пробіг, щоб прогноз залишався точним." } }
       }
     },
@@ -670,6 +765,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Update the odometer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Обновите пробег" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оновіть пробіг" } }
       }
     },
@@ -677,6 +773,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Current: %1$@ (%2$@)" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Сейчас: %1$@ (%2$@)" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Зараз: %1$@ (%2$@)" } }
       }
     },
@@ -684,6 +781,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "The new value is lower than the previous one. Please check for a typo." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Новое значение меньше предыдущего. Проверьте, нет ли ошибки." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нове значення менше за попереднє. Перевірте, чи немає помилки." } }
       }
     },
@@ -691,6 +789,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Lower than before" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пробег меньше предыдущего" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг менший за попередній" } }
       }
     },
@@ -698,6 +797,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Current odometer, km" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Текущий пробег, км" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поточний пробіг, км" } }
       }
     },
@@ -705,6 +805,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Odometer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пробег" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
       }
     },
@@ -712,6 +813,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разрешить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дозволити" } }
       }
     },
@@ -719,6 +821,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Your car" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Ваше авто" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ваше авто" } }
       }
     },
@@ -726,6 +829,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Turn on" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Включить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Увімкнути" } }
       }
     },
@@ -733,6 +837,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "The app will open only after Face ID or your device passcode. You can change this in Settings." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Приложение будет открываться только после Face ID или кода устройства. Это можно изменить в настройках." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Застосунок відкриватиметься лише після Face ID або коду пристрою. Це можна змінити в налаштуваннях." } }
       }
     },
@@ -740,6 +845,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Protect with Face ID?" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Защитить Face ID?" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Захистити Face ID?" } }
       }
     },
@@ -747,6 +853,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Next" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Далее" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Далі" } }
       }
     },
@@ -754,6 +861,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "We’ll remind you ahead of replacements and ask for the odometer every two weeks." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напомним заранее о заменах и попросим обновить пробег раз в две недели." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадаємо заздалегідь про заміни та попросимо оновити пробіг раз на два тижні." } }
       }
     },
@@ -761,6 +869,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminders" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напоминания" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадування" } }
       }
     },
@@ -768,6 +877,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Current odometer" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Текущий пробег" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поточний пробіг" } }
       }
     },
@@ -775,6 +885,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Skip" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пропустить" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пропустити" } }
       }
     },
@@ -782,6 +893,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome! This is your personal car-maintenance log. All data stays on your iPhone." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добро пожаловать! Это личный журнал обслуживания авто. Все данные хранятся на вашем iPhone." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone." } }
       }
     },
@@ -789,6 +901,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add part" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавить позицию" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додати позицію" } }
       }
     },
@@ -796,6 +909,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete “%@”?" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалить «%@»?" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити «%@»?" } }
       }
     },
@@ -803,6 +917,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete “%1$@”? It will be removed from %2$d history entries." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Удалить «%1$@»? Она будет убрана из записей истории: %2$d." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити «%1$@»? Її буде прибрано із записів історії: %2$d." } }
       }
     },
@@ -810,6 +925,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Add the parts and fluids you maintain: name, interval and, optionally, part numbers." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавьте запчасти и жидкости, которые обслуживаете: название, интервал и, по желанию, номера деталей." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте запчастини й рідини, які обслуговуєте: назву, інтервал і, за бажанням, номери деталей." } }
       }
     },
@@ -817,6 +933,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "every %@" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "каждые %@" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "кожні %@" } }
       }
     },
@@ -824,6 +941,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "every %d mo" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "каждые %d мес." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "кожні %d міс." } }
       }
     },
@@ -831,6 +949,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Search by name or number" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Поиск по названию или номеру" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пошук за назвою або номером" } }
       }
     },
@@ -838,6 +957,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Create “%@”" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Создать «%@»" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Створити «%@»" } }
       }
     },
@@ -845,6 +965,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "No parts yet. Type a name in search to create one." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Позиций пока нет. Введите название в поиске, чтобы создать." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позицій ще немає. Введіть назву в пошуку, щоб створити." } }
       }
     },
@@ -852,6 +973,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Search or new name" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Поиск или новое название" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пошук або нова назва" } }
       }
     },
@@ -859,6 +981,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "by mileage" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "по пробегу" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "за пробігом" } }
       }
     },
@@ -866,6 +989,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "by time" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "по времени" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "за часом" } }
       }
     },
@@ -873,6 +997,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Appearance" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Внешний вид" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вигляд" } }
       }
     },
@@ -880,6 +1005,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Km per month" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пробег за месяц, км" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг за місяць, км" } }
       }
     },
@@ -887,6 +1013,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Average km per month turns mileage into a date." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Средний пробег за месяц нужен, чтобы перевести километры в дату." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату." } }
       }
     },
@@ -894,6 +1021,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Car" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Авто" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Авто" } }
       }
     },
@@ -901,6 +1029,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Car" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Авто" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Авто" } }
       }
     },
@@ -908,6 +1037,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Face ID / passcode" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Face ID / код устройства" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Face ID / код пристрою" } }
       }
     },
@@ -915,6 +1045,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Face ID or passcode is not available." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Face ID или код устройства недоступны." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Face ID або код пристрою недоступні." } }
       }
     },
@@ -922,6 +1053,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is only a backup and sync layer. The main copy of your data is on this iPhone." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "iCloud — только резервная копия и синхронизация. Основная копия данных — на этом iPhone." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone." } }
       }
     },
@@ -929,6 +1061,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Language" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Язык" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Мова" } }
       }
     },
@@ -936,6 +1069,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Remind" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напоминать" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадувати" } }
       }
     },
@@ -943,6 +1077,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminders" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напоминания" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадування" } }
       }
     },
@@ -950,6 +1085,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Security" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Защита" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Захист" } }
       }
     },
@@ -957,6 +1093,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Theme" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Тема" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тема" } }
       }
     },
@@ -964,6 +1101,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Dark" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Тёмная" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Темна" } }
       }
     },
@@ -971,6 +1109,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Light" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Светлая" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Світла" } }
       }
     },
@@ -978,6 +1117,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "System" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Как в системе" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Як у системі" } }
       }
     },
@@ -985,6 +1125,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Версия" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Версія" } }
       }
     },
@@ -992,6 +1133,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Assistant" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Помощник" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Помічник" } }
       }
     },
@@ -999,6 +1141,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "History" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "История" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Історія" } }
       }
     },
@@ -1006,6 +1149,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Главная" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Головна" } }
       }
     },
@@ -1013,6 +1157,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Parts" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Запчасти" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запчастини" } }
       }
     },
@@ -1020,6 +1165,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Настройки" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Налаштування" } }
       }
     },
@@ -1027,6 +1173,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing scheduled" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нет запланированных замен" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Немає запланованих замін" } }
       }
     },
@@ -1034,6 +1181,7 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Overdue: %d" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Просрочено: %d" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Прострочено: %d" } }
       }
     }

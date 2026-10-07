@@ -1,5 +1,5 @@
 # Generates App/Resources/Localizable.xcstrings (String Catalog) from Localization/strings.tsv.
-# Edit the TSV (key<TAB>uk<TAB>en), then run:  powershell -ExecutionPolicy Bypass -File scripts/gen-strings.ps1
+# Edit the TSV (key<TAB>uk<TAB>ru<TAB>en), then run:  powershell -ExecutionPolicy Bypass -File scripts/gen-strings.ps1
 $root = Split-Path -Parent $PSScriptRoot
 $tsv = Join-Path $root "Localization/strings.tsv"
 $out = Join-Path $root "App/Resources/Localizable.xcstrings"
@@ -22,8 +22,8 @@ function Esc([string]$s) {
 $lines = Get-Content -Encoding UTF8 $tsv | Select-Object -Skip 1 | Where-Object { $_.Trim() -ne "" }
 $rows = foreach ($line in $lines) {
     $p = $line.Split("`t")
-    if ($p.Count -ne 3) { throw "Bad line (need 3 tab-separated columns): $line" }
-    [pscustomobject]@{ Key = $p[0]; Uk = $p[1]; En = $p[2] }
+    if ($p.Count -ne 4) { throw "Bad line (need 4 tab-separated columns: key, uk, ru, en): $line" }
+    [pscustomobject]@{ Key = $p[0]; Uk = $p[1]; Ru = $p[2]; En = $p[3] }
 }
 $rows = $rows | Sort-Object Key -CaseSensitive
 
@@ -37,6 +37,7 @@ foreach ($r in $rows) {
     [void]$sb.Append("      `"extractionState`" : `"manual`",`n")
     [void]$sb.Append("      `"localizations`" : {`n")
     [void]$sb.Append("        `"en`" : { `"stringUnit`" : { `"state`" : `"translated`", `"value`" : `"$(Esc $r.En)`" } },`n")
+    [void]$sb.Append("        `"ru`" : { `"stringUnit`" : { `"state`" : `"translated`", `"value`" : `"$(Esc $r.Ru)`" } },`n")
     [void]$sb.Append("        `"uk`" : { `"stringUnit`" : { `"state`" : `"translated`", `"value`" : `"$(Esc $r.Uk)`" } }`n")
     [void]$sb.Append("      }`n    }$comma`n")
 }

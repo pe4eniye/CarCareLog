@@ -35,12 +35,12 @@ On Windows nothing can be compiled; push and read the CI result:
 All texts go through `L10n.t("key")` / `L10n.f("key", args…)`. That reads the chosen language's `.lproj`
 bundle, so the in-app language switch also covers notification texts. To add or change a text:
 
-1. Edit `Localization/strings.tsv` (tab-separated: `key<TAB>uk<TAB>en`; `\n` = line break).
+1. Edit `Localization/strings.tsv` (tab-separated: `key<TAB>uk<TAB>ru<TAB>en`; `\n` = line break).
 2. Run `powershell -ExecutionPolicy Bypass -File scripts/gen-strings.ps1` (Windows) to regenerate the catalog.
 3. CI (`scripts/check-strings.sh`) fails if a key used in code is missing or the catalog is stale.
 
 The assistant replies in the language of the question (uk/ru/en). Its texts live in
-`CarCareCore/Assistant/AssistantFormat.swift`, not in the catalog, because Russian is not an app UI language.
+`CarCareCore/Assistant/AssistantFormat.swift`, not in the catalog, because they are chosen by the question language, not the UI language.
 
 ## iCloud switch
 

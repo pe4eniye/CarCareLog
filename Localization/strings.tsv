@@ -1,149 +1,149 @@
-key	uk	en
-assistant.clear	Очистити	Clear
-assistant.copied	Скопійовано	Copied
-assistant.intro	Запитайте про обслуговування українською, російською чи англійською. Можна диктувати — кнопка мікрофона на клавіатурі. Помічник працює без інтернету і відповідає лише за вашими записами.	Ask about maintenance in Ukrainian, Russian or English. You can dictate with the microphone key on the keyboard. The assistant works offline and answers only from your records.
-assistant.placeholder	Ваше запитання	Your question
-assistant.send	Надіслати	Send
-backup.confirmText	Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено.	File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced.
-backup.confirmTitle	Замінити дані?	Replace data?
-backup.export	Експортувати резервну копію	Export backup
-backup.exportFailed	Не вдалося створити файл.	Could not create the file.
-backup.footer	Один файл з усіма даними. Збережіть його у «Файли» або надішліть через AirDrop.	One file with all your data. Save it to Files or send it via AirDrop.
-backup.import	Імпортувати резервну копію	Import backup
-backup.invalid	Це не файл резервної копії CarCare Log.	This is not a CarCare Log backup file.
-backup.newerFormat	Файл створено новішою версією застосунку. Оновіть застосунок.	The file was made by a newer app version. Please update the app.
-backup.replace	Замінити	Replace
-backup.restoreFailed	Не вдалося відновити дані.	Could not restore the data.
-backup.restored	Дані відновлено.	Data restored.
-backup.section	Резервна копія	Backup
-car.make	Марка	Make
-car.model	Модель	Model
-car.vin	VIN (необов’язково)	VIN (optional)
-car.vinWarning	VIN зазвичай має 17 символів, зараз — %d. Можна зберегти й так.	A VIN usually has 17 characters, this one has %d. You can still save it.
-car.year	Рік	Year
-common.cancel	Скасувати	Cancel
-common.delete	Видалити	Delete
-common.done	Готово	Done
-common.save	Зберегти	Save
-common.saveAnyway	Все одно зберегти	Save anyway
-entry.date	Дата	Date
-entry.delete	Видалити запис	Delete entry
-entry.deleteConfirm	Видалити цей запис?	Delete this entry?
-entry.editTitle	Запис	Entry
-entry.km	км	km
-entry.needParts	Додайте хоча б одну позицію.	Add at least one part.
-entry.newTitle	Новий запис	New entry
-entry.odometer	Пробіг	Odometer
-entry.parts	Що замінено	What was replaced
-entry.pickParts	Вибрати позиції	Choose parts
-history.add	Додати запис	Add entry
-history.empty	Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший.	Your service entries will appear here. Tap “+” to add the first one.
-home.addParts	Додати запчастини	Add parts
-home.atKm	при %@	at %@
-home.emptyText	Додайте запчастини й рідини, які ви міняєте (наприклад, «Моторне масло», інтервал 10 000 км або 12 місяців), а потім записи в історію. Тоді тут з’явиться прогноз.	Add the parts and fluids you replace (e.g. “Engine oil”, every 10,000 km or 12 months), then add entries to History. The forecast will appear here.
-home.emptyTitle	Почнімо	Let’s start
-home.noHistory	Додайте в історію, коли ви востаннє міняли кожну позицію, — і з’явиться прогноз.	Add to History when you last replaced each part, and the forecast will appear.
-home.noRecordsCount	Без записів, прогнозу немає: %d	No records, no forecast: %d
-home.nudge	Давно не оновлювали пробіг. Введіть поточний — так прогноз буде точнішим.	You haven’t updated the odometer for a while. Enter the current value to keep the forecast accurate.
-home.odometer	Пробіг	Odometer
-home.openHistory	Відкрити історію	Open History
-home.overdue	Прострочено	Overdue
-home.overdueSince	термін: %@	was due: %@
-home.undated	За пробігом	By mileage
-home.undatedFooter	Дату не розраховано: вкажіть середній пробіг за місяць у налаштуваннях.	No date estimate: set the average km per month in Settings.
-home.update	Оновити	Update
-home.updateOdometer	Ввести пробіг	Enter odometer
-icloud.checking	Перевірка…	Checking…
-icloud.errorShort	Помилка синхронізації	Sync error
-icloud.full	Сховище iCloud заповнене — резервне копіювання зупинено. Дані на iPhone у безпеці; звільніть місце або зробіть експорт у файл.	iCloud storage is full, so backup has stopped. Your data on this iPhone is safe; free up space or export a backup file.
-icloud.fullShort	Сховище заповнене	Storage full
-icloud.noAccount	iCloud недоступний (не виконано вхід?). Дані зберігаються лише на цьому iPhone.	iCloud is unavailable (not signed in?). Data is stored on this iPhone only.
-icloud.noAccountShort	Немає входу	Not signed in
-icloud.off	Вимкнено	Off
-icloud.on	Увімкнено	On
-icloud.syncError	Помилка синхронізації з iCloud. Дані на iPhone у безпеці; спробуємо пізніше.	iCloud sync error. Your data on this iPhone is safe; we’ll retry later.
-icloud.unavailable	iCloud недоступний — застосунок працює лише з даними на цьому iPhone.	iCloud is unavailable; the app works with data on this iPhone only.
-icloud.unavailableShort	Недоступний	Unavailable
-item.aliases	Інші назви (необов’язково)	Other names (optional)
-item.aliasesFooter	Через кому. Допомагає помічнику знайти позицію, наприклад: «АКПП, ATF».	Comma-separated. Helps the assistant find the part, e.g. “ATF, gearbox oil”.
-item.analogs	Аналоги (необов’язково)	Analogs (optional)
-item.analogsFooter	Номери аналогів — через кому. Пробіли, дефіси й крапки не враховуються.	Analog numbers, comma-separated. Spaces, hyphens and dots are ignored.
-item.duplicateLine	%1$@ вже є у «%2$@»	%1$@ is already on “%2$@”
-item.duplicateTitle	Такий номер уже є	Number already used
-item.editTitle	Позиція	Part
-item.interval	Інтервал заміни	Replacement interval
-item.intervalKm	Кожні, км	Every, km
-item.intervalMonths	Кожні, місяців	Every, months
-item.keep	Залишити як є	Keep as is
-item.name	Назва (обов’язково)	Name (required)
-item.newTitle	Нова позиція	New part
-item.numbers	Номери деталей	Part numbers
-item.oem	OEM-номер (необов’язково)	OEM number (optional)
-item.optional	—	—
-item.replace	Замінити	Replace
-item.replaceOEMText	Було: %1$@\nНове: %2$@	Old: %1$@\nNew: %2$@
-item.replaceOEMTitle	Замінити OEM-номер?	Replace the OEM number?
-lead.oneMonth	За місяць	1 month before
-lead.oneWeek	За тиждень	1 week before
-lead.sameDay	У день заміни	On the day
-lead.threeWeeks	За 3 тижні	3 weeks before
-lead.twoWeeks	За 2 тижні	2 weeks before
-lock.cancel	Скасувати	Cancel
-lock.reason	Розблокуйте, щоб переглянути дані про авто	Unlock to see your car data
-lock.unlock	Розблокувати	Unlock
-notif.dueBody	%1$@: %2$@	%1$@: %2$@
-notif.dueTitle	Скоро обслуговування	Service coming up
-notif.odometerBody	Введіть поточний пробіг, щоб прогноз залишався точним.	Enter the current odometer to keep the forecast accurate.
-notif.odometerTitle	Оновіть пробіг	Update the odometer
-odometer.current	Зараз: %1$@ (%2$@)	Current: %1$@ (%2$@)
-odometer.lowerText	Нове значення менше за попереднє. Перевірте, чи немає помилки.	The new value is lower than the previous one. Please check for a typo.
-odometer.lowerTitle	Пробіг менший за попередній	Lower than before
-odometer.placeholder	Поточний пробіг, км	Current odometer, km
-odometer.title	Пробіг	Odometer
-onb.allow	Дозволити	Allow
-onb.carTitle	Ваше авто	Your car
-onb.enable	Увімкнути	Turn on
-onb.faceIDText	Застосунок відкриватиметься лише після Face ID або коду пристрою. Це можна змінити в налаштуваннях.	The app will open only after Face ID or your device passcode. You can change this in Settings.
-onb.faceIDTitle	Захистити Face ID?	Protect with Face ID?
-onb.next	Далі	Next
-onb.notifText	Нагадаємо заздалегідь про заміни та попросимо оновити пробіг раз на два тижні.	We’ll remind you ahead of replacements and ask for the odometer every two weeks.
-onb.notifTitle	Нагадування	Reminders
-onb.odometer	Поточний пробіг	Current odometer
-onb.skip	Пропустити	Skip
-onb.welcome	Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone.	Welcome! This is your personal car-maintenance log. All data stays on your iPhone.
-parts.add	Додати позицію	Add part
-parts.deleteConfirm	Видалити «%@»?	Delete “%@”?
-parts.deleteUsed	Видалити «%1$@»? Її буде прибрано із записів історії: %2$d.	Delete “%1$@”? It will be removed from %2$d history entries.
-parts.empty	Додайте запчастини й рідини, які обслуговуєте: назву, інтервал і, за бажанням, номери деталей.	Add the parts and fluids you maintain: name, interval and, optionally, part numbers.
-parts.everyKm	кожні %@	every %@
-parts.everyMonths	кожні %d міс.	every %d mo
-parts.search	Пошук за назвою або номером	Search by name or number
-picker.create	Створити «%@»	Create “%@”
-picker.empty	Позицій ще немає. Введіть назву в пошуку, щоб створити.	No parts yet. Type a name in search to create one.
-picker.search	Пошук або нова назва	Search or new name
-reason.mileage	за пробігом	by mileage
-reason.time	за часом	by time
-settings.appearance	Вигляд	Appearance
-settings.avgKm	Пробіг за місяць, км	Km per month
-settings.avgKmFooter	Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату.	Average km per month turns mileage into a date.
-settings.car	Авто	Car
-settings.carSection	Авто	Car
-settings.faceID	Face ID / код пристрою	Face ID / passcode
-settings.faceIDUnavailable	Face ID або код пристрою недоступні.	Face ID or passcode is not available.
-settings.icloudFooter	iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone.	iCloud is only a backup and sync layer. The main copy of your data is on this iPhone.
-settings.language	Мова	Language
-settings.leadTime	Нагадувати	Remind
-settings.reminders	Нагадування	Reminders
-settings.security	Захист	Security
-settings.theme	Тема	Theme
-settings.themeDark	Темна	Dark
-settings.themeLight	Світла	Light
-settings.themeSystem	Як у системі	System
-settings.version	Версія	Version
-tab.assistant	Помічник	Assistant
-tab.history	Історія	History
-tab.home	Головна	Home
-tab.parts	Запчастини	Parts
-tab.settings	Налаштування	Settings
-widget.empty	Немає запланованих замін	Nothing scheduled
-widget.overdue	Прострочено: %d	Overdue: %d
+key	uk	ru	en
+assistant.clear	Очистити	Очистить	Clear
+assistant.copied	Скопійовано	Скопировано	Copied
+assistant.intro	Запитайте про обслуговування українською, російською чи англійською. Можна диктувати — кнопка мікрофона на клавіатурі. Помічник працює без інтернету і відповідає лише за вашими записами.	Спросите про обслуживание на украинском, русском или английском. Можно диктовать — кнопка микрофона на клавиатуре. Помощник работает без интернета и отвечает только по вашим записям.	Ask about maintenance in Ukrainian, Russian or English. You can dictate with the microphone key on the keyboard. The assistant works offline and answers only from your records.
+assistant.placeholder	Ваше запитання	Ваш вопрос	Your question
+assistant.send	Надіслати	Отправить	Send
+backup.confirmText	Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено.	Файл от %1$@: позиций — %2$d, записей — %3$d. Все текущие данные на этом iPhone будут заменены.	File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced.
+backup.confirmTitle	Замінити дані?	Заменить данные?	Replace data?
+backup.export	Експортувати резервну копію	Экспортировать резервную копию	Export backup
+backup.exportFailed	Не вдалося створити файл.	Не удалось создать файл.	Could not create the file.
+backup.footer	Один файл з усіма даними. Збережіть його у «Файли» або надішліть через AirDrop.	Один файл со всеми данными. Сохраните его в «Файлы» или отправьте через AirDrop.	One file with all your data. Save it to Files or send it via AirDrop.
+backup.import	Імпортувати резервну копію	Импортировать резервную копию	Import backup
+backup.invalid	Це не файл резервної копії CarCare Log.	Это не файл резервной копии CarCare Log.	This is not a CarCare Log backup file.
+backup.newerFormat	Файл створено новішою версією застосунку. Оновіть застосунок.	Файл создан более новой версией приложения. Обновите приложение.	The file was made by a newer app version. Please update the app.
+backup.replace	Замінити	Заменить	Replace
+backup.restoreFailed	Не вдалося відновити дані.	Не удалось восстановить данные.	Could not restore the data.
+backup.restored	Дані відновлено.	Данные восстановлены.	Data restored.
+backup.section	Резервна копія	Резервная копия	Backup
+car.make	Марка	Марка	Make
+car.model	Модель	Модель	Model
+car.vin	VIN (необов’язково)	VIN (необязательно)	VIN (optional)
+car.vinWarning	VIN зазвичай має 17 символів, зараз — %d. Можна зберегти й так.	VIN обычно состоит из 17 символов, сейчас — %d. Можно сохранить и так.	A VIN usually has 17 characters, this one has %d. You can still save it.
+car.year	Рік	Год	Year
+common.cancel	Скасувати	Отмена	Cancel
+common.delete	Видалити	Удалить	Delete
+common.done	Готово	Готово	Done
+common.save	Зберегти	Сохранить	Save
+common.saveAnyway	Все одно зберегти	Всё равно сохранить	Save anyway
+entry.date	Дата	Дата	Date
+entry.delete	Видалити запис	Удалить запись	Delete entry
+entry.deleteConfirm	Видалити цей запис?	Удалить эту запись?	Delete this entry?
+entry.editTitle	Запис	Запись	Entry
+entry.km	км	км	km
+entry.needParts	Додайте хоча б одну позицію.	Добавьте хотя бы одну позицию.	Add at least one part.
+entry.newTitle	Новий запис	Новая запись	New entry
+entry.odometer	Пробіг	Пробег	Odometer
+entry.parts	Що замінено	Что заменено	What was replaced
+entry.pickParts	Вибрати позиції	Выбрать позиции	Choose parts
+history.add	Додати запис	Добавить запись	Add entry
+history.empty	Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший.	Здесь появятся ваши записи об обслуживании. Нажмите «+», чтобы добавить первую.	Your service entries will appear here. Tap “+” to add the first one.
+home.addParts	Додати запчастини	Добавить запчасти	Add parts
+home.atKm	при %@	на %@	at %@
+home.emptyText	Додайте запчастини й рідини, які ви міняєте (наприклад, «Моторне масло», інтервал 10 000 км або 12 місяців), а потім записи в історію. Тоді тут з’явиться прогноз.	Добавьте запчасти и жидкости, которые вы меняете (например, «Моторное масло», интервал 10 000 км или 12 месяцев), а затем записи в историю. Тогда здесь появится прогноз.	Add the parts and fluids you replace (e.g. “Engine oil”, every 10,000 km or 12 months), then add entries to History. The forecast will appear here.
+home.emptyTitle	Почнімо	Начнём	Let’s start
+home.noHistory	Додайте в історію, коли ви востаннє міняли кожну позицію, — і з’явиться прогноз.	Добавьте в историю, когда вы последний раз меняли каждую позицию, — и появится прогноз.	Add to History when you last replaced each part, and the forecast will appear.
+home.noRecordsCount	Без записів, прогнозу немає: %d	Без записей, прогноза нет: %d	No records, no forecast: %d
+home.nudge	Давно не оновлювали пробіг. Введіть поточний — так прогноз буде точнішим.	Давно не обновляли пробег. Введите текущий — так прогноз будет точнее.	You haven’t updated the odometer for a while. Enter the current value to keep the forecast accurate.
+home.odometer	Пробіг	Пробег	Odometer
+home.openHistory	Відкрити історію	Открыть историю	Open History
+home.overdue	Прострочено	Просрочено	Overdue
+home.overdueSince	термін: %@	срок: %@	was due: %@
+home.undated	За пробігом	По пробегу	By mileage
+home.undatedFooter	Дату не розраховано: вкажіть середній пробіг за місяць у налаштуваннях.	Дата не рассчитана: укажите средний пробег за месяц в настройках.	No date estimate: set the average km per month in Settings.
+home.update	Оновити	Обновить	Update
+home.updateOdometer	Ввести пробіг	Ввести пробег	Enter odometer
+icloud.checking	Перевірка…	Проверка…	Checking…
+icloud.errorShort	Помилка синхронізації	Ошибка синхронизации	Sync error
+icloud.full	Сховище iCloud заповнене — резервне копіювання зупинено. Дані на iPhone у безпеці; звільніть місце або зробіть експорт у файл.	Хранилище iCloud заполнено — резервное копирование остановлено. Данные на iPhone в безопасности; освободите место или сделайте экспорт в файл.	iCloud storage is full, so backup has stopped. Your data on this iPhone is safe; free up space or export a backup file.
+icloud.fullShort	Сховище заповнене	Хранилище заполнено	Storage full
+icloud.noAccount	iCloud недоступний (не виконано вхід?). Дані зберігаються лише на цьому iPhone.	iCloud недоступен (не выполнен вход?). Данные хранятся только на этом iPhone.	iCloud is unavailable (not signed in?). Data is stored on this iPhone only.
+icloud.noAccountShort	Немає входу	Нет входа	Not signed in
+icloud.off	Вимкнено	Выключено	Off
+icloud.on	Увімкнено	Включено	On
+icloud.syncError	Помилка синхронізації з iCloud. Дані на iPhone у безпеці; спробуємо пізніше.	Ошибка синхронизации с iCloud. Данные на iPhone в безопасности; попробуем позже.	iCloud sync error. Your data on this iPhone is safe; we’ll retry later.
+icloud.unavailable	iCloud недоступний — застосунок працює лише з даними на цьому iPhone.	iCloud недоступен — приложение работает только с данными на этом iPhone.	iCloud is unavailable; the app works with data on this iPhone only.
+icloud.unavailableShort	Недоступний	Недоступен	Unavailable
+item.aliases	Інші назви (необов’язково)	Другие названия (необязательно)	Other names (optional)
+item.aliasesFooter	Через кому. Допомагає помічнику знайти позицію, наприклад: «АКПП, ATF».	Через запятую. Помогает помощнику найти позицию, например: «АКПП, ATF».	Comma-separated. Helps the assistant find the part, e.g. “ATF, gearbox oil”.
+item.analogs	Аналоги (необов’язково)	Аналоги (необязательно)	Analogs (optional)
+item.analogsFooter	Номери аналогів — через кому. Пробіли, дефіси й крапки не враховуються.	Номера аналогов — через запятую. Пробелы, дефисы и точки не учитываются.	Analog numbers, comma-separated. Spaces, hyphens and dots are ignored.
+item.duplicateLine	%1$@ вже є у «%2$@»	%1$@ уже есть в «%2$@»	%1$@ is already on “%2$@”
+item.duplicateTitle	Такий номер уже є	Такой номер уже есть	Number already used
+item.editTitle	Позиція	Позиция	Part
+item.interval	Інтервал заміни	Интервал замены	Replacement interval
+item.intervalKm	Кожні, км	Каждые, км	Every, km
+item.intervalMonths	Кожні, місяців	Каждые, месяцев	Every, months
+item.keep	Залишити як є	Оставить как есть	Keep as is
+item.name	Назва (обов’язково)	Название (обязательно)	Name (required)
+item.newTitle	Нова позиція	Новая позиция	New part
+item.numbers	Номери деталей	Номера деталей	Part numbers
+item.oem	OEM-номер (необов’язково)	OEM-номер (необязательно)	OEM number (optional)
+item.optional	—	—	—
+item.replace	Замінити	Заменить	Replace
+item.replaceOEMText	Було: %1$@\nНове: %2$@	Было: %1$@\nНовый: %2$@	Old: %1$@\nNew: %2$@
+item.replaceOEMTitle	Замінити OEM-номер?	Заменить OEM-номер?	Replace the OEM number?
+lead.oneMonth	За місяць	За месяц	1 month before
+lead.oneWeek	За тиждень	За неделю	1 week before
+lead.sameDay	У день заміни	В день замены	On the day
+lead.threeWeeks	За 3 тижні	За 3 недели	3 weeks before
+lead.twoWeeks	За 2 тижні	За 2 недели	2 weeks before
+lock.cancel	Скасувати	Отмена	Cancel
+lock.reason	Розблокуйте, щоб переглянути дані про авто	Разблокируйте, чтобы посмотреть данные об авто	Unlock to see your car data
+lock.unlock	Розблокувати	Разблокировать	Unlock
+notif.dueBody	%1$@: %2$@	%1$@: %2$@	%1$@: %2$@
+notif.dueTitle	Скоро обслуговування	Скоро обслуживание	Service coming up
+notif.odometerBody	Введіть поточний пробіг, щоб прогноз залишався точним.	Введите текущий пробег, чтобы прогноз оставался точным.	Enter the current odometer to keep the forecast accurate.
+notif.odometerTitle	Оновіть пробіг	Обновите пробег	Update the odometer
+odometer.current	Зараз: %1$@ (%2$@)	Сейчас: %1$@ (%2$@)	Current: %1$@ (%2$@)
+odometer.lowerText	Нове значення менше за попереднє. Перевірте, чи немає помилки.	Новое значение меньше предыдущего. Проверьте, нет ли ошибки.	The new value is lower than the previous one. Please check for a typo.
+odometer.lowerTitle	Пробіг менший за попередній	Пробег меньше предыдущего	Lower than before
+odometer.placeholder	Поточний пробіг, км	Текущий пробег, км	Current odometer, km
+odometer.title	Пробіг	Пробег	Odometer
+onb.allow	Дозволити	Разрешить	Allow
+onb.carTitle	Ваше авто	Ваше авто	Your car
+onb.enable	Увімкнути	Включить	Turn on
+onb.faceIDText	Застосунок відкриватиметься лише після Face ID або коду пристрою. Це можна змінити в налаштуваннях.	Приложение будет открываться только после Face ID или кода устройства. Это можно изменить в настройках.	The app will open only after Face ID or your device passcode. You can change this in Settings.
+onb.faceIDTitle	Захистити Face ID?	Защитить Face ID?	Protect with Face ID?
+onb.next	Далі	Далее	Next
+onb.notifText	Нагадаємо заздалегідь про заміни та попросимо оновити пробіг раз на два тижні.	Напомним заранее о заменах и попросим обновить пробег раз в две недели.	We’ll remind you ahead of replacements and ask for the odometer every two weeks.
+onb.notifTitle	Нагадування	Напоминания	Reminders
+onb.odometer	Поточний пробіг	Текущий пробег	Current odometer
+onb.skip	Пропустити	Пропустить	Skip
+onb.welcome	Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone.	Добро пожаловать! Это личный журнал обслуживания авто. Все данные хранятся на вашем iPhone.	Welcome! This is your personal car-maintenance log. All data stays on your iPhone.
+parts.add	Додати позицію	Добавить позицию	Add part
+parts.deleteConfirm	Видалити «%@»?	Удалить «%@»?	Delete “%@”?
+parts.deleteUsed	Видалити «%1$@»? Її буде прибрано із записів історії: %2$d.	Удалить «%1$@»? Она будет убрана из записей истории: %2$d.	Delete “%1$@”? It will be removed from %2$d history entries.
+parts.empty	Додайте запчастини й рідини, які обслуговуєте: назву, інтервал і, за бажанням, номери деталей.	Добавьте запчасти и жидкости, которые обслуживаете: название, интервал и, по желанию, номера деталей.	Add the parts and fluids you maintain: name, interval and, optionally, part numbers.
+parts.everyKm	кожні %@	каждые %@	every %@
+parts.everyMonths	кожні %d міс.	каждые %d мес.	every %d mo
+parts.search	Пошук за назвою або номером	Поиск по названию или номеру	Search by name or number
+picker.create	Створити «%@»	Создать «%@»	Create “%@”
+picker.empty	Позицій ще немає. Введіть назву в пошуку, щоб створити.	Позиций пока нет. Введите название в поиске, чтобы создать.	No parts yet. Type a name in search to create one.
+picker.search	Пошук або нова назва	Поиск или новое название	Search or new name
+reason.mileage	за пробігом	по пробегу	by mileage
+reason.time	за часом	по времени	by time
+settings.appearance	Вигляд	Внешний вид	Appearance
+settings.avgKm	Пробіг за місяць, км	Пробег за месяц, км	Km per month
+settings.avgKmFooter	Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату.	Средний пробег за месяц нужен, чтобы перевести километры в дату.	Average km per month turns mileage into a date.
+settings.car	Авто	Авто	Car
+settings.carSection	Авто	Авто	Car
+settings.faceID	Face ID / код пристрою	Face ID / код устройства	Face ID / passcode
+settings.faceIDUnavailable	Face ID або код пристрою недоступні.	Face ID или код устройства недоступны.	Face ID or passcode is not available.
+settings.icloudFooter	iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone.	iCloud — только резервная копия и синхронизация. Основная копия данных — на этом iPhone.	iCloud is only a backup and sync layer. The main copy of your data is on this iPhone.
+settings.language	Мова	Язык	Language
+settings.leadTime	Нагадувати	Напоминать	Remind
+settings.reminders	Нагадування	Напоминания	Reminders
+settings.security	Захист	Защита	Security
+settings.theme	Тема	Тема	Theme
+settings.themeDark	Темна	Тёмная	Dark
+settings.themeLight	Світла	Светлая	Light
+settings.themeSystem	Як у системі	Как в системе	System
+settings.version	Версія	Версия	Version
+tab.assistant	Помічник	Помощник	Assistant
+tab.history	Історія	История	History
+tab.home	Головна	Главная	Home
+tab.parts	Запчастини	Запчасти	Parts
+tab.settings	Налаштування	Настройки	Settings
+widget.empty	Немає запланованих замін	Нет запланированных замен	Nothing scheduled
+widget.overdue	Прострочено: %d	Просрочено: %d	Overdue: %d

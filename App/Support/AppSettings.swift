@@ -24,6 +24,10 @@ final class AppSettings: ObservableObject {
     @AppStorage(Keys.onboardingDone) var onboardingDone: Bool = false { didSet { objectWillChange.send() } }
 
     init() {
+        if DemoMode.isOn {
+            onboardingDone = !ProcessInfo.processInfo.arguments.contains("-demoOnboarding")
+            faceIDEnabled = false
+        }
         L10n.setLanguage(language)
     }
 
