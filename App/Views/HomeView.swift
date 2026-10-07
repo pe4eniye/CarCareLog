@@ -136,7 +136,7 @@ struct HomeView: View {
                         .font(.title.bold())
                         .monospacedDigit()
                         .lineLimit(1)
-                        .minimumScaleFactor(0.6)
+                        .fixedSize()
                     if let car = SnapshotBuilder.primaryCar(cars), !car.name.isEmpty {
                         Text(car.name).font(.footnote).foregroundStyle(.secondary).lineLimit(1)
                     }
@@ -150,17 +150,12 @@ struct HomeView: View {
                 .buttonStyle(.borderedProminent)
             }
             Divider()
-            HStack(spacing: 6) {
-                Image(systemName: "calendar")
-                Text(L10n.f("home.today", Fmt.date(now)))
-                if let current {
-                    Text("·")
-                    Text(updatedText(current.date, now: now))
-                }
-            }
-            .font(.footnote)
-            .foregroundStyle(.secondary)
-            .lineLimit(2)
+            // One text, so it wraps naturally on narrow screens.
+            Label(L10n.f("home.today", Fmt.date(now)) + (current.map { " · " + updatedText($0.date, now: now) } ?? ""),
+                  systemImage: "calendar")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .lineLimit(2)
         }
         .padding(.vertical, 6)
     }
