@@ -1,0 +1,43 @@
+# ALTERNATIVE to .github/workflows/release.yml (the primary path is GitHub Actions).
+# Use only if GitHub Actions is unavailable. Codemagic free plan: 500 macOS M2 minutes/month, 1 user.
+# Setup in Codemagic: Team integrations → Developer Portal → add the same App Store Connect API key
+# and name it "CarCareLogKey". Then add this repository and start the "testflight" workflow manually.
+
+workflows:
+  testflight:
+    name: TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: CarCareLogKey
+    environment:
+      xcode: latest
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.carcarelog.app
+      vars:
+        BUNDLE_ID: com.carcarelog.app
+    triggering:
+      events: []   # manual start only
+    scripts:
+      - name: Core tests
+        script: swift test --package-path Packages/CarCareCore
+      - name: Generate project
+        script: |
+          brew install xcodegen
+          xcodegen generate
+      - name: Signing profiles
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          BUILD_NUMBER="$(date -u +%Y).$(date -u +%-m%d).$(date -u +%-H%M)"
+          xcode-project build-ipa \
+            --project CarCareLog.xcodeproj \
+            --scheme CarCareLog \
+            --archive-xcargs "CURRENT_PROJECT_VERSION=$BUILD_NUMBER CC_ICLOUD=NO"
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

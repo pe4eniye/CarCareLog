@@ -1,0 +1,129 @@
+name: Release to TestFlight
+
+# Started by hand: GitHub → Actions → "Release to TestFlight" → Run workflow.
+# Needs these repository secrets (Settings → Secrets and variables → Actions):
+#   APPLE_TEAM_ID              10-character Team ID (developer.apple.com → Membership)
+#   ASC_KEY_ID                 App Store Connect API key ID
+#   ASC_ISSUER_ID              App Store Connect API issuer ID
+#   ASC_KEY_P8                 Full text of the AuthKey_XXXX.p8 file (including BEGIN/END lines)
+
+on:
+  workflow_dispatch:
+    inputs:
+      icloud:
+        description: "Turn on iCloud backup/sync (needs the iCloud container set up, see SETUP_GUIDE_RU.md)"
+        type: boolean
+        default: false
+
+jobs:
+  testflight:
+    runs-on: macos-15
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check secrets
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          missing=""
+          [ -z "$APPLE_TEAM_ID" ] && missing="$missing APPLE_TEAM_ID"
+          [ -z "$ASC_KEY_ID" ] && missing="$missing ASC_KEY_ID"
+          [ -z "$ASC_ISSUER_ID" ] && missing="$missing ASC_ISSUER_ID"
+          [ -z "$ASC_KEY_P8" ] && missing="$missing ASC_KEY_P8"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing secrets:$missing. See SETUP_GUIDE_RU.md, step 6."
+            exit 1
+          fi
+
+      - name: Tests first
+        run: swift test --package-path Packages/CarCareCore
+
+      - name: Prepare API key and build number
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/keys" build
+          KEY_PATH="$RUNNER_TEMP/keys/AuthKey_${ASC_KEY_ID}.p8"
+          printf '%s\n' "$ASC_KEY_P8" > "$KEY_PATH"
+          echo "KEY_PATH=$KEY_PATH" >> "$GITHUB_ENV"
+          # Always increasing build number: year.monthday.hourminute (UTC), e.g. 2026.1007.1530
+          echo "BUILD_NUMBER=$(date -u +%Y).$(date -u +%-m%d).$(date -u +%-H%M)" >> "$GITHUB_ENV"
+          if [ "${{ inputs.icloud }}" = "true" ]; then echo "CC_ICLOUD=YES" >> "$GITHUB_ENV"; else echo "CC_ICLOUD=NO" >> "$GITHUB_ENV"; fi
+
+      - name: Generate Xcode project
+        run: |
+          brew install xcodegen
+          xcodegen generate
+
+      - name: Archive (automatic signing with the API key)
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          echo "Build number: $BUILD_NUMBER, iCloud: $CC_ICLOUD"
+          xcodebuild archive \
+            -project CarCareLog.xcodeproj \
+            -scheme CarCareLog \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath build/CarCareLog.xcarchive \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
+            CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+            CC_ICLOUD="$CC_ICLOUD" \
+            > build/archive.log 2>&1 || { grep -E "error:|warning: .*provision" build/archive.log | head -50; tail -60 build/archive.log; exit 1; }
+          echo "Archive OK"
+
+      - name: Upload to TestFlight
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          cat > build/ExportOptions.plist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>${APPLE_TEAM_ID}</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+            <key>uploadSymbols</key><true/>
+          </dict>
+          </plist>
+          EOF
+          xcodebuild -exportArchive \
+            -archivePath build/CarCareLog.xcarchive \
+            -exportOptionsPlist build/ExportOptions.plist \
+            -exportPath build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" \
+            -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            > build/export.log 2>&1 || { grep -iE "error|No suitable application" build/export.log | head -50; tail -60 build/export.log; exit 1; }
+          echo "Uploaded build $BUILD_NUMBER. It appears in TestFlight after Apple processes it (usually 5–30 minutes)."
+          echo "### Build $BUILD_NUMBER uploaded to TestFlight ✅" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-logs
+          path: |
+            build/*.log
+          retention-days: 7
+
+      - name: Remove API key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/keys"

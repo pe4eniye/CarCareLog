@@ -69,7 +69,7 @@ struct BackupSection: View {
         do {
             let data = try Data(contentsOf: url)
             pendingImport = try BackupCodec.decode(data)
-        } catch BackupError.newerFormat {
+        } catch BackupError.newerFormat(_) {
             message = L10n.t("backup.newerFormat")
         } catch {
             message = L10n.t("backup.invalid")

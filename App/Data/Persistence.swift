@@ -43,6 +43,10 @@ final class Persistence: ObservableObject {
         }
         #if ICLOUD_YES
         let containerID = Bundle.main.object(forInfoDictionaryKey: "CCICloudContainer") as? String ?? ""
+        try? FileManager.default.createDirectory(at: URL.applicationSupportDirectory, withIntermediateDirectories: true)
+        #if DEBUG
+        Self.initializeCloudKitSchemaIfRequested(containerID: containerID)
+        #endif
         let cloudConfig = ModelConfiguration(schema: Self.schema, cloudKitDatabase: .private(containerID))
         if let c = try? ModelContainer(for: Self.schema, configurations: cloudConfig) {
             container = c
@@ -60,6 +64,8 @@ final class Persistence: ObservableObject {
     }
 
     private static func makeLocalContainer() -> ModelContainer {
+        // On first launch the folder doesn't exist yet; creating it avoids noisy Core Data recovery logs.
+        try? FileManager.default.createDirectory(at: URL.applicationSupportDirectory, withIntermediateDirectories: true)
         let config = ModelConfiguration(schema: schema, cloudKitDatabase: .none)
         if let c = try? ModelContainer(for: schema, configurations: config) { return c }
         // Last resort so the app still opens; data would not persist.
@@ -68,6 +74,35 @@ final class Persistence: ObservableObject {
     }
 
     #if ICLOUD_YES
+    #if DEBUG
+    /// One-time step before the first iCloud release: run a Debug build from Xcode on a real iPhone with
+    /// CC_ICLOUD=YES and the launch argument `-initCloudKitSchema`. This creates the record types in the
+    /// CloudKit Development environment; then deploy the schema to Production in CloudKit Console.
+    static func initializeCloudKitSchemaIfRequested(containerID: String) {
+        guard ProcessInfo.processInfo.arguments.contains("-initCloudKitSchema") else { return }
+        let types: [any PersistentModel.Type] = [Car.self, Item.self, ServiceEntry.self, OdometerReading.self]
+        guard let model = NSManagedObjectModel.makeManagedObjectModel(for: types) else { return }
+        let url = URL.applicationSupportDirectory.appending(path: "schema-init.store")
+        let description = NSPersistentStoreDescription(url: url)
+        description.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: containerID)
+        description.shouldAddStoreAsynchronously = false
+        let container = NSPersistentCloudKitContainer(name: "CarCareLogSchema", managedObjectModel: model)
+        container.persistentStoreDescriptions = [description]
+        container.loadPersistentStores { _, error in
+            if let error { print("Schema init store failed: \(error)") }
+        }
+        do {
+            try container.initializeCloudKitSchema()
+            print("CloudKit schema initialized")
+        } catch {
+            print("CloudKit schema init failed: \(error)")
+        }
+        for store in container.persistentStoreCoordinator.persistentStores {
+            try? container.persistentStoreCoordinator.remove(store)
+        }
+    }
+    #endif
+
     func refreshAccountStatus() async {
         do {
             let status = try await CKContainer.default().accountStatus()

@@ -48,8 +48,22 @@ jobs:
             > build/xcodebuild.log 2>&1
           STATUS=$?
           set -e
-          grep -E "error:|Test Case .*(passed|failed)|\*\* (BUILD|TEST) " build/xcodebuild.log | tail -300 || true
+          grep -E "\.swift:[0-9]+:[0-9]+: error:|^error:|Test Case .*(passed|failed)|\*\* (BUILD|TEST) " build/xcodebuild.log | tail -300 || true
           if [ $STATUS -ne 0 ]; then echo "---- last 80 lines ----"; tail -80 build/xcodebuild.log; fi
+          exit $STATUS
+
+      - name: Compile check with iCloud enabled (unsigned)
+        run: |
+          set +e
+          xcodebuild build \
+            -project CarCareLog.xcodeproj \
+            -scheme CarCareLog \
+            -destination "generic/platform=iOS Simulator" \
+            CODE_SIGNING_ALLOWED=NO CC_ICLOUD=YES \
+            > build/icloud-build.log 2>&1
+          STATUS=$?
+          set -e
+          grep -E "\.swift:[0-9]+:[0-9]+: error:|^error:|\*\* BUILD " build/icloud-build.log | tail -100 || true
           exit $STATUS
 
       - name: Upload logs on failure
