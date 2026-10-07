@@ -21,7 +21,8 @@ settings:
     CC_APP_GROUP: group.com.carcarelog.app
     CC_ICLOUD_CONTAINER: iCloud.com.carcarelog.app
     LOCALIZATION_PREFERS_STRING_CATALOGS: YES
-    SWIFT_EMIT_LOC_STRINGS: YES
+    # Strings are looked up by key through L10n (in-app language override), not auto-extracted.
+    SWIFT_EMIT_LOC_STRINGS: NO
 
 packages:
   CarCareCore:
@@ -35,10 +36,14 @@ targets:
       - path: App
     dependencies:
       - package: CarCareCore
+      - target: CarCareWidget
     info:
       path: App/Info.plist
       properties:
         CFBundleDisplayName: CarCare Log
+        CFBundleURLTypes:
+          - CFBundleURLName: com.carcarelog.app
+            CFBundleURLSchemes: [carcarelog]
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         CFBundleDevelopmentRegion: uk
@@ -61,6 +66,33 @@ targets:
         CODE_SIGN_ENTITLEMENTS: App/Entitlements/CarCareLog-iCloud-$(CC_ICLOUD).entitlements
         SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) ICLOUD_$(CC_ICLOUD)
         ENABLE_PREVIEWS: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  CarCareWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+    dependencies:
+      - package: CarCareCore
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: CarCare Log
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleDevelopmentRegion: uk
+        CCAppGroup: $(CC_APP_GROUP)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.carcarelog.app.widget
+        PRODUCT_NAME: CarCareWidget
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_ENTITLEMENTS: Widget/CarCareWidget.entitlements
+        SKIP_INSTALL: YES
 
   CarCareLogTests:
     type: bundle.unit-test

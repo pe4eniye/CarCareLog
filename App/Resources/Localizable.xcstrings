@@ -1,0 +1,1042 @@
+{
+  "sourceLanguage" : "uk",
+  "strings" : {
+    "assistant.clear" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Clear" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Очистити" } }
+      }
+    },
+    "assistant.copied" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Copied" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скопійовано" } }
+      }
+    },
+    "assistant.intro" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ask about maintenance in Ukrainian, Russian or English. You can dictate with the microphone key on the keyboard. The assistant works offline and answers only from your records." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запитайте про обслуговування українською, російською чи англійською. Можна диктувати — кнопка мікрофона на клавіатурі. Помічник працює без інтернету і відповідає лише за вашими записами." } }
+      }
+    },
+    "assistant.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your question" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ваше запитання" } }
+      }
+    },
+    "assistant.send" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Send" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Надіслати" } }
+      }
+    },
+    "backup.confirmText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено." } }
+      }
+    },
+    "backup.confirmTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace data?" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити дані?" } }
+      }
+    },
+    "backup.export" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Export backup" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Експортувати резервну копію" } }
+      }
+    },
+    "backup.exportFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not create the file." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Не вдалося створити файл." } }
+      }
+    },
+    "backup.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "One file with all your data. Save it to Files or send it via AirDrop." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Один файл з усіма даними. Збережіть його у «Файли» або надішліть через AirDrop." } }
+      }
+    },
+    "backup.import" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Import backup" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Імпортувати резервну копію" } }
+      }
+    },
+    "backup.invalid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is not a CarCare Log backup file." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Це не файл резервної копії CarCare Log." } }
+      }
+    },
+    "backup.newerFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The file was made by a newer app version. Please update the app." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Файл створено новішою версією застосунку. Оновіть застосунок." } }
+      }
+    },
+    "backup.replace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити" } }
+      }
+    },
+    "backup.restored" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Data restored." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дані відновлено." } }
+      }
+    },
+    "backup.restoreFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not restore the data." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Не вдалося відновити дані." } }
+      }
+    },
+    "backup.section" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Backup" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Резервна копія" } }
+      }
+    },
+    "car.make" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Make" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Марка" } }
+      }
+    },
+    "car.model" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Model" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Модель" } }
+      }
+    },
+    "car.vin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "VIN (optional)" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "VIN (необов’язково)" } }
+      }
+    },
+    "car.vinWarning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A VIN usually has 17 characters, this one has %d. You can still save it." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "VIN зазвичай має 17 символів, зараз — %d. Можна зберегти й так." } }
+      }
+    },
+    "car.year" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Year" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Рік" } }
+      }
+    },
+    "common.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скасувати" } }
+      }
+    },
+    "common.delete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити" } }
+      }
+    },
+    "common.done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Готово" } }
+      }
+    },
+    "common.save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Зберегти" } }
+      }
+    },
+    "common.saveAnyway" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save anyway" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Все одно зберегти" } }
+      }
+    },
+    "entry.date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Date" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дата" } }
+      }
+    },
+    "entry.delete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete entry" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити запис" } }
+      }
+    },
+    "entry.deleteConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete this entry?" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити цей запис?" } }
+      }
+    },
+    "entry.editTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Entry" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запис" } }
+      }
+    },
+    "entry.km" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "km" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "км" } }
+      }
+    },
+    "entry.needParts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add at least one part." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте хоча б одну позицію." } }
+      }
+    },
+    "entry.newTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "New entry" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Новий запис" } }
+      }
+    },
+    "entry.odometer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Odometer" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
+      }
+    },
+    "entry.parts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "What was replaced" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Що замінено" } }
+      }
+    },
+    "entry.pickParts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose parts" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вибрати позиції" } }
+      }
+    },
+    "history.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add entry" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додати запис" } }
+      }
+    },
+    "history.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your service entries will appear here. Tap “+” to add the first one." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший." } }
+      }
+    },
+    "home.addParts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add parts" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додати запчастини" } }
+      }
+    },
+    "home.atKm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "at %@" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "при %@" } }
+      }
+    },
+    "home.emptyText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add the parts and fluids you replace (e.g. “Engine oil”, every 10,000 km or 12 months), then add entries to History. The forecast will appear here." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте запчастини й рідини, які ви міняєте (наприклад, «Моторне масло», інтервал 10 000 км або 12 місяців), а потім записи в історію. Тоді тут з’явиться прогноз." } }
+      }
+    },
+    "home.emptyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Let’s start" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Почнімо" } }
+      }
+    },
+    "home.noHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add to History when you last replaced each part, and the forecast will appear." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте в історію, коли ви востаннє міняли кожну позицію, — і з’явиться прогноз." } }
+      }
+    },
+    "home.noRecordsCount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No records, no forecast: %d" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Без записів, прогнозу немає: %d" } }
+      }
+    },
+    "home.nudge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You haven’t updated the odometer for a while. Enter the current value to keep the forecast accurate." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Давно не оновлювали пробіг. Введіть поточний — так прогноз буде точнішим." } }
+      }
+    },
+    "home.odometer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Odometer" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
+      }
+    },
+    "home.openHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open History" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Відкрити історію" } }
+      }
+    },
+    "home.overdue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Overdue" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Прострочено" } }
+      }
+    },
+    "home.overdueSince" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "was due: %@" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "термін: %@" } }
+      }
+    },
+    "home.undated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "By mileage" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "За пробігом" } }
+      }
+    },
+    "home.undatedFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No date estimate: set the average km per month in Settings." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дату не розраховано: вкажіть середній пробіг за місяць у налаштуваннях." } }
+      }
+    },
+    "home.update" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Update" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оновити" } }
+      }
+    },
+    "home.updateOdometer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter odometer" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ввести пробіг" } }
+      }
+    },
+    "icloud.checking" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Checking…" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Перевірка…" } }
+      }
+    },
+    "icloud.errorShort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sync error" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Помилка синхронізації" } }
+      }
+    },
+    "icloud.full" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud storage is full, so backup has stopped. Your data on this iPhone is safe; free up space or export a backup file." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сховище iCloud заповнене — резервне копіювання зупинено. Дані на iPhone у безпеці; звільніть місце або зробіть експорт у файл." } }
+      }
+    },
+    "icloud.fullShort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Storage full" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сховище заповнене" } }
+      }
+    },
+    "icloud.noAccount" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is unavailable (not signed in?). Data is stored on this iPhone only." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступний (не виконано вхід?). Дані зберігаються лише на цьому iPhone." } }
+      }
+    },
+    "icloud.noAccountShort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Not signed in" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Немає входу" } }
+      }
+    },
+    "icloud.off" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Off" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вимкнено" } }
+      }
+    },
+    "icloud.on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "On" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Увімкнено" } }
+      }
+    },
+    "icloud.syncError" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud sync error. Your data on this iPhone is safe; we’ll retry later." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Помилка синхронізації з iCloud. Дані на iPhone у безпеці; спробуємо пізніше." } }
+      }
+    },
+    "icloud.unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is unavailable; the app works with data on this iPhone only." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступний — застосунок працює лише з даними на цьому iPhone." } }
+      }
+    },
+    "icloud.unavailableShort" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unavailable" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Недоступний" } }
+      }
+    },
+    "item.aliases" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Other names (optional)" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Інші назви (необов’язково)" } }
+      }
+    },
+    "item.aliasesFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Comma-separated. Helps the assistant find the part, e.g. “ATF, gearbox oil”." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Через кому. Допомагає помічнику знайти позицію, наприклад: «АКПП, ATF»." } }
+      }
+    },
+    "item.analogs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Analogs (optional)" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Аналоги (необов’язково)" } }
+      }
+    },
+    "item.analogsFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Analog numbers, comma-separated. Spaces, hyphens and dots are ignored." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Номери аналогів — через кому. Пробіли, дефіси й крапки не враховуються." } }
+      }
+    },
+    "item.duplicateLine" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ is already on “%2$@”" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "%1$@ вже є у «%2$@»" } }
+      }
+    },
+    "item.duplicateTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Number already used" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Такий номер уже є" } }
+      }
+    },
+    "item.editTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Part" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиція" } }
+      }
+    },
+    "item.interval" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Replacement interval" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Інтервал заміни" } }
+      }
+    },
+    "item.intervalKm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Every, km" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Кожні, км" } }
+      }
+    },
+    "item.intervalMonths" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Every, months" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Кожні, місяців" } }
+      }
+    },
+    "item.keep" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Keep as is" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Залишити як є" } }
+      }
+    },
+    "item.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name (required)" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Назва (обов’язково)" } }
+      }
+    },
+    "item.newTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "New part" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нова позиція" } }
+      }
+    },
+    "item.numbers" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Part numbers" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Номери деталей" } }
+      }
+    },
+    "item.oem" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OEM number (optional)" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "OEM-номер (необов’язково)" } }
+      }
+    },
+    "item.optional" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "—" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "—" } }
+      }
+    },
+    "item.replace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити" } }
+      }
+    },
+    "item.replaceOEMText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Old: %1$@\nNew: %2$@" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Було: %1$@\nНове: %2$@" } }
+      }
+    },
+    "item.replaceOEMTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Replace the OEM number?" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Замінити OEM-номер?" } }
+      }
+    },
+    "lead.oneMonth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "1 month before" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "За місяць" } }
+      }
+    },
+    "lead.oneWeek" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "1 week before" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "За тиждень" } }
+      }
+    },
+    "lead.sameDay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "On the day" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "У день заміни" } }
+      }
+    },
+    "lead.threeWeeks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "3 weeks before" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "За 3 тижні" } }
+      }
+    },
+    "lead.twoWeeks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "2 weeks before" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "За 2 тижні" } }
+      }
+    },
+    "lock.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скасувати" } }
+      }
+    },
+    "lock.reason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock to see your car data" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розблокуйте, щоб переглянути дані про авто" } }
+      }
+    },
+    "lock.unlock" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unlock" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розблокувати" } }
+      }
+    },
+    "notif.dueBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "%1$@: %2$@" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "%1$@: %2$@" } }
+      }
+    },
+    "notif.dueTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Service coming up" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Скоро обслуговування" } }
+      }
+    },
+    "notif.odometerBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter the current odometer to keep the forecast accurate." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Введіть поточний пробіг, щоб прогноз залишався точним." } }
+      }
+    },
+    "notif.odometerTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Update the odometer" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оновіть пробіг" } }
+      }
+    },
+    "odometer.current" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current: %1$@ (%2$@)" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Зараз: %1$@ (%2$@)" } }
+      }
+    },
+    "odometer.lowerText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The new value is lower than the previous one. Please check for a typo." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нове значення менше за попереднє. Перевірте, чи немає помилки." } }
+      }
+    },
+    "odometer.lowerTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lower than before" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг менший за попередній" } }
+      }
+    },
+    "odometer.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current odometer, km" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поточний пробіг, км" } }
+      }
+    },
+    "odometer.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Odometer" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
+      }
+    },
+    "onb.allow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дозволити" } }
+      }
+    },
+    "onb.carTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your car" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ваше авто" } }
+      }
+    },
+    "onb.enable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turn on" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Увімкнути" } }
+      }
+    },
+    "onb.faceIDText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The app will open only after Face ID or your device passcode. You can change this in Settings." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Застосунок відкриватиметься лише після Face ID або коду пристрою. Це можна змінити в налаштуваннях." } }
+      }
+    },
+    "onb.faceIDTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Protect with Face ID?" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Захистити Face ID?" } }
+      }
+    },
+    "onb.next" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Next" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Далі" } }
+      }
+    },
+    "onb.notifText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "We’ll remind you ahead of replacements and ask for the odometer every two weeks." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадаємо заздалегідь про заміни та попросимо оновити пробіг раз на два тижні." } }
+      }
+    },
+    "onb.notifTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminders" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадування" } }
+      }
+    },
+    "onb.odometer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current odometer" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поточний пробіг" } }
+      }
+    },
+    "onb.skip" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Skip" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пропустити" } }
+      }
+    },
+    "onb.welcome" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome! This is your personal car-maintenance log. All data stays on your iPhone." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone." } }
+      }
+    },
+    "parts.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add part" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додати позицію" } }
+      }
+    },
+    "parts.deleteConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete “%@”?" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити «%@»?" } }
+      }
+    },
+    "parts.deleteUsed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete “%1$@”? It will be removed from %2$d history entries." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Видалити «%1$@»? Її буде прибрано із записів історії: %2$d." } }
+      }
+    },
+    "parts.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add the parts and fluids you maintain: name, interval and, optionally, part numbers." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте запчастини й рідини, які обслуговуєте: назву, інтервал і, за бажанням, номери деталей." } }
+      }
+    },
+    "parts.everyKm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "every %@" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "кожні %@" } }
+      }
+    },
+    "parts.everyMonths" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "every %d mo" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "кожні %d міс." } }
+      }
+    },
+    "parts.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search by name or number" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пошук за назвою або номером" } }
+      }
+    },
+    "picker.create" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create “%@”" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Створити «%@»" } }
+      }
+    },
+    "picker.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No parts yet. Type a name in search to create one." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позицій ще немає. Введіть назву в пошуку, щоб створити." } }
+      }
+    },
+    "picker.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search or new name" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пошук або нова назва" } }
+      }
+    },
+    "reason.mileage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "by mileage" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "за пробігом" } }
+      }
+    },
+    "reason.time" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "by time" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "за часом" } }
+      }
+    },
+    "settings.appearance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Appearance" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вигляд" } }
+      }
+    },
+    "settings.avgKm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Km per month" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг за місяць, км" } }
+      }
+    },
+    "settings.avgKmFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Average km per month turns mileage into a date." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату." } }
+      }
+    },
+    "settings.car" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Car" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Авто" } }
+      }
+    },
+    "settings.carSection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Car" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Авто" } }
+      }
+    },
+    "settings.faceID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Face ID / passcode" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Face ID / код пристрою" } }
+      }
+    },
+    "settings.faceIDUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Face ID or passcode is not available." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Face ID або код пристрою недоступні." } }
+      }
+    },
+    "settings.icloudFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is only a backup and sync layer. The main copy of your data is on this iPhone." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone." } }
+      }
+    },
+    "settings.language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Language" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Мова" } }
+      }
+    },
+    "settings.leadTime" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remind" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадувати" } }
+      }
+    },
+    "settings.reminders" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reminders" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадування" } }
+      }
+    },
+    "settings.security" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Security" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Захист" } }
+      }
+    },
+    "settings.theme" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Theme" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тема" } }
+      }
+    },
+    "settings.themeDark" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dark" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Темна" } }
+      }
+    },
+    "settings.themeLight" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Light" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Світла" } }
+      }
+    },
+    "settings.themeSystem" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "System" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Як у системі" } }
+      }
+    },
+    "settings.version" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Version" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Версія" } }
+      }
+    },
+    "tab.assistant" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Assistant" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Помічник" } }
+      }
+    },
+    "tab.history" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "History" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Історія" } }
+      }
+    },
+    "tab.home" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Home" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Головна" } }
+      }
+    },
+    "tab.parts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Parts" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запчастини" } }
+      }
+    },
+    "tab.settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Settings" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Налаштування" } }
+      }
+    },
+    "widget.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing scheduled" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Немає запланованих замін" } }
+      }
+    },
+    "widget.overdue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Overdue: %d" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Прострочено: %d" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

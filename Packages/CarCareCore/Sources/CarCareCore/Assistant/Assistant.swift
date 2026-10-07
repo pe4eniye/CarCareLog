@@ -51,6 +51,11 @@ public struct AssistantContext {
 
 /// Offline, rule-based assistant. Never invents data: every answer comes from the snapshot.
 public enum Assistant {
+    /// Example questions for the chips under the input field.
+    public static func examples(_ language: AssistantLanguage) -> [String] {
+        AssistantStrings(lang: language).examples
+    }
+
     /// - Parameter chosenItemID: set when the user tapped one of the offered choices.
     public static func answer(_ question: String, context: AssistantContext,
                               chosenItemID: UUID? = nil) -> AssistantReply {

@@ -21,6 +21,9 @@ jobs:
           xcodebuild -version
           swift --version
 
+      - name: Check localization keys
+        run: bash scripts/check-strings.sh
+
       - name: Core package tests (CarCareCore)
         run: swift test --package-path Packages/CarCareCore
 
