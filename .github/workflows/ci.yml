@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tool versions
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Core package tests (CarCareCore)
+        run: swift test --package-path Packages/CarCareCore
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build app and run app tests (iOS Simulator, unsigned)
+        run: |
+          mkdir -p build
+          DEVICE_ID=$(bash scripts/pick-simulator.sh)
+          echo "Using simulator $DEVICE_ID"
+          set +e
+          xcodebuild test \
+            -project CarCareLog.xcodeproj \
+            -scheme CarCareLog \
+            -destination "id=$DEVICE_ID" \
+            -resultBundlePath build/AppTests.xcresult \
+            CODE_SIGNING_ALLOWED=NO \
+            > build/xcodebuild.log 2>&1
+          STATUS=$?
+          set -e
+          grep -E "error:|Test Case .*(passed|failed)|\*\* (BUILD|TEST) " build/xcodebuild.log | tail -300 || true
+          if [ $STATUS -ne 0 ]; then echo "---- last 80 lines ----"; tail -80 build/xcodebuild.log; fi
+          exit $STATUS
+
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: xcode-logs
+          path: build/
+          retention-days: 7

@@ -1,0 +1,10 @@
+.gh-login.log
+.DS_Store
+*.xcodeproj/
+DerivedData/
+.build/
+.swiftpm/
+build/
+*.ipa
+*.p8
+xcuserdata/

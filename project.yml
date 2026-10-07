@@ -1,0 +1,91 @@
+name: CarCareLog
+
+options:
+  bundleIdPrefix: com.carcarelog
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  developmentLanguage: uk
+
+settings:
+  base:
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.0"
+    # Apple Team ID. Empty for simulator/CI builds; the release workflow passes it in.
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    # iCloud (CloudKit) backup/sync switch: NO or YES.
+    # YES needs a paid Apple Developer account and the iCloud container (see README_DEV.md).
+    CC_ICLOUD: "NO"
+    CC_APP_GROUP: group.com.carcarelog.app
+    CC_ICLOUD_CONTAINER: iCloud.com.carcarelog.app
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
+
+packages:
+  CarCareCore:
+    path: Packages/CarCareCore
+
+targets:
+  CarCareLog:
+    type: application
+    platform: iOS
+    sources:
+      - path: App
+    dependencies:
+      - package: CarCareCore
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: CarCare Log
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleDevelopmentRegion: uk
+        CFBundleLocalizations: [uk, en]
+        ITSAppUsesNonExemptEncryption: false
+        LSRequiresIPhoneOS: true
+        NSFaceIDUsageDescription: CarCare Log uses Face ID to protect your data.
+        UILaunchScreen: {}
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        CCAppGroup: $(CC_APP_GROUP)
+        CCICloudContainer: $(CC_ICLOUD_CONTAINER)
+        CCICloudEnabled: $(CC_ICLOUD)
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.carcarelog.app
+        PRODUCT_NAME: CarCareLog
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_ENTITLEMENTS: App/Entitlements/CarCareLog-iCloud-$(CC_ICLOUD).entitlements
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: $(inherited) ICLOUD_$(CC_ICLOUD)
+        ENABLE_PREVIEWS: YES
+
+  CarCareLogTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: AppTests
+    dependencies:
+      - target: CarCareLog
+      - package: CarCareCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.carcarelog.app.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/CarCareLog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CarCareLog
+        BUNDLE_LOADER: $(TEST_HOST)
+
+schemes:
+  CarCareLog:
+    build:
+      targets:
+        CarCareLog: all
+        CarCareLogTests: [test]
+    test:
+      targets:
+        - CarCareLogTests
+      gatherCoverageData: false
+    archive:
+      config: Release
