@@ -19,8 +19,8 @@
   depend on the workflow's run counter.
 - The bundle ID must be registered once in the developer portal before the App Store Connect record can be created
   (guide step 7). Automatic signing registers the widget ID itself.
-- On this repo, a `git push` did not start the CI workflow automatically (cause unknown). Runs are started with
-  `gh workflow run ci.yml` (or "Run workflow" on GitHub), which works.
+- Screenshots: the "Screenshots" workflow runs the app in the iOS Simulator in demo mode (`-demo`, sample data in memory)
+  and uploads PNGs of every screen in uk/ru/en, light and dark. See `scripts/take-screenshots.sh`.
 
 ## iCloud
 - **Off by default** (`CC_ICLOUD=NO`). The app is fully functional with the local store. The JSON backup file

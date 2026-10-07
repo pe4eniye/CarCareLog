@@ -59,8 +59,9 @@ struct ForecastRow: View {
     private var detail: String {
         if forecast.isOverdue {
             var parts: [String] = []
-            if let d = forecast.dueDate { parts.append(Fmt.date(d)) }
-            if let km = forecast.dueKm { parts.append(Fmt.km(km)) }
+            let limits = forecast.overdueLimits
+            if let d = limits.date { parts.append(Fmt.date(d)) }
+            if let km = limits.km { parts.append(Fmt.km(km)) }
             return L10n.f("home.overdueSince", parts.joined(separator: " · "))
         }
         if forecast.dueDate == nil, let km = forecast.dueKm {

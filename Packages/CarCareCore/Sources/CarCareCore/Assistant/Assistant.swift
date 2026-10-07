@@ -129,8 +129,9 @@ public enum Assistant {
         let cal = context.calendar
         if f.isOverdue {
             var parts: [String] = []
-            if let d = f.dueDate { parts.append(AssistantFormat.date(d, s.lang, calendar: cal)) }
-            if let km = f.dueKm { parts.append(AssistantFormat.km(km, s.lang)) }
+            let limits = f.overdueLimits
+            if let d = limits.date { parts.append(AssistantFormat.date(d, s.lang, calendar: cal)) }
+            if let km = limits.km { parts.append(AssistantFormat.km(km, s.lang)) }
             return s.overdue(parts.joined(separator: ", "))
         }
         guard let d = f.dueDate else {

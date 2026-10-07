@@ -208,7 +208,16 @@ final class AssistantTests: XCTestCase {
         snap.odometerReadings.append(OdometerReadingInfo(date: TS.d(2026, 10, 6), km: 231_000))
         let ctx = AssistantContext(snapshot: snap, today: TS.today, calendar: TS.calendar, fallbackLanguage: .uk)
         let r = Assistant.answer("коли міняти моторне масло?", context: ctx)
-        XCTAssertEqual(TS.plain(r.text), "Моторне масло: прострочено (7 жовтня 2026, 230 000 км)")
+        // Only the exceeded limit is named: km, not "today".
+        XCTAssertEqual(TS.plain(r.text), "Моторне масло: прострочено (230 000 км)")
+
+        // Both limits exceeded: date and km.
+        var late = g.snapshot
+        late.odometerReadings.append(OdometerReadingInfo(date: TS.d(2026, 12, 1), km: 231_000))
+        let lateCtx = AssistantContext(snapshot: late, today: TS.d(2026, 12, 1), calendar: TS.calendar,
+                                       fallbackLanguage: .uk)
+        XCTAssertEqual(TS.plain(Assistant.answer("коли міняти моторне масло?", context: lateCtx).text),
+                       "Моторне масло: прострочено (3 листопада 2026, 230 000 км)")
     }
 
     // MARK: Parsing helpers

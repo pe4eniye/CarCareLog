@@ -22,6 +22,16 @@ public struct ItemForecast: Equatable {
     /// Expected odometer at dueDate.
     public var predictedOdometerKm: Int
     public var isOverdue: Bool
+    /// The time limit (dueByTime) has passed.
+    public var overdueByTime: Bool = false
+    /// The odometer has reached dueKm.
+    public var overdueByKm: Bool = false
+
+    /// What to show for an overdue item: only the limits that were actually exceeded
+    /// (not "today", which dueDate becomes when the km limit is reached).
+    public var overdueLimits: (date: Date?, km: Int?) {
+        (overdueByTime ? dueByTime : nil, overdueByKm ? dueKm : nil)
+    }
 }
 
 public enum ItemStatus: Equatable {
@@ -108,9 +118,9 @@ public enum ForecastEngine {
             predicted = current
         }
 
-        var overdue = false
-        if let d = dueDate, calendar.startOfDay(for: d) < todayStart { overdue = true }
-        if let km = dueKm, current >= km { overdue = true }
+        let overdueByTime = dueByTime.map { calendar.startOfDay(for: $0) < todayStart } ?? false
+        let overdueByKm = dueKm.map { current >= $0 } ?? false
+        let overdue = overdueByTime || overdueByKm
 
         return .forecast(ItemForecast(
             itemID: item.id,
@@ -122,7 +132,9 @@ public enum ForecastEngine {
             dueDate: dueDate,
             reason: reason,
             predictedOdometerKm: predicted,
-            isOverdue: overdue
+            isOverdue: overdue,
+            overdueByTime: overdueByTime,
+            overdueByKm: overdueByKm
         ))
     }
 
