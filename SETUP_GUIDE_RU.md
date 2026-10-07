@@ -266,3 +266,23 @@ Mac не нужен.
 2. Раздел **App Privacy**: «Data Not Collected» (приложение ничего не собирает).
 3. Выберите сборку из TestFlight → **Add for Review** → **Submit**.
 4. Проверка Apple обычно занимает 1–3 дня. Публикация в App Store не требует перевыпуска каждые 90 дней.
+
+---
+
+## Посмотреть приложение в браузере (Appetize), пока нет iPhone-сборки
+
+Appetize показывает iPhone прямо в окне браузера. Бесплатно — 30 минут в месяц. Face ID, уведомления и виджет там
+не работают, всё остальное можно нажимать. Данные — примерные и при каждом запуске начинаются заново.
+
+1. Войдите на https://appetize.io → правый верхний угол → **Account** → раздел **API Token** → **Generate**.
+   Скопируйте токен (начинается с `tok_`). **Никому его не пересылайте.**
+2. Откройте https://github.com/pe4eniye/CarCareLog/settings/secrets/actions → **New repository secret**.
+   Name: `APPETIZE_API_TOKEN`, Secret: вставьте токен → **Add secret**.
+3. Откройте https://github.com/pe4eniye/CarCareLog/actions → слева **Appetize preview** → **Run workflow** →
+   зелёная кнопка **Run workflow**.
+4. Через 10–15 минут откройте этот запуск: внизу страницы, в блоке «Open the app in your browser», будет ссылка.
+   Откройте её и нажмите **Tap to play**.
+
+**Что вы должны увидеть:** в браузере — iPhone с открытым CarCare Log и примерными данными (Škoda Octavia).
+
+Дальше ничего делать не нужно: после каждого обновления кода новая версия сама загружается по той же ссылке.

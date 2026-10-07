@@ -99,6 +99,8 @@ struct AssistantView: View {
                                    fallbackLanguage: L10n.assistantLanguage)
         let reply = Assistant.answer(q, context: ctx, chosenItemID: chosen)
         history.append(Exchange(question: q, reply: reply))
+        // Keep the conversation light: the last 50 questions are enough.
+        if history.count > 50 { history.removeFirst(history.count - 50) }
         if chosen == nil { question = "" }
     }
 }

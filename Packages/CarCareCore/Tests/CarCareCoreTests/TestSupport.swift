@@ -54,7 +54,7 @@ struct Garage {
     }
 
     var snapshot: DataSnapshot {
-        DataSnapshot(car: CarInfo(make: "Skoda", model: "Octavia", year: 2015, avgKmPerMonth: 3040),
+        DataSnapshot(car: CarInfo(name: "Skoda Octavia", avgKmPerMonth: 3040),
                      items: items, entries: entries, odometerReadings: readings)
     }
 

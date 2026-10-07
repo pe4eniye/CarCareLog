@@ -25,10 +25,49 @@ struct CarCareLogApp: App {
     }
 }
 
-/// Tab selection, shared so the Home empty state and widget deep links can switch tabs.
+/// Tab selection and every form sheet, shared so any screen, the Home empty state and widget deep links
+/// can open them.
 final class Router: ObservableObject {
     enum Tab: Hashable { case home, history, parts, assistant, settings }
+
+    /// Values for a new item, e.g. after "This is a different part" on rename.
+    struct ItemDraft {
+        var name = ""
+        var intervalKm: Int?
+        var intervalMonths: Int?
+    }
+
+    enum Sheet: Identifiable {
+        /// "Log service" with these items preselected.
+        case logService([UUID])
+        case editEntry(ServiceEntry)
+        case newItem(ItemDraft)
+        case item(Item)
+        case odometer
+
+        var id: String {
+            switch self {
+            case .logService(let ids): return "log-" + ids.map(\.uuidString).joined(separator: ",")
+            case .editEntry(let e): return "entry-" + e.uuid.uuidString
+            case .newItem(let d): return "new-" + d.name
+            case .item(let i): return "item-" + i.uuid.uuidString
+            case .odometer: return "odometer"
+            }
+        }
+    }
+
     @Published var tab: Tab = DemoMode.isOn ? DemoMode.startTab : .home
+    @Published var sheet: Sheet?
+
+    /// Replaces the current sheet with another one (e.g. from an item card to "Log service").
+    func open(_ next: Sheet) {
+        if sheet == nil {
+            sheet = next
+        } else {
+            sheet = nil
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { self.sheet = next }
+        }
+    }
 }
 
 struct RootView: View {
@@ -72,8 +111,15 @@ struct RootView: View {
             }
         }
         .onOpenURL { url in
-            // carcarelog://upcoming from the widget.
-            if url.scheme == "carcarelog" { router.tab = .home }
+            // From the widget: carcarelog://log?items=<uuid>,<uuid> or carcarelog://upcoming
+            guard url.scheme == "carcarelog" else { return }
+            router.tab = .home
+            if url.host == "log" {
+                let value = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                    .queryItems?.first { $0.name == "items" }?.value ?? ""
+                let ids = value.split(separator: ",").compactMap { UUID(uuidString: String($0)) }
+                router.open(.logService(ids))
+            }
         }
     }
 }
@@ -90,7 +136,7 @@ struct MainTabView: View {
                 .tabItem { Label(L10n.t("tab.history"), systemImage: "clock.arrow.circlepath") }
                 .tag(Router.Tab.history)
             PartsView()
-                .tabItem { Label(L10n.t("tab.parts"), systemImage: "wrench.and.screwdriver") }
+                .tabItem { Label(L10n.t("tab.parts"), systemImage: "list.bullet.clipboard") }
                 .tag(Router.Tab.parts)
             AssistantView()
                 .tabItem { Label(L10n.t("tab.assistant"), systemImage: "bubble.left.and.text.bubble.right") }
@@ -99,9 +145,40 @@ struct MainTabView: View {
                 .tabItem { Label(L10n.t("tab.settings"), systemImage: "gearshape") }
                 .tag(Router.Tab.settings)
         }
+        .sheet(item: $router.sheet) { sheet in
+            switch sheet {
+            case .logService(let ids): EntryEditorView(entry: nil, preselected: ids)
+            case .editEntry(let entry): EntryEditorView(entry: entry, preselected: [])
+            case .newItem(let draft): ItemEditorView(item: nil, draft: draft)
+            case .item(let item): ItemEditorView(item: item, draft: Router.ItemDraft())
+            case .odometer: OdometerUpdateView()
+            }
+        }
     }
 }
 
+/// "+" in the top right corner of Home, History and Schedule.
+struct AddMenuButton: View {
+    @EnvironmentObject private var router: Router
+
+    var body: some View {
+        Menu {
+            Button {
+                router.open(.logService([]))
+            } label: {
+                Label(L10n.t("add.logService"), systemImage: "checkmark.circle")
+            }
+            Button {
+                router.open(.newItem(Router.ItemDraft()))
+            } label: {
+                Label(L10n.t("add.item"), systemImage: "plus.square")
+            }
+        } label: {
+            Image(systemName: "plus").font(.title3.weight(.semibold)).frame(minWidth: 44, minHeight: 44)
+        }
+        .accessibilityLabel(L10n.t("add.menu"))
+    }
+}
 struct LockView: View {
     @EnvironmentObject private var lock: AppLock
     @EnvironmentObject private var settings: AppSettings

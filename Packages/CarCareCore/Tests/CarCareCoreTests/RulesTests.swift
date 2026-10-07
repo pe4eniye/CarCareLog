@@ -55,10 +55,33 @@ final class OdometerTests: XCTestCase {
         XCTAssertFalse(OdometerRules.isLowerThanCurrent(5, readings: []))
     }
 
-    func testServiceEntryAddsReadingOnlyWhenHigher() {
-        XCTAssertTrue(OdometerRules.serviceEntryShouldAddReading(entryKm: 229_000, readings: readings))
-        XCTAssertFalse(OdometerRules.serviceEntryShouldAddReading(entryKm: 228_000, readings: readings))
-        XCTAssertTrue(OdometerRules.serviceEntryShouldAddReading(entryKm: 1, readings: []))
+    func testServiceEntriesCountAsOdometerPoints() {
+        // An entry recorded today with a higher km becomes the current odometer...
+        let today = ServiceEntryInfo(date: TS.d(2026, 10, 7), odometerKm: 229_000, itemIDs: [UUID()])
+        XCTAssertEqual(OdometerRules.current(readings: readings, entries: [today], calendar: cal)?.km, 229_000)
+        // ...and deleting it (passing no entries) brings the previous value back. Nothing was copied.
+        XCTAssertEqual(OdometerRules.current(readings: readings, entries: [], calendar: cal)?.km, 228_000)
+
+        // A replacement logged late for an earlier date does not roll the current odometer back.
+        let backdated = ServiceEntryInfo(date: TS.d(2026, 7, 1), odometerKm: 220_000, itemIDs: [UUID()])
+        XCTAssertEqual(OdometerRules.current(readings: readings, entries: [backdated], calendar: cal)?.km, 228_000)
+
+        // Same day: the highest km wins, whatever the time of day.
+        let morning = OdometerReadingInfo(date: TS.d(2026, 10, 7, 9), km: 228_500)
+        let entryMidnight = ServiceEntryInfo(date: TS.d(2026, 10, 7), odometerKm: 229_100, itemIDs: [UUID()])
+        XCTAssertEqual(OdometerRules.current(readings: readings + [morning], entries: [entryMidnight],
+                                             calendar: cal)?.km, 229_100)
+
+        // Rolling the odometer back with a newer reading: the newest wins (the UI warns before saving).
+        let rollback = OdometerReadingInfo(date: TS.d(2026, 10, 8), km: 225_000)
+        XCTAssertEqual(OdometerRules.current(readings: readings + [rollback], entries: [today], calendar: cal)?.km,
+                       225_000)
+    }
+
+    func testServiceEntryTodayResetsNudge() {
+        let entry = ServiceEntryInfo(date: TS.d(2026, 10, 7), odometerKm: 228_000, itemIDs: [UUID()])
+        XCTAssertTrue(OdometerRules.needsNudge(readings: readings, now: TS.today, calendar: cal))
+        XCTAssertFalse(OdometerRules.needsNudge(readings: readings, entries: [entry], now: TS.today, calendar: cal))
     }
 
     func testNudgeAfter14Days() {
@@ -74,8 +97,8 @@ final class OdometerTests: XCTestCase {
 
     func testNudgeDates() {
         let dates = OdometerRules.nudgeDates(readings: readings, now: TS.today, calendar: cal)
-        // 20 Sep + 14 = 4 Oct (past) → 18 Oct, 1 Nov, 15 Nov at 09:00.
-        XCTAssertEqual(dates, [TS.d(2026, 10, 18, 9), TS.d(2026, 11, 1, 9), TS.d(2026, 11, 15, 9)])
+        // 20 Sep + 14 = 4 Oct (past) → 18 Oct, 1 Nov, 15 Nov at 11:00.
+        XCTAssertEqual(dates, [TS.d(2026, 10, 18, 11), TS.d(2026, 11, 1, 11), TS.d(2026, 11, 15, 11)])
     }
 
     func testEntryValidation() {
@@ -98,27 +121,43 @@ final class OdometerTests: XCTestCase {
 final class ReminderPlannerTests: XCTestCase {
     let cal = TS.calendar
 
-    func testGroupsSameDayAndAppliesLeadTime() {
+    func testAdvanceAndDueDayRemindersAt11() {
         let g = Garage()
         let statuses = ForecastEngine.statuses(for: g.snapshot, today: TS.today, calendar: cal)
         let plan = ReminderPlanner.plan(statuses: statuses, items: g.items, leadTime: .oneWeek,
                                         now: TS.today, calendar: cal)
-        let first = plan[0]
-        XCTAssertEqual(first.dueDay, TS.d(2026, 10, 27))
-        XCTAssertEqual(first.fireDate, TS.d(2026, 10, 20, 9))
-        XCTAssertEqual(first.itemIDs, [g.engineOil.id, g.oilFilter.id, g.lpg.id]) // in list order
-        XCTAssertEqual(first.identifier, "due-2026-10-27")
+        // A week before 27 Oct, then on 27 Oct itself, both at 11:00.
+        XCTAssertEqual(plan[0].identifier, "due-2026-10-27-advance")
+        XCTAssertTrue(plan[0].isAdvance)
+        XCTAssertEqual(plan[0].fireDate, TS.d(2026, 10, 20, 11))
+        XCTAssertEqual(plan[0].itemIDs, [g.engineOil.id, g.oilFilter.id, g.lpg.id]) // in list order
+        XCTAssertEqual(plan[1].identifier, "due-2026-10-27")
+        XCTAssertFalse(plan[1].isAdvance)
+        XCTAssertEqual(plan[1].fireDate, TS.d(2026, 10, 27, 11))
         // ATF and spark plugs share 15 May 2027.
         XCTAssertEqual(plan.first { $0.dueDay == TS.d(2027, 5, 15) }?.itemIDs, [g.atf.id, g.plugs.id])
-        XCTAssertEqual(plan.map(\.dueDay), plan.map(\.dueDay).sorted())
+        XCTAssertEqual(plan.map(\.fireDate), plan.map(\.fireDate).sorted())
     }
 
-    func testPassedLeadTimeFallsBackToDueDay() {
+    func testPassedLeadTimeKeepsOnlyDueDay() {
         let g = Garage()
         let statuses = ForecastEngine.statuses(for: g.snapshot, today: TS.today, calendar: cal)
         let plan = ReminderPlanner.plan(statuses: statuses, items: g.items, leadTime: .oneMonth,
                                         now: TS.today, calendar: cal)
-        XCTAssertEqual(plan[0].fireDate, TS.d(2026, 10, 27, 9))
+        XCTAssertEqual(plan[0].fireDate, TS.d(2026, 10, 27, 11))
+        XCTAssertFalse(plan[0].isAdvance)
+        XCTAssertNil(plan.first { $0.identifier == "due-2026-10-27-advance" })
+    }
+
+    func testArchivedItemsGetNoReminders() {
+        let g = Garage()
+        var snap = g.snapshot
+        for i in snap.items.indices where snap.items[i].id == g.lpg.id { snap.items[i].isArchived = true }
+        let statuses = ForecastEngine.statuses(for: snap, today: TS.today, calendar: cal)
+        XCTAssertNil(statuses[g.lpg.id])
+        let plan = ReminderPlanner.plan(statuses: statuses, items: snap.items, leadTime: .sameDay,
+                                        now: TS.today, calendar: cal)
+        XCTAssertFalse(plan.contains { $0.itemIDs.contains(g.lpg.id) })
     }
 
     func testSkipsOverdueAndLimitsCount() {
@@ -134,17 +173,21 @@ final class ReminderPlannerTests: XCTestCase {
         let snap = DataSnapshot(car: CarInfo(avgKmPerMonth: 1000), items: items, entries: entries,
                                 odometerReadings: [OdometerReadingInfo(date: TS.today, km: 1000)])
         let statuses = ForecastEngine.statuses(for: snap, today: TS.today, calendar: cal)
-        let plan = ReminderPlanner.plan(statuses: statuses, items: items, leadTime: .sameDay,
+        let plan = ReminderPlanner.plan(statuses: statuses, items: items, leadTime: .oneWeek,
                                         now: TS.today, calendar: cal)
-        XCTAssertEqual(plan.count, ReminderPlanner.maxItemReminders)
+        XCTAssertEqual(plan.count, ReminderPlanner.maxReminders)
         XCTAssertTrue(plan.allSatisfy { $0.fireDate > TS.today })
         XCTAssertTrue(plan.allSatisfy { $0.dueDay >= cal.startOfDay(for: TS.today) })
+        XCTAssertEqual(Set(plan.map(\.identifier)).count, plan.count)
     }
 }
 
 final class BackupTests: XCTestCase {
     func testRoundTrip() throws {
-        let snap = Garage().snapshot
+        var snap = Garage().snapshot
+        snap.items[0].isArchived = true
+        snap.entries[0].itemNames = ["Масло (старе)", "Фільтр", "ГБО"]
+        snap.car?.vin = "TMBJJ7NE8F0123456"
         let exported = TS.d(2026, 10, 7, 15)
         let data = try BackupCodec.encode(snap, exportedAt: exported)
         let file = try BackupCodec.decode(data)
@@ -153,8 +196,24 @@ final class BackupTests: XCTestCase {
         XCTAssertEqual(file.snapshot, snap)
 
         let json = String(decoding: data, as: UTF8.self)
-        XCTAssertTrue(json.contains("\"formatVersion\" : 1"))
+        XCTAssertTrue(json.contains("\"formatVersion\" : 2"))
         XCTAssertTrue(json.contains("Моторне масло"))
+    }
+
+    func testReadsFormatVersion1() throws {
+        let item = UUID(), entry = UUID(), car = UUID()
+        let json = """
+        {"app":"CarCareLog","formatVersion":1,"exportedAt":"2026-10-07T12:00:00Z",
+         "car":{"id":"\(car)","make":"Skoda","model":"Octavia","year":2015,"avgKmPerMonth":1500},
+         "items":[{"id":"\(item)","name":"Масло","aliases":[],"analogNumbers":[],"intervalKm":10000}],
+         "entries":[{"id":"\(entry)","date":"2026-01-10T00:00:00Z","odometerKm":200000,"itemIDs":["\(item)"]}],
+         "odometerReadings":[]}
+        """
+        let file = try BackupCodec.decode(Data(json.utf8))
+        XCTAssertEqual(file.car?.name, "Skoda Octavia")
+        XCTAssertEqual(file.items.first?.isArchived, false)
+        XCTAssertEqual(file.entries.first?.itemNames, [])
+        XCTAssertEqual(file.entries.first?.displayNames(items: file.items), ["Масло"])
     }
 
     func testFractionalSecondsSurvive() throws {
@@ -180,13 +239,13 @@ final class BackupTests: XCTestCase {
         }
     }
 
-    func testRejectsBrokenReferences() throws {
+    func testEntriesOfDeletedItemsKeepTheirNames() throws {
         var snap = Garage().snapshot
-        snap.items.removeFirst()
-        let data = try BackupCodec.encode(snap, exportedAt: TS.today)
-        XCTAssertThrowsError(try BackupCodec.decode(data)) {
-            XCTAssertEqual($0 as? BackupError, .brokenReferences)
-        }
+        snap.entries[1].itemNames = ["Масло АКП", "Свічки запалювання"]
+        let atfID = snap.entries[1].itemIDs[0]
+        snap.items.removeAll { $0.id == atfID }
+        let file = try BackupCodec.decode(BackupCodec.encode(snap, exportedAt: TS.today))
+        XCTAssertEqual(file.entries[1].displayNames(items: file.items), ["Масло АКП", "Свічки запалювання"])
     }
 
     func testFileName() {

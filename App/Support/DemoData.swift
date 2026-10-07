@@ -5,7 +5,12 @@ import SwiftData
 /// no Face ID). Optional: `-startTab home|history|parts|assistant|settings`, `-demoQuestion "…"`,
 /// `-settings.language uk|ru|en`, `-settings.theme light|dark|system`.
 enum DemoMode {
+    #if DEMO_BUILD
+    /// Appetize preview build: always in demo mode.
+    static let isOn = true
+    #else
     static let isOn = ProcessInfo.processInfo.arguments.contains("-demo")
+    #endif
 
     static func value(after flag: String) -> String? {
         let args = ProcessInfo.processInfo.arguments
@@ -34,7 +39,7 @@ enum DemoMode {
         let cal = Calendar.current
         func daysAgo(_ d: Int) -> Date { cal.date(byAdding: .day, value: -d, to: Date())! }
 
-        let car = Car(make: "Škoda", model: "Octavia A7", year: 2016, vin: "TMBJJ7NE8G0123456", avgKmPerMonth: 1500)
+        let car = Car(name: "Škoda Octavia", vin: "TMBJJ7NE8G0123456", avgKmPerMonth: 1500)
         context.insert(car)
 
         var order = 0
@@ -66,14 +71,17 @@ enum DemoMode {
                          oem: "04E 905 612 C")
         let lpg = item(n("Фільтри ГБО", "Фильтры ГБО", "LPG filters"), km: 10_000)
         let brake = item(n("Гальмівна рідина", "Тормозная жидкость", "Brake fluid"), months: 24)
-        _ = item(n("Ремінь ГРМ", "Ремень ГРМ", "Timing belt"), km: 120_000)
+        let belt = item(n("Ремінь ГРМ", "Ремень ГРМ", "Timing belt"), km: 90_000, months: 60)
+        let battery = item(n("Акумулятор", "Аккумулятор", "Battery"), months: 60)
+        battery.isArchived = true
 
         let entries: [(Int, Int, [Item])] = [
             (340, 214_000, [oil, oilFilter, lpg, air]),
             (200, 221_000, [cabin]),
             (120, 224_500, [brake]),
             (700, 196_000, [atf, plugs]),
-            (40, 227_000, [oil, oilFilter])
+            (40, 227_000, [oil, oilFilter]),
+            (900, 190_500, [belt, battery])
         ]
         for (days, km, items) in entries {
             context.insert(ServiceEntry(date: daysAgo(days), odometerKm: km, items: items))

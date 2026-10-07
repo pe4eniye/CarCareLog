@@ -1,41 +1,56 @@
 import Foundation
 
+/// The current odometer is derived from two sources: odometer readings the user entered and the odometer
+/// of service entries. Nothing is copied between them, so editing or deleting an entry immediately gives
+/// the right current value everywhere.
 public enum OdometerRules {
     public static let nudgeIntervalDays = 14
 
-    /// The latest reading (by date, then by km).
-    public static func current(readings: [OdometerReadingInfo]) -> OdometerReadingInfo? {
-        readings.max { a, b in
-            if a.date != b.date { return a.date < b.date }
+    /// All known odometer points: readings plus service entries.
+    public static func points(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo]) -> [OdometerReadingInfo] {
+        readings + entries.map { OdometerReadingInfo(id: $0.id, date: $0.date, km: $0.odometerKm) }
+    }
+
+    /// The latest point by calendar day; within the same day the highest km wins
+    /// (an entry dated today at 00:00 and a reading from this morning are "the same day").
+    public static func current(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo] = [],
+                               calendar: Calendar = .current) -> OdometerReadingInfo? {
+        points(readings: readings, entries: entries).max { a, b in
+            let da = calendar.startOfDay(for: a.date), db = calendar.startOfDay(for: b.date)
+            if da != db { return da < db }
             return a.km < b.km
         }
     }
 
     /// True when the new value is lower than the current odometer. The UI warns but does not block.
-    public static func isLowerThanCurrent(_ km: Int, readings: [OdometerReadingInfo]) -> Bool {
-        guard let cur = current(readings: readings) else { return false }
+    public static func isLowerThanCurrent(_ km: Int, readings: [OdometerReadingInfo],
+                                          entries: [ServiceEntryInfo] = [], calendar: Calendar = .current) -> Bool {
+        guard let cur = current(readings: readings, entries: entries, calendar: calendar) else { return false }
         return km < cur.km
     }
 
-    /// A service entry with a higher odometer than the current one also creates an OdometerReading.
-    public static func serviceEntryShouldAddReading(entryKm: Int, readings: [OdometerReadingInfo]) -> Bool {
-        guard let cur = current(readings: readings) else { return true }
-        return entryKm > cur.km
+    /// Date of the last odometer update (reading or service entry).
+    public static func lastUpdate(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo],
+                                  calendar: Calendar = .current) -> Date? {
+        current(readings: readings, entries: entries, calendar: calendar)?.date
     }
 
-    /// The Home banner shows when 14+ days passed since the last reading, or when there is none.
-    public static func needsNudge(readings: [OdometerReadingInfo], now: Date, calendar: Calendar) -> Bool {
-        guard let last = current(readings: readings) else { return true }
-        let days = calendar.dateComponents([.day], from: calendar.startOfDay(for: last.date),
-                                           to: calendar.startOfDay(for: now)).day ?? 0
-        return days >= nudgeIntervalDays
+    /// The Home banner shows when 14+ days passed since the last update, or when there is none.
+    public static func needsNudge(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo] = [],
+                                  now: Date, calendar: Calendar) -> Bool {
+        guard let last = lastUpdate(readings: readings, entries: entries, calendar: calendar) else { return true }
+        return daysSince(last, now: now, calendar: calendar) >= nudgeIntervalDays
     }
 
-    /// Future 09:00 dates for odometer nudges: every 14 days after the last reading.
-    public static func nudgeDates(readings: [OdometerReadingInfo], now: Date, calendar: Calendar,
-                                  count: Int = 3, hour: Int = 9) -> [Date] {
-        let base = current(readings: readings).map { calendar.startOfDay(for: $0.date) }
-            ?? calendar.startOfDay(for: now)
+    public static func daysSince(_ date: Date, now: Date, calendar: Calendar) -> Int {
+        calendar.dateComponents([.day], from: calendar.startOfDay(for: date), to: calendar.startOfDay(for: now)).day ?? 0
+    }
+
+    /// Future reminder dates for odometer nudges: every 14 days after the last update, at `hour` local time.
+    public static func nudgeDates(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo] = [], now: Date,
+                                  calendar: Calendar, count: Int = 3, hour: Int = ReminderPlanner.fireHour) -> [Date] {
+        let base = lastUpdate(readings: readings, entries: entries, calendar: calendar)
+            .map { calendar.startOfDay(for: $0) } ?? calendar.startOfDay(for: now)
         var result: [Date] = []
         var step = 1
         while result.count < count && step < 1000 {
@@ -47,28 +62,5 @@ public enum OdometerRules {
             step += 1
         }
         return result
-    }
-}
-
-public enum ValidationRules {
-    public enum EntryProblem: Equatable {
-        case dateInFuture
-        case noItems
-        case negativeOdometer
-    }
-
-    public static func validateEntry(date: Date, odometerKm: Int, itemCount: Int,
-                                     now: Date, calendar: Calendar) -> [EntryProblem] {
-        var problems: [EntryProblem] = []
-        if calendar.startOfDay(for: date) > calendar.startOfDay(for: now) { problems.append(.dateInFuture) }
-        if itemCount == 0 { problems.append(.noItems) }
-        if odometerKm < 0 { problems.append(.negativeOdometer) }
-        return problems
-    }
-
-    /// Soft warning only: a VIN is normally 17 characters.
-    public static func vinLooksWrong(_ vin: String?) -> Bool {
-        guard let v = vin?.trimmingCharacters(in: .whitespacesAndNewlines), !v.isEmpty else { return false }
-        return v.count != 17
     }
 }

@@ -4,11 +4,12 @@ import CarCareCore
 
 struct HistoryView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var router: Router
     @Query(sort: [SortDescriptor(\ServiceEntry.date, order: .reverse),
                   SortDescriptor(\ServiceEntry.odometerKm, order: .reverse)])
     private var entries: [ServiceEntry]
 
-    @State private var editor: EntryEditorTarget?
+    @State private var pendingDelete: ServiceEntry?
 
     var body: some View {
         NavigationStack {
@@ -18,104 +19,105 @@ struct HistoryView: View {
                 }
                 ForEach(entries) { entry in
                     Button {
-                        editor = .edit(entry)
+                        router.open(.editEntry(entry))
                     } label: {
                         EntryRow(entry: entry)
                     }
                     .foregroundStyle(.primary)
-                }
-                .onDelete { offsets in
-                    for i in offsets { context.delete(entries[i]) }
-                    DataEvents.changed(context)
+                    .swipeActions {
+                        Button(L10n.t("common.delete"), role: .destructive) { pendingDelete = entry }
+                    }
                 }
             }
             .navigationTitle(L10n.t("tab.history"))
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        editor = .new
-                    } label: {
-                        Label(L10n.t("history.add"), systemImage: "plus").labelStyle(.iconOnly).frame(minWidth: 44, minHeight: 44)
-                    }
+                ToolbarItem(placement: .primaryAction) { AddMenuButton() }
+            }
+            .confirmationDialog(L10n.t("entry.deleteConfirm"),
+                                isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
+                                titleVisibility: .visible) {
+                Button(L10n.t("common.delete"), role: .destructive) {
+                    if let e = pendingDelete { context.delete(e) }
+                    pendingDelete = nil
+                    DataEvents.changed(context)
                 }
             }
-            .sheet(item: $editor) { target in
-                EntryEditorView(target: target)
-            }
         }
     }
 }
 
-enum EntryEditorTarget: Identifiable {
-    case new
-    case edit(ServiceEntry)
-
-    var id: String {
-        switch self {
-        case .new: return "new"
-        case .edit(let e): return e.uuid.uuidString
-        }
-    }
-}
-
+/// History row: what was replaced (names as recorded), with date and odometer labeled by icons.
 struct EntryRow: View {
     let entry: ServiceEntry
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            HStack {
-                Text(Fmt.date(entry.date)).font(.body.weight(.semibold))
-                Spacer()
-                Text(Fmt.km(entry.odometerKm)).font(.subheadline).monospacedDigit().foregroundStyle(.secondary)
+        VStack(alignment: .leading, spacing: 6) {
+            Text(entry.displayNames.joined(separator: ", "))
+                .font(.body.weight(.medium))
+                .lineLimit(3)
+            HStack(spacing: 14) {
+                Label(Fmt.date(entry.date), systemImage: "calendar")
+                Label(Fmt.km(entry.odometerKm), systemImage: "gauge.with.dots.needle.33percent")
+                    .monospacedDigit()
             }
-            Text(entry.sortedItems.map(\.name).joined(separator: ", "))
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+            .font(.subheadline)
+            .foregroundStyle(.secondary)
         }
         .padding(.vertical, 6)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(Rectangle())
     }
 }
 
+/// "Log service": date and odometer are required and start empty, so nothing is recorded "by default".
 struct EntryEditorView: View {
-    let target: EntryEditorTarget
+    let entry: ServiceEntry?
+    let preselected: [UUID]
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
     @Query(sort: \Item.createdAt) private var allItems: [Item]
     @Query private var readings: [OdometerReading]
+    @Query private var entries: [ServiceEntry]
 
-    @State private var date = Date()
+    @State private var date: Date?
     @State private var odometer: Int?
     @State private var selected: [Item] = []
     @State private var showPicker = false
     @State private var loaded = false
+    @State private var triedSave = false
+    @State private var confirmLower = false
     @State private var confirmDelete = false
 
-    private var existing: ServiceEntry? {
-        if case .edit(let e) = target { return e }
-        return nil
-    }
+    private var dateError: FieldError? { ValidationRules.pastOrToday(date, now: Date(), calendar: Fmt.calendar) }
+    private var kmError: FieldError? { ValidationRules.number(odometer, required: true, range: Limits.odometer) }
+    private var isValid: Bool { dateError == nil && kmError == nil && !selected.isEmpty }
 
-    private var problems: [ValidationRules.EntryProblem] {
-        ValidationRules.validateEntry(date: date, odometerKm: odometer ?? -1, itemCount: selected.count,
-                                      now: Date(), calendar: Fmt.calendar)
+    /// Current odometer without this entry (so editing it doesn't compare with itself).
+    private var currentOther: OdometerReadingInfo? {
+        OdometerRules.current(readings: readings.map(\.info),
+                              entries: entries.filter { $0.uuid != entry?.uuid }.map(\.info), calendar: Fmt.calendar)
     }
 
     var body: some View {
         NavigationStack {
             Form {
                 Section {
-                    DatePicker(L10n.t("entry.date"), selection: $date, in: ...Date(), displayedComponents: .date)
-                        .frame(minHeight: 44)
+                    RequiredDateField(title: L10n.t("entry.date"), date: $date)
+                    FieldErrorText(error: dateError, show: triedSave)
                     LabeledField(label: L10n.t("entry.odometer")) {
-                        NumberField(title: L10n.t("entry.km"), value: $odometer)
+                        NumberField(title: L10n.t("entry.km"), value: $odometer).frame(maxWidth: 140)
+                    }
+                    FieldErrorText(error: kmError, show: triedSave)
+                } footer: {
+                    if let cur = currentOther {
+                        Text(L10n.f("odometer.current", Fmt.km(cur.km), Fmt.date(cur.date)))
                     }
                 }
 
                 Section {
                     ForEach(selected) { item in
-                        Text(item.name).frame(minHeight: 36)
+                        Text(item.name).lineLimit(2).frame(minHeight: 36)
                     }
                     .onDelete { selected.remove(atOffsets: $0) }
                     Button {
@@ -126,32 +128,40 @@ struct EntryEditorView: View {
                 } header: {
                     Text(L10n.t("entry.parts"))
                 } footer: {
-                    if selected.isEmpty { Text(L10n.t("entry.needParts")) }
+                    if selected.isEmpty && triedSave {
+                        Text(L10n.t("entry.needParts")).foregroundStyle(.red)
+                    }
                 }
 
-                if existing != nil {
+                if entry != nil {
                     Section {
                         Button(L10n.t("entry.delete"), role: .destructive) { confirmDelete = true }
                             .frame(minHeight: 44)
                     }
                 }
             }
-            .navigationTitle(existing == nil ? L10n.t("entry.newTitle") : L10n.t("entry.editTitle"))
+            .navigationTitle(entry == nil ? L10n.t("entry.newTitle") : L10n.t("entry.editTitle"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.t("common.cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.t("common.save")) { save() }.disabled(!problems.isEmpty)
+                    Button(L10n.t("common.save")) { trySave() }
                 }
             }
             .sheet(isPresented: $showPicker) {
                 ItemPickerView(selected: $selected)
             }
+            .alert(L10n.t("odometer.lowerTitle"), isPresented: $confirmLower) {
+                Button(L10n.t("common.saveAnyway")) { save() }
+                Button(L10n.t("common.cancel"), role: .cancel) {}
+            } message: {
+                Text(L10n.t("entry.lowerText"))
+            }
             .confirmationDialog(L10n.t("entry.deleteConfirm"), isPresented: $confirmDelete, titleVisibility: .visible) {
                 Button(L10n.t("common.delete"), role: .destructive) {
-                    if let e = existing { context.delete(e) }
+                    if let e = entry { context.delete(e) }
                     DataEvents.changed(context)
                     dismiss()
                 }
@@ -163,40 +173,47 @@ struct EntryEditorView: View {
     private func load() {
         guard !loaded else { return }
         loaded = true
-        if let e = existing {
+        if let e = entry {
             date = e.date
             odometer = e.odometerKm
             selected = e.sortedItems
         } else {
-            odometer = OdometerRules.current(readings: readings.map(\.info))?.km
+            selected = preselected.compactMap { id in allItems.first { $0.uuid == id } }
+        }
+    }
+
+    private func trySave() {
+        triedSave = true
+        guard isValid, let km = odometer, let d = date else { return }
+        // Lower than the current odometer while being the newest record: probably a typo.
+        if let cur = currentOther, km < cur.km,
+           Fmt.calendar.startOfDay(for: d) >= Fmt.calendar.startOfDay(for: cur.date) {
+            confirmLower = true
+        } else {
+            save()
         }
     }
 
     private func save() {
-        guard problems.isEmpty, let km = odometer else { return }
-        let addReading = OdometerRules.serviceEntryShouldAddReading(entryKm: km, readings: readings.map(\.info))
-        if let e = existing {
-            e.date = date
+        guard let km = odometer, let d = date else { return }
+        if let e = entry {
+            e.date = d
             e.odometerKm = km
-            e.items = selected
+            e.setItems(selected)
         } else {
-            context.insert(ServiceEntry(date: date, odometerKm: km, items: selected))
-        }
-        if addReading {
-            context.insert(OdometerReading(date: date, km: km))
+            context.insert(ServiceEntry(date: d, odometerKm: km, items: selected))
         }
         DataEvents.changed(context)
         dismiss()
     }
 }
 
-/// Multi-select list of parts with search and inline creation of a new part.
+/// Multi-select list of active items with search.
 struct ItemPickerView: View {
     @Binding var selected: [Item]
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var context
-    @Query(sort: \Item.createdAt) private var items: [Item]
+    @Query(filter: #Predicate<Item> { !$0.isArchived }, sort: \Item.createdAt) private var items: [Item]
     @State private var search = ""
 
     private var filtered: [Item] {
@@ -207,32 +224,15 @@ struct ItemPickerView: View {
         }
     }
 
-    private var canCreate: Bool {
-        let q = search.trimmed
-        return !q.isEmpty && !items.contains { $0.name.compare(q, options: .caseInsensitive) == .orderedSame }
-    }
-
     var body: some View {
         NavigationStack {
             List {
-                if canCreate {
-                    Button {
-                        let item = Item(name: search.trimmed)
-                        context.insert(item)
-                        DataEvents.changed(context)
-                        selected.append(item)
-                        search = ""
-                    } label: {
-                        Label(L10n.f("picker.create", search.trimmed), systemImage: "plus.circle.fill")
-                            .frame(minHeight: 44)
-                    }
-                }
                 ForEach(filtered) { item in
                     Button {
                         toggle(item)
                     } label: {
                         HStack {
-                            Text(item.name).foregroundStyle(.primary)
+                            Text(item.name).foregroundStyle(.primary).lineLimit(2)
                             Spacer()
                             if selected.contains(where: { $0.uuid == item.uuid }) {
                                 Image(systemName: "checkmark").foregroundStyle(Color.accentColor)
@@ -242,7 +242,7 @@ struct ItemPickerView: View {
                         .contentShape(Rectangle())
                     }
                 }
-                if items.isEmpty && search.isEmpty {
+                if items.isEmpty {
                     Text(L10n.t("picker.empty")).foregroundStyle(.secondary)
                 }
             }

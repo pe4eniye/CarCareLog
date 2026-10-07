@@ -37,15 +37,21 @@ enum ReminderService {
         let statuses = ForecastEngine.statuses(for: snapshot, today: now, calendar: calendar)
         let plan = ReminderPlanner.plan(statuses: statuses, items: snapshot.items, leadTime: leadTime,
                                         now: now, calendar: calendar)
-        let nudges = OdometerRules.nudgeDates(readings: snapshot.odometerReadings, now: now, calendar: calendar)
+        let nudges = OdometerRules.nudgeDates(readings: snapshot.odometerReadings, entries: snapshot.entries,
+                                              now: now, calendar: calendar)
         let names = Dictionary(snapshot.items.map { ($0.id, $0.name) }, uniquingKeysWith: { a, _ in a })
 
         var requests: [UNNotificationRequest] = []
         for reminder in plan {
             let content = UNMutableNotificationContent()
-            content.title = L10n.t("notif.dueTitle")
-            content.body = L10n.f("notif.dueBody", Fmt.date(reminder.dueDay),
-                                  reminder.itemIDs.compactMap { names[$0] }.joined(separator: ", "))
+            let list = reminder.itemIDs.compactMap { names[$0] }.joined(separator: ", ")
+            if reminder.isAdvance {
+                content.title = L10n.t("notif.dueTitle")
+                content.body = L10n.f("notif.dueBody", Fmt.date(reminder.dueDay), list)
+            } else {
+                content.title = L10n.t("notif.todayTitle")
+                content.body = list
+            }
             content.sound = .default
             requests.append(request(id: reminder.identifier, content: content, date: reminder.fireDate, calendar: calendar))
         }
@@ -91,7 +97,8 @@ enum WidgetOutput {
             dueDayText: summary.dueDay.map(Fmt.shortDate) ?? "",
             itemsText: summary.itemNames.joined(separator: " + "),
             overdueText: summary.overdueNames.isEmpty ? "" : L10n.f("widget.overdue", summary.overdueNames.count),
-            emptyText: L10n.t("widget.empty")
+            emptyText: L10n.t("widget.empty"),
+            itemIDs: summary.itemIDs
         )
         do {
             let data = try JSONEncoder().encode(widget)

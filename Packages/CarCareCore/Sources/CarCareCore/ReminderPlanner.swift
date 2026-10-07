@@ -18,16 +18,21 @@ public struct PlannedReminder: Equatable {
     public var fireDate: Date
     public var dueDay: Date
     public var itemIDs: [UUID]
+    /// true: the "lead time" reminder before the due day; false: the reminder on the due day itself.
+    public var isAdvance: Bool
 }
 
 public enum ReminderPlanner {
     /// iOS keeps at most 64 pending local notifications; leave room for odometer nudges.
-    public static let maxItemReminders = 50
-    public static let fireHour = 9
+    public static let maxReminders = 50
+    /// Local time of every notification (the device's current time zone).
+    public static let fireHour = 11
 
+    /// For every upcoming due day: one reminder `leadTime` before (if that moment is still ahead) and one on
+    /// the day itself. Overdue items get none (Home shows them). The soonest 50 notifications are kept.
     public static func plan(statuses: [UUID: ItemStatus], items: [ItemInfo], leadTime: ReminderLeadTime,
                             now: Date, calendar: Calendar) -> [PlannedReminder] {
-        let order = Dictionary(uniqueKeysWithValues: items.enumerated().map { ($1.id, $0) })
+        let order = Dictionary(items.enumerated().map { ($1.id, $0) }, uniquingKeysWith: { a, _ in a })
         var byDay: [Date: [UUID]] = [:]
         for status in statuses.values {
             guard let f = status.forecast, !f.isOverdue, let due = f.dueDate else { continue }
@@ -37,16 +42,19 @@ public enum ReminderPlanner {
         var result: [PlannedReminder] = []
         for day in byDay.keys.sorted() {
             guard let dueFire = calendar.date(bySettingHour: fireHour, minute: 0, second: 0, of: day) else { continue }
-            var fire = calendar.date(byAdding: .day, value: -leadTime.days, to: dueFire) ?? dueFire
-            // Lead time already passed but the due day is still ahead: remind on the due day itself.
-            if fire <= now { fire = dueFire }
-            guard fire > now else { continue }
             let ids = byDay[day]!.sorted { (order[$0] ?? 0) < (order[$1] ?? 0) }
             let c = calendar.dateComponents([.year, .month, .day], from: day)
-            let identifier = String(format: "due-%04d-%02d-%02d", c.year ?? 0, c.month ?? 0, c.day ?? 0)
-            result.append(PlannedReminder(identifier: identifier, fireDate: fire, dueDay: day, itemIDs: ids))
-            if result.count >= maxItemReminders { break }
+            let base = String(format: "due-%04d-%02d-%02d", c.year ?? 0, c.month ?? 0, c.day ?? 0)
+            if leadTime.days > 0,
+               let advance = calendar.date(byAdding: .day, value: -leadTime.days, to: dueFire), advance > now {
+                result.append(PlannedReminder(identifier: base + "-advance", fireDate: advance, dueDay: day,
+                                              itemIDs: ids, isAdvance: true))
+            }
+            if dueFire > now {
+                result.append(PlannedReminder(identifier: base, fireDate: dueFire, dueDay: day,
+                                              itemIDs: ids, isAdvance: false))
+            }
         }
-        return result
+        return Array(result.sorted { $0.fireDate < $1.fireDate }.prefix(maxReminders))
     }
 }

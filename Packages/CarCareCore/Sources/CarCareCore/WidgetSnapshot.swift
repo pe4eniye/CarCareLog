@@ -14,15 +14,18 @@ public struct WidgetSnapshot: Codable, Equatable {
     public var overdueText: String
     /// Shown when there is nothing to forecast.
     public var emptyText: String
+    /// Items due on dueDay: tapping the widget opens "Log service" with them selected.
+    public var itemIDs: [UUID] = []
 
     public init(generatedAt: Date, dueDay: Date?, dueDayText: String, itemsText: String, overdueText: String,
-                emptyText: String) {
+                emptyText: String, itemIDs: [UUID] = []) {
         self.generatedAt = generatedAt
         self.dueDay = dueDay
         self.dueDayText = dueDayText
         self.itemsText = itemsText
         self.overdueText = overdueText
         self.emptyText = emptyText
+        self.itemIDs = itemIDs
     }
 
     public static let fileName = "widget-snapshot.json"
@@ -33,6 +36,7 @@ public enum WidgetSummary {
         public var dueDay: Date?
         public var itemNames: [String]
         public var overdueNames: [String]
+        public var itemIDs: [UUID] = []
     }
 
     /// Nearest due day with all items due that day (in list order), plus overdue items.
@@ -45,7 +49,8 @@ public enum WidgetSummary {
             forecasts.sorted { (order[$0.itemID] ?? 0) < (order[$1.itemID] ?? 0) }.compactMap { names[$0.itemID] }
         }
         let next = groups.upcoming.first
+        let ids = (next?.forecasts ?? []).sorted { (order[$0.itemID] ?? 0) < (order[$1.itemID] ?? 0) }.map { $0.itemID }
         return Result(dueDay: next?.day, itemNames: next.map { sortedNames($0.forecasts) } ?? [],
-                      overdueNames: sortedNames(groups.overdue))
+                      overdueNames: sortedNames(groups.overdue), itemIDs: ids)
     }
 }

@@ -232,7 +232,10 @@ public enum QueryParser {
                              fallbackLanguage: AssistantLanguage) -> ParsedQuery {
         let language = detectLanguage(text, fallback: fallbackLanguage)
         let words = TextTools.words(text)
-        let itemIDs = ItemMatcher.match(text, items: items)
+        // Best matches among all items; on a tie between active and archived items, active ones win.
+        var itemIDs = ItemMatcher.match(text, items: items)
+        let archived = Set(items.filter(\.isArchived).map(\.id))
+        if itemIDs.contains(where: { !archived.contains($0) }) { itemIDs.removeAll { archived.contains($0) } }
         let period = extractPeriod(text, today: today, calendar: calendar)
         let mileage = extractMileage(text)
 

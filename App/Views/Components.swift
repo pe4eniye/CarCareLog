@@ -44,10 +44,12 @@ struct ReasonChip: View {
 struct ForecastRow: View {
     let name: String
     let forecast: ItemForecast
+    /// For rows outside a date section ("Later"), show the due date in the row.
+    var showDate = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(name).font(.body.weight(.medium))
+            Text(name).font(.body.weight(.medium)).lineLimit(2)
             HStack(spacing: 8) {
                 ReasonChip(reason: forecast.reason)
                 Text(detail).font(.subheadline).foregroundStyle(forecast.isOverdue ? Color.red : Color.secondary)
@@ -67,7 +69,9 @@ struct ForecastRow: View {
         if forecast.dueDate == nil, let km = forecast.dueKm {
             return L10n.f("home.atKm", Fmt.km(km))
         }
-        return "≈ " + Fmt.km(forecast.predictedOdometerKm)
+        let km = "≈ " + Fmt.km(forecast.predictedOdometerKm)
+        if showDate, let d = forecast.dueDate { return Fmt.date(d) + " · " + km }
+        return km
     }
 }
 
@@ -83,8 +87,14 @@ struct NumberField: View {
             .keyboardType(.numberPad)
             .onAppear { text = value.map(String.init) ?? "" }
             .onChange(of: text) { _, newValue in
-                let parsed = Fmt.parseInt(newValue)
+                // At most 7 digits: no field needs more than 2 000 000.
+                if newValue.filter(\.isNumber).count > 7 { text = String(newValue.filter(\.isNumber).prefix(7)) }
+                let parsed = Fmt.parseInt(text)
                 if parsed != value { value = parsed }
+            }
+            .onChange(of: value) { _, newValue in
+                // Value set from outside (e.g. "Don't know — count from today").
+                if Fmt.parseInt(text) != newValue { text = newValue.map(String.init) ?? "" }
             }
     }
 }
@@ -110,5 +120,76 @@ extension String {
     /// Splits "a, b; c\nd" into ["a", "b", "c", "d"].
     var listItems: [String] {
         components(separatedBy: CharacterSet(charactersIn: ",;\n")).map(\.trimmed).filter { !$0.isEmpty }
+    }
+}
+
+// MARK: - Form validation helpers
+
+extension FieldError {
+    var message: String {
+        switch self {
+        case .required: return L10n.t("error.required")
+        case .tooLong(let max): return L10n.f("error.tooLong", max)
+        case .outOfRange(let min, let max):
+            return L10n.f("error.range", AssistantFormat.groupDigits(min, separator: "\u{00A0}"),
+                          AssistantFormat.groupDigits(max, separator: "\u{00A0}"))
+        case .dateInFuture: return L10n.t("error.future")
+        case .duplicate(let name): return L10n.f("error.duplicate", name)
+        }
+    }
+}
+
+/// Red hint under a field. Shown only after the user touched the form (`show`).
+struct FieldErrorText: View {
+    let error: FieldError?
+    var show = true
+
+    var body: some View {
+        if show, let error {
+            Text(error.message).font(.footnote).foregroundStyle(.red)
+        }
+    }
+}
+
+extension View {
+    /// Cuts typed or pasted text to `max` characters.
+    func limitLength(_ text: Binding<String>, _ max: Int) -> some View {
+        onChange(of: text.wrappedValue) { _, newValue in
+            if newValue.count > max { text.wrappedValue = String(newValue.prefix(max)) }
+        }
+    }
+}
+
+/// A date that must be chosen explicitly (no default), not in the future.
+struct RequiredDateField: View {
+    let title: String
+    @Binding var date: Date?
+
+    @State private var editing = false
+    @State private var temp = Date()
+
+    var body: some View {
+        Button {
+            temp = date ?? Date()
+            withAnimation { editing.toggle() }
+        } label: {
+            LabeledField(label: title) {
+                Text(date.map(Fmt.date) ?? L10n.t("field.chooseDate"))
+                    .foregroundStyle(date == nil ? Color.accentColor : Color.secondary)
+            }
+        }
+        .foregroundStyle(.primary)
+        if editing {
+            DatePicker("", selection: $temp, in: ...Date(), displayedComponents: .date)
+                .datePickerStyle(.graphical)
+                .labelsHidden()
+            Button {
+                date = temp
+                withAnimation { editing = false }
+            } label: {
+                Text(L10n.t("field.useDate")).frame(maxWidth: .infinity, minHeight: 44)
+            }
+            .buttonStyle(.borderedProminent)
+        }
     }
 }

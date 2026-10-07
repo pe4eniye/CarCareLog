@@ -34,14 +34,16 @@ struct SettingsView: View {
                         CarEditorView()
                     } label: {
                         LabeledField(label: L10n.t("settings.car")) {
-                            Text(car?.displayName.isEmpty == false ? car!.displayName : "—")
+                            Text(car?.name.isEmpty == false ? car!.name : "—")
                                 .foregroundStyle(.secondary)
+                                .lineLimit(1)
                         }
                     }
                     LabeledField(label: L10n.t("settings.avgKm")) {
                         NumberField(title: "1000", value: $avgKm)
                             .frame(maxWidth: 120)
                     }
+                    FieldErrorText(error: ValidationRules.number(avgKm, required: true, range: Limits.avgKmPerMonth))
                 } header: {
                     Text(L10n.t("settings.carSection"))
                 } footer: {
@@ -92,7 +94,7 @@ struct SettingsView: View {
             .navigationTitle(L10n.t("tab.settings"))
             .onAppear { avgKm = car.map { Int($0.avgKmPerMonth) } }
             .onChange(of: avgKm) { _, newValue in
-                guard let car, let v = newValue, v > 0, Double(v) != car.avgKmPerMonth else { return }
+                guard let car, let v = newValue, Limits.avgKmPerMonth.contains(v), Double(v) != car.avgKmPerMonth else { return }
                 car.avgKmPerMonth = Double(v)
                 DataEvents.changed(context)
             }
@@ -134,25 +136,26 @@ struct SettingsView: View {
 
 /// Car profile form, used in Settings and in onboarding.
 struct CarFormFields: View {
-    @Binding var make: String
-    @Binding var model: String
-    @Binding var year: Int?
+    @Binding var name: String
     @Binding var vin: String
+    var showErrors: Bool
 
     var body: some View {
         Section {
-            TextField(L10n.t("car.make"), text: $make).frame(minHeight: 44)
-            TextField(L10n.t("car.model"), text: $model).frame(minHeight: 44)
-            LabeledField(label: L10n.t("car.year")) {
-                NumberField(title: "2015", value: $year).frame(maxWidth: 100)
-            }
+            TextField(L10n.t("car.name"), text: $name)
+                .limitLength($name, Limits.carName)
+                .frame(minHeight: 44)
+            FieldErrorText(error: ValidationRules.text(name, required: true, max: Limits.carName), show: showErrors)
             TextField(L10n.t("car.vin"), text: $vin)
+                .limitLength($vin, Limits.vin)
                 .textInputAutocapitalization(.characters)
                 .autocorrectionDisabled()
                 .frame(minHeight: 44)
         } footer: {
             if ValidationRules.vinLooksWrong(vin) {
                 Text(L10n.f("car.vinWarning", vin.trimmed.count)).foregroundStyle(.orange)
+            } else {
+                Text(L10n.t("car.nameFooter"))
             }
         }
     }
@@ -163,15 +166,14 @@ struct CarEditorView: View {
     @Environment(\.dismiss) private var dismiss
     @Query private var cars: [Car]
 
-    @State private var make = ""
-    @State private var model = ""
-    @State private var year: Int?
+    @State private var name = ""
     @State private var vin = ""
     @State private var loaded = false
+    @State private var triedSave = false
 
     var body: some View {
         Form {
-            CarFormFields(make: $make, model: $model, year: $year, vin: $vin)
+            CarFormFields(name: $name, vin: $vin, showErrors: triedSave)
         }
         .navigationTitle(L10n.t("settings.car"))
         .toolbar {
@@ -182,23 +184,21 @@ struct CarEditorView: View {
         .onAppear {
             guard !loaded, let car = SnapshotBuilder.primaryCar(cars) else { return }
             loaded = true
-            make = car.make
-            model = car.model
-            year = car.year
+            name = car.name
             vin = car.vin ?? ""
         }
     }
 
     private func save() {
+        triedSave = true
+        guard ValidationRules.text(name, required: true, max: Limits.carName) == nil else { return }
         let car = SnapshotBuilder.primaryCar(cars) ?? {
             let c = Car()
             context.insert(c)
             return c
         }()
-        car.make = make.trimmed
-        car.model = model.trimmed
-        car.year = year
-        car.vin = vin.trimmed.isEmpty ? nil : vin.trimmed
+        car.name = name.trimmed
+        car.vin = vin.trimmed.isEmpty ? nil : vin.trimmed.uppercased()
         DataEvents.changed(context)
         dismiss()
     }

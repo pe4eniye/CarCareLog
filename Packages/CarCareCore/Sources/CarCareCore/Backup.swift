@@ -2,7 +2,8 @@ import Foundation
 
 /// One JSON file with all user data. `formatVersion` lets future versions migrate old files.
 public struct BackupFile: Codable, Equatable {
-    public static let currentFormatVersion = 1
+    // 2: car "name" instead of make/model/year, item "isArchived", entry "itemNames". Version 1 files still load.
+    public static let currentFormatVersion = 2
     public static let appIdentifier = "CarCareLog"
 
     public var app: String
@@ -31,7 +32,6 @@ public struct BackupFile: Codable, Equatable {
 public enum BackupError: Error, Equatable {
     case notABackup
     case newerFormat(Int)
-    case brokenReferences
 }
 
 public enum BackupCodec {
@@ -70,10 +70,7 @@ public enum BackupCodec {
         } catch {
             throw BackupError.notABackup
         }
-        let ids = Set(file.items.map(\.id))
-        for entry in file.entries where !entry.itemIDs.allSatisfy({ ids.contains($0) }) {
-            throw BackupError.brokenReferences
-        }
+        // Entries may reference deleted items: their names are kept in `itemNames`.
         return file
     }
 

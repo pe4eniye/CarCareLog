@@ -111,6 +111,7 @@ public enum Assistant {
 
     static func nextDue(_ item: ItemInfo, context: AssistantContext, strings s: AssistantStrings) -> [ReplyLine] {
         let snap = context.snapshot
+        if item.isArchived { return [ReplyLine(s.archived(item.name))] }
         let status = ForecastEngine.status(for: item, entries: snap.entries, currentOdometerKm: snap.currentOdometerKm,
                                            avgKmPerMonth: snap.car?.avgKmPerMonth ?? 0, today: context.today,
                                            calendar: context.calendar)
@@ -163,7 +164,7 @@ public enum Assistant {
         let statuses = ForecastEngine.statuses(for: snap, today: context.today, calendar: context.calendar)
         var hits: [(ItemInfo, ItemForecast, Int)] = []
         var noHistory: [String] = []
-        for item in snap.items {
+        for item in snap.activeItems {
             switch statuses[item.id] {
             case .forecast(let f)?:
                 var kmAtDue: Int?
@@ -217,7 +218,7 @@ public enum Assistant {
         }
         var lines = [ReplyLine("\(header):")]
         for e in entries {
-            let names = e.itemIDs.compactMap { snap.item(id: $0)?.name }.joined(separator: ", ")
+            let names = e.displayNames(items: snap.items).joined(separator: ", ")
             let date = AssistantFormat.date(e.date, s.lang, calendar: cal)
             lines.append(ReplyLine("\(date) · \(AssistantFormat.km(e.odometerKm, s.lang)) — \(names)"))
         }

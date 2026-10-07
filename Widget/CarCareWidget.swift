@@ -45,11 +45,17 @@ struct NextDueWidget: Widget {
         StaticConfiguration(kind: "NextDue", provider: NextDueProvider()) { entry in
             NextDueView(entry: entry)
                 .containerBackground(.fill.tertiary, for: .widget)
-                .widgetURL(URL(string: "carcarelog://upcoming"))
+                .widgetURL(Self.url(for: entry))
         }
         .configurationDisplayName("CarCare Log")
         .description("Найближче обслуговування · Next service")
         .supportedFamilies([.systemSmall, .systemMedium])
+    }
+
+    /// Opens "Log service" with the items of the nearest due day, or just Home.
+    static func url(for entry: NextDueEntry) -> URL? {
+        guard let ids = entry.snapshot?.itemIDs, !ids.isEmpty else { return URL(string: "carcarelog://upcoming") }
+        return URL(string: "carcarelog://log?items=" + ids.map(\.uuidString).joined(separator: ","))
     }
 }
 

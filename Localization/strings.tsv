@@ -16,11 +16,8 @@ backup.replace	Замінити	Заменить	Replace
 backup.restoreFailed	Не вдалося відновити дані.	Не удалось восстановить данные.	Could not restore the data.
 backup.restored	Дані відновлено.	Данные восстановлены.	Data restored.
 backup.section	Резервна копія	Резервная копия	Backup
-car.make	Марка	Марка	Make
-car.model	Модель	Модель	Model
 car.vin	VIN (необов’язково)	VIN (необязательно)	VIN (optional)
 car.vinWarning	VIN зазвичай має 17 символів, зараз — %d. Можна зберегти й так.	VIN обычно состоит из 17 символов, сейчас — %d. Можно сохранить и так.	A VIN usually has 17 characters, this one has %d. You can still save it.
-car.year	Рік	Год	Year
 common.cancel	Скасувати	Отмена	Cancel
 common.delete	Видалити	Удалить	Delete
 common.done	Готово	Готово	Done
@@ -32,21 +29,15 @@ entry.deleteConfirm	Видалити цей запис?	Удалить эту з
 entry.editTitle	Запис	Запись	Entry
 entry.km	км	км	km
 entry.needParts	Додайте хоча б одну позицію.	Добавьте хотя бы одну позицию.	Add at least one part.
-entry.newTitle	Новий запис	Новая запись	New entry
 entry.odometer	Пробіг	Пробег	Odometer
 entry.parts	Що замінено	Что заменено	What was replaced
 entry.pickParts	Вибрати позиції	Выбрать позиции	Choose parts
-history.add	Додати запис	Добавить запись	Add entry
 history.empty	Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший.	Здесь появятся ваши записи об обслуживании. Нажмите «+», чтобы добавить первую.	Your service entries will appear here. Tap “+” to add the first one.
-home.addParts	Додати запчастини	Добавить запчасти	Add parts
 home.atKm	при %@	на %@	at %@
-home.emptyText	Додайте запчастини й рідини, які ви міняєте (наприклад, «Моторне масло», інтервал 10 000 км або 12 місяців), а потім записи в історію. Тоді тут з’явиться прогноз.	Добавьте запчасти и жидкости, которые вы меняете (например, «Моторное масло», интервал 10 000 км или 12 месяцев), а затем записи в историю. Тогда здесь появится прогноз.	Add the parts and fluids you replace (e.g. “Engine oil”, every 10,000 km or 12 months), then add entries to History. The forecast will appear here.
 home.emptyTitle	Почнімо	Начнём	Let’s start
-home.noHistory	Додайте в історію, коли ви востаннє міняли кожну позицію, — і з’явиться прогноз.	Добавьте в историю, когда вы последний раз меняли каждую позицию, — и появится прогноз.	Add to History when you last replaced each part, and the forecast will appear.
 home.noRecordsCount	Без записів, прогнозу немає: %d	Без записей, прогноза нет: %d	No records, no forecast: %d
 home.nudge	Давно не оновлювали пробіг. Введіть поточний — так прогноз буде точнішим.	Давно не обновляли пробег. Введите текущий — так прогноз будет точнее.	You haven’t updated the odometer for a while. Enter the current value to keep the forecast accurate.
 home.odometer	Пробіг	Пробег	Odometer
-home.openHistory	Відкрити історію	Открыть историю	Open History
 home.overdue	Прострочено	Просрочено	Overdue
 home.overdueSince	термін: %@	срок: %@	was due: %@
 home.undated	За пробігом	По пробегу	By mileage
@@ -65,9 +56,7 @@ icloud.syncError	Помилка синхронізації з iCloud. Дані �
 icloud.unavailable	iCloud недоступний — застосунок працює лише з даними на цьому iPhone.	iCloud недоступен — приложение работает только с данными на этом iPhone.	iCloud is unavailable; the app works with data on this iPhone only.
 icloud.unavailableShort	Недоступний	Недоступен	Unavailable
 item.aliases	Інші назви (необов’язково)	Другие названия (необязательно)	Other names (optional)
-item.aliasesFooter	Через кому. Допомагає помічнику знайти позицію, наприклад: «АКПП, ATF».	Через запятую. Помогает помощнику найти позицию, например: «АКПП, ATF».	Comma-separated. Helps the assistant find the part, e.g. “ATF, gearbox oil”.
 item.analogs	Аналоги (необов’язково)	Аналоги (необязательно)	Analogs (optional)
-item.analogsFooter	Номери аналогів — через кому. Пробіли, дефіси й крапки не враховуються.	Номера аналогов — через запятую. Пробелы, дефисы и точки не учитываются.	Analog numbers, comma-separated. Spaces, hyphens and dots are ignored.
 item.duplicateLine	%1$@ вже є у «%2$@»	%1$@ уже есть в «%2$@»	%1$@ is already on “%2$@”
 item.duplicateTitle	Такий номер уже є	Такой номер уже есть	Number already used
 item.editTitle	Позиція	Позиция	Part
@@ -77,7 +66,6 @@ item.intervalMonths	Кожні, місяців	Каждые, месяцев	Ever
 item.keep	Залишити як є	Оставить как есть	Keep as is
 item.name	Назва (обов’язково)	Название (обязательно)	Name (required)
 item.newTitle	Нова позиція	Новая позиция	New part
-item.numbers	Номери деталей	Номера деталей	Part numbers
 item.oem	OEM-номер (необов’язково)	OEM-номер (необязательно)	OEM number (optional)
 item.optional	—	—	—
 item.replace	Замінити	Заменить	Replace
@@ -111,20 +99,14 @@ onb.notifTitle	Нагадування	Напоминания	Reminders
 onb.odometer	Поточний пробіг	Текущий пробег	Current odometer
 onb.skip	Пропустити	Пропустить	Skip
 onb.welcome	Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone.	Добро пожаловать! Это личный журнал обслуживания авто. Все данные хранятся на вашем iPhone.	Welcome! This is your personal car-maintenance log. All data stays on your iPhone.
-parts.add	Додати позицію	Добавить позицию	Add part
 parts.deleteConfirm	Видалити «%@»?	Удалить «%@»?	Delete “%@”?
-parts.deleteUsed	Видалити «%1$@»? Її буде прибрано із записів історії: %2$d.	Удалить «%1$@»? Она будет убрана из записей истории: %2$d.	Delete “%1$@”? It will be removed from %2$d history entries.
-parts.empty	Додайте запчастини й рідини, які обслуговуєте: назву, інтервал і, за бажанням, номери деталей.	Добавьте запчасти и жидкости, которые обслуживаете: название, интервал и, по желанию, номера деталей.	Add the parts and fluids you maintain: name, interval and, optionally, part numbers.
 parts.everyKm	кожні %@	каждые %@	every %@
 parts.everyMonths	кожні %d міс.	каждые %d мес.	every %d mo
-parts.search	Пошук за назвою або номером	Поиск по названию или номеру	Search by name or number
-picker.create	Створити «%@»	Создать «%@»	Create “%@”
-picker.empty	Позицій ще немає. Введіть назву в пошуку, щоб створити.	Позиций пока нет. Введите название в поиске, чтобы создать.	No parts yet. Type a name in search to create one.
 picker.search	Пошук або нова назва	Поиск или новое название	Search or new name
 reason.mileage	за пробігом	по пробегу	by mileage
 reason.time	за часом	по времени	by time
 settings.appearance	Вигляд	Внешний вид	Appearance
-settings.avgKm	Пробіг за місяць, км	Пробег за месяц, км	Km per month
+settings.avgKm	Пробіг за місяць, км	Пробег в месяц, км	Km per month
 settings.avgKmFooter	Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату.	Средний пробег за месяц нужен, чтобы перевести километры в дату.	Average km per month turns mileage into a date.
 settings.car	Авто	Авто	Car
 settings.carSection	Авто	Авто	Car
@@ -143,7 +125,58 @@ settings.version	Версія	Версия	Version
 tab.assistant	Помічник	Помощник	Assistant
 tab.history	Історія	История	History
 tab.home	Головна	Главная	Home
-tab.parts	Запчастини	Запчасти	Parts
 tab.settings	Налаштування	Настройки	Settings
 widget.empty	Немає запланованих замін	Нет запланированных замен	Nothing scheduled
 widget.overdue	Прострочено: %d	Просрочено: %d	Overdue: %d
+tab.parts	Регламент	Регламент	Schedule
+parts.empty	Тут буде ваш регламент: що ви обслуговуєте і як часто. Додайте першу позицію — назву, інтервал і коли міняли востаннє.	Здесь будет ваш регламент: что вы обслуживаете и как часто. Добавьте первую позицию — название, интервал и когда меняли последний раз.	Your schedule lives here: what you maintain and how often. Add the first item: name, interval and when it was last done.
+parts.search	Пошук за назвою або номером	Поиск по названию или номеру	Search by name or number
+home.emptyText	Додайте позиції регламенту: назву (наприклад, «Моторне масло»), інтервал (10 000 км або 12 місяців) і коли міняли востаннє. Тоді тут з’явиться прогноз.	Добавьте позиции регламента: название (например, «Моторное масло»), интервал (10 000 км или 12 месяцев) и когда меняли последний раз. Тогда здесь появится прогноз.	Add schedule items: a name (e.g. “Engine oil”), an interval (10,000 km or 12 months) and when it was last done. The forecast will appear here.
+picker.empty	Позицій ще немає. Додайте їх через «+» → «Додати позицію».	Позиций пока нет. Добавьте их через «+» → «Добавить позицию».	No items yet. Add them with “+” → “Add item”.
+entry.newTitle	Записати обслуговування	Записать обслуживание	Log service
+add.item	Додати позицію	Добавить позицию	Add item
+add.logService	Записати обслуговування	Записать обслуживание	Log service
+add.menu	Додати	Добавить	Add
+car.name	Назва авто (обов’язково)	Название авто (обязательно)	Car name (required)
+car.nameFooter	Будь-яка назва: «Octavia», «Синя» тощо. VIN — необов’язково.	Любое название: «Octavia», «Синяя» и т. п. VIN — необязательно.	Any name: “Octavia”, “Blue one”. VIN is optional.
+entry.lowerText	Пробіг менший за поточний, а дата — найновіша. Перевірте, чи немає помилки.	Пробег меньше текущего, а дата — самая новая. Проверьте, нет ли ошибки.	The odometer is lower than the current one while the date is the newest. Please check for a typo.
+error.duplicate	Позиція «%@» уже є	Позиция «%@» уже есть	“%@” already exists
+error.future	Дата не може бути в майбутньому	Дата не может быть в будущем	The date can’t be in the future
+error.range	Від %1$@ до %2$@	От %1$@ до %2$@	From %1$@ to %2$@
+error.required	Обов’язкове поле	Обязательное поле	Required
+error.tooLong	Не більше %d символів	Не больше %d символов	At most %d characters
+field.chooseDate	Обрати дату	Выбрать дату	Choose date
+field.useDate	Обрати цю дату	Выбрать эту дату	Use this date
+home.done	Виконано	Выполнено	Done
+home.later	Пізніше (%d)	Позже (%d)	Later (%d)
+home.laterFooter	Далі ніж за 12 місяців і 15 000 км.	Дальше чем через 12 месяцев и 15 000 км.	More than 12 months and 15,000 km away.
+home.today	Сьогодні: %@	Сегодня: %@	Today: %@
+home.updatedDaysAgo	пробіг оновлено %d дн. тому	пробег обновлён %d дн. назад	odometer updated %d d ago
+home.updatedToday	пробіг оновлено сьогодні	пробег обновлён сегодня	odometer updated today
+item.archivedDuplicateText	Можна повернути її разом з історією або створити нову позицію з такою самою назвою.	Можно вернуть её вместе с историей или создать новую позицию с таким же названием.	You can restore it with its history or create a new item with the same name.
+item.archivedDuplicateTitle	«%@» є в архіві	«%@» есть в архиве	“%@” is in the archive
+item.archivedFooter	Позиція в архіві: прогнозу й нагадувань немає, історія збережена.	Позиция в архиве: прогноза и напоминаний нет, история сохранена.	Archived: no forecast or reminders, history is kept.
+item.createNew	Створити нову	Создать новую	Create new
+item.dontKnow	Не знаю — рахувати від сьогодні	Не знаю — считать от сегодня	Don’t know — count from today
+item.intervalFooter	Вкажіть кілометри, місяці або обидва — спрацює те, що настане раніше.	Укажите километры, месяцы или оба — сработает то, что наступит раньше.	Set km, months or both; whichever comes first counts.
+item.lastFooter	Береться з Історії. Щоб змінити, запишіть обслуговування або виправте запис в Історії.	Берётся из Истории. Чтобы изменить, запишите обслуживание или исправьте запись в Истории.	Taken from History. To change it, log a service or edit the History entry.
+item.lastFooterNew	Від цього рахується наступна заміна. Стане першим записом в Історії.	От этого считается следующая замена. Станет первой записью в Истории.	The next replacement is counted from this. It becomes the first History entry.
+item.lastSection	Остання заміна	Последняя замена	Last done
+item.more	Додатково: номери деталей, інші назви	Дополнительно: номера деталей, другие названия	More: part numbers, other names
+item.moreFooter	Номери аналогів та інші назви — через кому. Інші назви допомагають помічнику знайти позицію.	Номера аналогов и другие названия — через запятую. Другие названия помогают помощнику найти позицию.	Analog numbers and other names, comma-separated. Other names help the assistant find the item.
+item.noRecords	Записів ще немає	Записей пока нет	No records yet
+item.renameOther	Це інша деталь	Это другая деталь	It’s a different part
+item.renameText	Було: %1$@\nСтане: %2$@\n\nОпечатка — назву буде виправлено й у старих записах. Інша деталь — стара позиція піде в архів разом з історією, а нова почнеться з нуля.	Было: %1$@\nСтанет: %2$@\n\nОпечатка — название исправится и в старых записях. Другая деталь — старая позиция уйдёт в архив вместе с историей, а новая начнётся с нуля.	Old: %1$@\nNew: %2$@\n\nTypo: the name is fixed in past entries too. Different part: the old item goes to the archive with its history, the new one starts fresh.
+item.renameTitle	Змінити назву позиції з історією?	Переименовать позицию с историей?	Rename an item that has history?
+item.renameTypo	Виправити опечатку	Исправить опечатку	Fix a typo
+item.restoreFromArchive	Повернути з архіву	Вернуть из архива	Restore from archive
+notif.todayTitle	Сьогодні за регламентом	Сегодня по регламенту	Due today
+parts.archive	В архів	В архив	Archive
+parts.archiveFooter	Позиції в архіві не потрапляють у прогноз і нагадування, але їхня історія збережена. Свайп ліворуч — повернути або видалити.	Позиции в архиве не попадают в прогноз и напоминания, но их история сохранена. Свайп влево — вернуть или удалить.	Archived items have no forecast or reminders, but their history is kept. Swipe left to restore or delete.
+parts.archiveTitle	Архів (%d)	Архив (%d)	Archive (%d)
+parts.deleteKeepsHistory	Видалити «%@»? Записи в Історії залишаться.	Удалить «%@»? Записи в Истории останутся.	Delete “%@”? History entries stay.
+parts.lastLine	остання: %1$@ · %2$@	последняя: %1$@ · %2$@	last: %1$@ · %2$@
+parts.nextKmOnly	наступна: при %@	следующая: на %@	next: at %@
+parts.nextLine	наступна: ≈ %1$@ · %2$@	следующая: ≈ %1$@ · %2$@	next: ≈ %1$@ · %2$@
+parts.restore	Повернути	Вернуть	Restore
+parts.restoreBlocked	Не можна повернути: активна позиція «%@» має таку саму назву. Спочатку перейменуйте одну з них.	Нельзя вернуть: активная позиция «%@» с таким же названием. Сначала переименуйте одну из них.	Can’t restore: the active item “%@” has the same name. Rename one of them first.

@@ -12,12 +12,17 @@ struct OnboardingView: View {
     @Query private var cars: [Car]
 
     @State private var step: Step = .car
-    @State private var make = ""
-    @State private var model = ""
-    @State private var year: Int?
+    @State private var name = ""
     @State private var vin = ""
     @State private var odometer: Int?
-    @State private var avgKm: Int? = 1000
+    @State private var avgKm: Int?
+    @State private var triedSave = false
+
+    private var odometerError: FieldError? { ValidationRules.number(odometer, required: true, range: Limits.odometer) }
+    private var avgError: FieldError? { ValidationRules.number(avgKm, required: true, range: Limits.avgKmPerMonth) }
+    private var isValid: Bool {
+        ValidationRules.text(name, required: true, max: Limits.carName) == nil && odometerError == nil && avgError == nil
+    }
 
     var body: some View {
         NavigationStack {
@@ -40,14 +45,16 @@ struct OnboardingView: View {
                 }
                 .frame(minHeight: 44)
             }
-            CarFormFields(make: $make, model: $model, year: $year, vin: $vin)
+            CarFormFields(name: $name, vin: $vin, showErrors: triedSave)
             Section {
                 LabeledField(label: L10n.t("onb.odometer")) {
                     NumberField(title: L10n.t("entry.km"), value: $odometer).frame(maxWidth: 140)
                 }
+                FieldErrorText(error: odometerError, show: triedSave)
                 LabeledField(label: L10n.t("settings.avgKm")) {
                     NumberField(title: "1000", value: $avgKm).frame(maxWidth: 120)
                 }
+                FieldErrorText(error: avgError, show: triedSave)
             } footer: {
                 Text(L10n.t("settings.avgKmFooter"))
             }
@@ -58,7 +65,6 @@ struct OnboardingView: View {
                     Text(L10n.t("onb.next")).frame(maxWidth: .infinity, minHeight: 50)
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(odometer == nil)
                 .listRowBackground(Color.clear)
             }
         }
@@ -89,17 +95,16 @@ struct OnboardingView: View {
     }
 
     private func saveCar() {
-        guard let km = odometer else { return }
+        triedSave = true
+        guard isValid, let km = odometer, let avg = avgKm else { return }
         let car = SnapshotBuilder.primaryCar(cars) ?? {
             let c = Car()
             context.insert(c)
             return c
         }()
-        car.make = make.trimmed
-        car.model = model.trimmed
-        car.year = year
-        car.vin = vin.trimmed.isEmpty ? nil : vin.trimmed
-        car.avgKmPerMonth = Double(max(avgKm ?? 1000, 1))
+        car.name = name.trimmed
+        car.vin = vin.trimmed.isEmpty ? nil : vin.trimmed.uppercased()
+        car.avgKmPerMonth = Double(avg)
         context.insert(OdometerReading(date: Date(), km: km))
         DataEvents.changed(context)
         step = AppLock.biometryAvailable ? .faceID : .notifications

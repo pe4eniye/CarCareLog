@@ -88,6 +88,10 @@ struct AssistantStrings {
         pick("\(name): інтервал заміни не задано.", "\(name): интервал замены не задан.",
              "\(name): no replacement interval set.")
     }
+    func archived(_ name: String) -> String {
+        pick("\(name): позиція в архіві, прогноз не ведеться.", "\(name): позиция в архиве, прогноз не ведётся.",
+             "\(name): this item is archived, no forecast.")
+    }
     var byTime: String { pick("за часом", "по времени", "by time") }
     var byMileage: String { pick("за пробігом", "по пробегу", "by mileage") }
     func overdue(_ details: String) -> String {

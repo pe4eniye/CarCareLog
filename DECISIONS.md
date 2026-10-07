@@ -77,3 +77,29 @@
 - Face ID uses `deviceOwnerAuthentication` (biometrics with passcode fallback). Turning it on asks for
   authentication first. The app locks when it goes to the background.
 - The app icon is a simple generated speedometer (1024×1024, no alpha channel).
+
+## Changes after the first review (2026-10-07)
+- The "Parts" tab is now **Schedule** ("Регламент"). An item needs its last replacement (date + odometer) when
+  created; it becomes the first History entry. "Don't know — count from today" fills today and the current odometer.
+- **History is the single source of truth** for "last replacement". Item cards show it read-only with "Log service".
+- **History entries store item names as recorded** (`ServiceEntry.snapshot`). Renaming an item with history asks:
+  "Fix a typo" (renames past entries too) or "It's a different part" (old item → archive, new item starts fresh).
+- Items with history are **archived** instead of deleted (swipe). Archived items: no forecast, no reminders, History
+  kept, can be restored or deleted (History still keeps the names).
+- **Item names are unique** (case, extra spaces and ё/е ignored). A name used by an archived item offers
+  "Restore from archive" or "Create new".
+- The **current odometer** = the newest point among odometer readings and service entries (same day → highest km).
+  Service entries no longer create odometer readings, so editing or deleting an entry immediately gives the right
+  value everywhere. A service entry dated today also resets the 14-day odometer reminder.
+- "Log service": date and odometer start empty and are required; the date can't be in the future.
+- Home: today's date and "odometer updated N days ago"; upcoming = due within 12 months or 15 000 km, the rest under
+  "Later"; tap a row → item card, swipe right → "Log service" with the items due that day.
+- "+" menu (Log service / Add item) on Home, History and Schedule.
+- Notifications at **11:00 local time**: one "lead time" before the due day and one on the due day.
+- Car: one required "name" field + optional VIN; "Km per month" is required (1–20 000).
+- Input limits: car name 40, item name 60, part number 30, odometer 0–2 000 000, interval 100–500 000 km and
+  1–240 months.
+- Assistant keeps the last 50 questions while the app is open.
+- Backup format version 2 (reads version 1 files).
+- Appetize preview: `.github/workflows/appetize.yml` builds a demo simulator build (`DEMO_BUILD`), publishes the zip as
+  the `appetize-preview` GitHub release asset (Appetize needs a public URL) and updates the same Appetize app.

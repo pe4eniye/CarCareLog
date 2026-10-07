@@ -139,11 +139,13 @@ public enum ForecastEngine {
     }
 
     /// Statuses for every item in the snapshot, keyed by item id.
+    /// Statuses for every active (not archived) item, keyed by item id.
     public static func statuses(for snapshot: DataSnapshot, today: Date, calendar: Calendar) -> [UUID: ItemStatus] {
-        let current = snapshot.currentOdometerKm
+        let current = OdometerRules.current(readings: snapshot.odometerReadings, entries: snapshot.entries,
+                                            calendar: calendar)?.km
         let avg = snapshot.car?.avgKmPerMonth ?? 0
         var result: [UUID: ItemStatus] = [:]
-        for item in snapshot.items {
+        for item in snapshot.activeItems {
             result[item.id] = status(for: item, entries: snapshot.entries, currentOdometerKm: current,
                                      avgKmPerMonth: avg, today: today, calendar: calendar)
         }
@@ -152,18 +154,25 @@ public enum ForecastEngine {
 }
 
 /// Home screen grouping: overdue items first, then upcoming items grouped by due day.
+/// With a horizon, only items due within 12 months OR within 15 000 km are "upcoming"; the rest is "later".
 public struct ForecastGroups: Equatable {
     public struct DayGroup: Equatable {
         public var day: Date
         public var forecasts: [ItemForecast]
     }
 
+    public static let horizonMonths = 12
+    public static let horizonKm = 15_000
+
     public var overdue: [ItemForecast]
     public var upcoming: [DayGroup]
     /// Items with a km interval but no date estimate (avgKmPerMonth <= 0).
     public var undated: [ItemForecast]
+    /// Beyond the horizon, grouped by day like `upcoming`.
+    public var later: [DayGroup]
 
-    public static func make(from statuses: [UUID: ItemStatus], calendar: Calendar) -> ForecastGroups {
+    public static func make(from statuses: [UUID: ItemStatus], calendar: Calendar,
+                            today: Date? = nil, currentOdometerKm: Int? = nil) -> ForecastGroups {
         let all = statuses.values.compactMap { $0.forecast }
         let overdue = all.filter { $0.isOverdue }
             .sorted { ($0.dueDate ?? .distantPast) < ($1.dueDate ?? .distantPast) }
@@ -171,13 +180,28 @@ public struct ForecastGroups: Equatable {
         let undated = all.filter { !$0.isOverdue && $0.dueDate == nil }
             .sorted { ($0.dueKm ?? 0) < ($1.dueKm ?? 0) }
 
-        var byDay: [Date: [ItemForecast]] = [:]
-        for f in dated {
-            byDay[calendar.startOfDay(for: f.dueDate!), default: []].append(f)
+        func withinHorizon(_ f: ItemForecast) -> Bool {
+            guard let today else { return true }
+            if let limit = calendar.date(byAdding: .month, value: horizonMonths, to: calendar.startOfDay(for: today)),
+               let due = f.dueDate, due <= limit { return true }
+            if let current = currentOdometerKm {
+                let kmAtDue = f.dueKm ?? f.predictedOdometerKm
+                if kmAtDue <= current + horizonKm { return true }
+            }
+            return false
         }
-        let upcoming = byDay.keys.sorted().map { day in
-            DayGroup(day: day, forecasts: byDay[day]!.sorted { $0.predictedOdometerKm < $1.predictedOdometerKm })
+
+        func grouped(_ list: [ItemForecast]) -> [DayGroup] {
+            var byDay: [Date: [ItemForecast]] = [:]
+            for f in list {
+                byDay[calendar.startOfDay(for: f.dueDate!), default: []].append(f)
+            }
+            return byDay.keys.sorted().map { day in
+                DayGroup(day: day, forecasts: byDay[day]!.sorted { $0.predictedOdometerKm < $1.predictedOdometerKm })
+            }
         }
-        return ForecastGroups(overdue: overdue, upcoming: upcoming, undated: undated)
+
+        return ForecastGroups(overdue: overdue, upcoming: grouped(dated.filter(withinHorizon)), undated: undated,
+                              later: grouped(dated.filter { !withinHorizon($0) }))
     }
 }

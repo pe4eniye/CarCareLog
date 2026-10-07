@@ -1,0 +1,100 @@
+name: Appetize preview
+
+# Builds the app for the iOS Simulator and uploads it to Appetize.io, so the app can be tried in a browser.
+# Runs on every push to main and by hand (Actions → Appetize preview → Run workflow).
+# Needs the repository secret APPETIZE_API_TOKEN (skipped quietly without it). After the first upload, the
+# repository variable APPETIZE_PUBLIC_KEY keeps the same link for every next upload.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      demo:
+        description: "Start with sample data (otherwise: empty app with first-launch setup)"
+        type: boolean
+        default: true
+
+concurrency:
+  group: appetize
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  appetize:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - name: Check token
+        id: check
+        env:
+          TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::notice::Secret APPETIZE_API_TOKEN is not set yet, skipping. See SETUP_GUIDE_RU.md, Appetize section."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.check.outputs.ok == 'true'
+
+      - name: Build for simulator (arm64 + x86_64)
+        if: steps.check.outputs.ok == 'true'
+        run: |
+          brew install xcodegen
+          xcodegen generate
+          mkdir -p build
+          FLAGS='$(inherited)'
+          if [ "${{ github.event_name }}" = "push" ] || [ "${{ inputs.demo }}" = "true" ]; then
+            FLAGS='$(inherited) -DDEMO_BUILD'
+          fi
+          xcodebuild build \
+            -project CarCareLog.xcodeproj -scheme CarCareLog -configuration Debug \
+            -sdk iphonesimulator -destination "generic/platform=iOS Simulator" \
+            -derivedDataPath build/dd \
+            ARCHS="arm64 x86_64" ONLY_ACTIVE_ARCH=NO \
+            OTHER_SWIFT_FLAGS="$FLAGS" \
+            CODE_SIGNING_ALLOWED=NO > build/build.log 2>&1 || { grep -E "error:" build/build.log | head -40; tail -40 build/build.log; exit 1; }
+          APP=$(find build/dd/Build/Products -maxdepth 2 -name "CarCareLog.app" | head -1)
+          ditto -c -k --sequesterRsrc --keepParent "$APP" build/CarCareLog-simulator.zip
+          ls -la build/CarCareLog-simulator.zip
+
+      - name: Publish the build at a public URL (GitHub release asset)
+        if: steps.check.outputs.ok == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view appetize-preview >/dev/null 2>&1 || \
+            gh release create appetize-preview --title "Appetize preview build" \
+              --notes "Simulator build used by Appetize.io. Not for installing on a phone." --prerelease
+          gh release upload appetize-preview build/CarCareLog-simulator.zip --clobber
+          echo "ZIP_URL=https://github.com/${{ github.repository }}/releases/download/appetize-preview/CarCareLog-simulator.zip" >> "$GITHUB_ENV"
+
+      - name: Upload to Appetize
+        if: steps.check.outputs.ok == 'true'
+        env:
+          TOKEN: ${{ secrets.APPETIZE_API_TOKEN }}
+          PUBLIC_KEY: ${{ vars.APPETIZE_PUBLIC_KEY }}
+        run: |
+          if [ -n "$PUBLIC_KEY" ]; then
+            URL="https://api.appetize.io/v1/apps/$PUBLIC_KEY"
+            BODY="{\"url\":\"$ZIP_URL\",\"note\":\"${GITHUB_SHA::7}\"}"
+          else
+            URL="https://api.appetize.io/v1/apps"
+            BODY="{\"url\":\"$ZIP_URL\",\"platform\":\"ios\",\"fileType\":\"zip\",\"note\":\"CarCare Log\"}"
+          fi
+          HTTP=$(curl -sS -o build/appetize.json -w "%{http_code}" -X POST "$URL" \
+            -H "X-API-KEY: $TOKEN" -H "Content-Type: application/json" -d "$BODY")
+          echo "HTTP $HTTP"
+          if [ "$HTTP" != "200" ]; then cat build/appetize.json; exit 1; fi
+          KEY=$(ruby -rjson -e 'puts JSON.parse(File.read("build/appetize.json"))["publicKey"]')
+          echo "Public key: $KEY"
+          {
+            echo "### Open the app in your browser"
+            echo ""
+            echo "https://appetize.io/app/$KEY?device=iphone15pro"
+          } >> "$GITHUB_STEP_SUMMARY"
