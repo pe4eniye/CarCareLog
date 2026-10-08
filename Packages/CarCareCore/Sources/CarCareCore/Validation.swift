@@ -87,6 +87,10 @@ public enum ItemNameRules {
         let same = items.filter { $0.id != editingItemID && $0.allNames.contains { key($0) == k } }
         if let active = same.first(where: { !$0.isArchived }) { return .active(active) }
         if let archived = same.first { return .archived(archived) }
+        // An existing item keeping its own name is fine, even if the catalog has the same name.
+        if let editing = items.first(where: { $0.id == editingItemID }), editing.allNames.contains(where: { key($0) == k }) {
+            return .none
+        }
         if let fromCatalog = Catalog.items.first(where: { $0.allNames.contains { key($0) == k } }),
            !items.contains(where: { $0.id != editingItemID && $0.catalogKey == fromCatalog.key }) {
             return .catalog(fromCatalog)
