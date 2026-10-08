@@ -51,7 +51,8 @@ enum Fmt {
 
     /// "20 листопада 2026"
     static func date(_ date: Date) -> String {
-        AssistantFormat.date(date, L10n.assistantLanguage, calendar: calendar)
+        // Non-breaking spaces: "22 березня 2026" never splits across lines.
+        AssistantFormat.date(date, L10n.assistantLanguage, calendar: calendar).replacingOccurrences(of: " ", with: "\u{00A0}")
     }
 
     /// "Березень 2027": month card titles.

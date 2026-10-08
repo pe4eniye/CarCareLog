@@ -901,8 +901,8 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "More than 12 months and 15,000 km away." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Дальше чем через 12 месяцев и 15 000 км." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Далі ніж за 12 місяців і 15 000 км." } }
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Дальше чем через 12 месяцев и 15 000 км." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Далі ніж за 12 місяців і 15 000 км." } }
       }
     },
     "home.odometer" : {
@@ -1325,8 +1325,8 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "For example, oil every 10,000 km or 12 months. We’ll remind you by whichever comes first." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Например, масло — каждые 10 000 км или 12 месяцев. Напомним по тому, что наступит раньше." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Наприклад, масло — кожні 10 000 км або 12 місяців. Нагадаємо за тим, що настане раніше." } }
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Например, масло — каждые 10 000 км или 12 месяцев. Напомним по тому, что наступит раньше." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Наприклад, масло — кожні 10 000 км або 12 місяців. Нагадаємо за тим, що настане раніше." } }
       }
     },
     "item.intervalKm" : {
@@ -2453,8 +2453,8 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці." } }
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці." } }
       }
     },
     "settings.avgManual" : {

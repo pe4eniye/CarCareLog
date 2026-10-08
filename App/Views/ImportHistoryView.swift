@@ -9,7 +9,9 @@ struct ImportHistoryView: View {
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \Item.createdAt) private var items: [Item]
 
-    @State private var text = ""
+    /// Screenshot tour: `-demoImportText` prefills the text, lines separated by " | ".
+    @State private var text = DemoMode.isOn
+        ? (DemoMode.value(after: "-demoImportText") ?? "").replacingOccurrences(of: " | ", with: "\n") : ""
     @State private var rows: [ImportedRow] = []
     @State private var included = Set<UUID>()
     @State private var editing: ImportedRow?

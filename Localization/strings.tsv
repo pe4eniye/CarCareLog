@@ -96,7 +96,7 @@ reason.mileage	за пробігом	по пробегу	by mileage
 reason.time	за часом	по времени	by time
 settings.appearance	Вигляд	Внешний вид	Appearance
 settings.avgKm	Пробіг за місяць, км	Пробег в месяц, км	Km per month
-settings.avgKmFooter	Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці.	Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца.	Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away.
+settings.avgKmFooter	Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці.	Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца.	Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away.
 settings.car	Авто	Авто	Car
 settings.carSection	Авто	Авто	Car
 settings.faceID	Face ID / код пристрою	Face ID / код устройства	Face ID / passcode
@@ -134,7 +134,7 @@ field.chooseDate	Обрати дату	Выбрать дату	Choose date
 field.useDate	Обрати цю дату	Выбрать эту дату	Use this date
 home.done	Виконано	Выполнено	Done
 home.later	Пізніше (%d)	Позже (%d)	Later (%d)
-home.laterFooter	Далі ніж за 12 місяців і 15 000 км.	Дальше чем через 12 месяцев и 15 000 км.	More than 12 months and 15,000 km away.
+home.laterFooter	Далі ніж за 12 місяців і 15 000 км.	Дальше чем через 12 месяцев и 15 000 км.	More than 12 months and 15,000 km away.
 home.today	Сьогодні: %@	Сегодня: %@	Today: %@
 home.updatedDaysAgo	пробіг оновлено %d дн. тому	пробег обновлён %d дн. назад	odometer updated %d d ago
 home.updatedToday	пробіг оновлено сьогодні	пробег обновлён сегодня	odometer updated today
@@ -143,7 +143,7 @@ item.archivedDuplicateTitle	«%@» є в архіві	«%@» есть в арх�
 item.archivedFooter	Позиція в архіві: прогнозу й нагадувань немає, історія збережена.	Позиция в архиве: прогноза и напоминаний нет, история сохранена.	Archived: no forecast or reminders, history is kept.
 item.createNew	Створити нову	Создать новую	Create new
 item.dontKnow	Не знаю — рахувати від сьогодні	Не знаю — считать от сегодня	Don’t know — count from today
-item.intervalFooter	Наприклад, масло — кожні 10 000 км або 12 місяців. Нагадаємо за тим, що настане раніше.	Например, масло — каждые 10 000 км или 12 месяцев. Напомним по тому, что наступит раньше.	For example, oil every 10,000 km or 12 months. We’ll remind you by whichever comes first.
+item.intervalFooter	Наприклад, масло — кожні 10 000 км або 12 місяців. Нагадаємо за тим, що настане раніше.	Например, масло — каждые 10 000 км или 12 месяцев. Напомним по тому, что наступит раньше.	For example, oil every 10,000 km or 12 months. We’ll remind you by whichever comes first.
 item.lastFooter	Береться з Історії. Щоб змінити, запишіть обслуговування або виправте запис в Історії.	Берётся из Истории. Чтобы изменить, запишите обслуживание или исправьте запись в Истории.	Taken from History. To change it, log a service or edit the History entry.
 item.lastFooterNew	Від цього рахується наступна заміна. Стане першим записом в Історії.	От этого считается следующая замена. Станет первой записью в Истории.	The next replacement is counted from this. It becomes the first History entry.
 item.lastSection	Остання заміна	Последняя замена	Last done

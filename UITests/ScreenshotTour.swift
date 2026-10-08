@@ -23,7 +23,8 @@ final class ScreenshotTour: XCTestCase {
     private func launch(tab: String = "home", theme: String = "light", _ extra: [String] = []) {
         app.terminate()
         // Settings first (UserDefaults argument domain), demo flags last.
-        app.launchArguments = ["-settings.language", language, "-settings.theme", theme, "-demo", "-startTab", tab] + extra
+        app.launchArguments = ["-AppleLanguages", "(\(language))", "-AppleLocale", language == "uk" ? "uk_UA" : language,
+                               "-settings.language", language, "-settings.theme", theme, "-demo", "-startTab", tab] + extra
         app.launch()
         pause(2.5)
     }
@@ -81,11 +82,48 @@ final class ScreenshotTour: XCTestCase {
     }
 
     private func hideKeyboard() {
-        if app.keyboards.count > 0 { app.swipeDown(velocity: .fast) }
+        // Scrolling dismisses the keyboard; swiping down could close a sheet.
+        if app.keyboards.count > 0 { app.swipeUp(velocity: .slow) }
         pause(0.5)
     }
 
+    /// Scrolls down until the element appears (lists load rows lazily), then taps it.
+    @discardableResult
+    private func tapScrolling(_ id: String) -> Bool {
+        let el = app.descendants(matching: .any)[id].firstMatch
+        for _ in 0..<10 {
+            if el.exists && el.isHittable { break }
+            app.swipeUp(velocity: .slow)
+        }
+        guard el.exists else { return false }
+        el.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        pause()
+        return true
+    }
+
+    /// "Intervals and last replacement": "I don't know — from today", then the usual interval in every empty field.
+    private func fillBulkSetup() {
+        let dontKnow = app.switches.firstMatch
+        if dontKnow.waitForExistence(timeout: 3) {
+            dontKnow.coordinate(withNormalizedOffset: CGVector(dx: 0.93, dy: 0.5)).tap()
+            pause()
+        }
+        for _ in 0..<5 {
+            for field in app.textFields.allElementsBoundByIndex where field.isHittable {
+                let placeholder = field.placeholderValue ?? ""
+                let value = field.value as? String ?? ""
+                let digits = placeholder.filter(\.isNumber)
+                guard !digits.isEmpty, value.isEmpty || value == placeholder else { continue }
+                field.tap()
+                field.typeText(digits)
+            }
+            app.swipeUp(velocity: .slow)
+        }
+        pause()
+    }
+
     // MARK: Tour
+
 
     func test01Onboarding() {
         launch(["-demoOnboarding"])
@@ -115,10 +153,11 @@ final class ScreenshotTour: XCTestCase {
         }
         tap("check.Моторне масло")
         tap("check.Масляний фільтр")
-        tap("check.Антифриз")
+        tap("check.Повітряний фільтр")
         snap("07-onboarding-items-picked")
         tap("catalog.next", byCoordinate: true)
         snap("08-onboarding-intervals")
+        fillBulkSetup()
         tap("bulk.save", byCoordinate: true)
         pause(1.5)
         snap("09-onboarding-reminders")
@@ -139,29 +178,29 @@ final class ScreenshotTour: XCTestCase {
 
     func test02Home() {
         launch()
-        snap("10-home")
+        snap("14-home")
         scrollDown()
-        snap("11-home-bottom")
+        snap("15-home-bottom")
         launch()
         if !tap("chip.2") { tap("chip.1") }
-        snap("12-home-filtered")
+        snap("16-home-filtered")
         launch()
         let row = app.cells.element(boundBy: 3)
         if row.waitForExistence(timeout: 4) {
             row.swipeRight(velocity: .slow)
             pause()
-            snap("13-home-swipe-done")
+            snap("17-home-swipe-done")
         }
         launch(theme: "dark")
-        snap("14-home-dark")
+        snap("18-home-dark")
     }
 
     func test03Odometer() {
         launch(["-demoSheet", "odometer"])
-        snap("15-odometer")
+        snap("19-odometer")
         type(into: app.textFields["odometer.field"].firstMatch, "200000")
         tap("odometer.save")
-        snap("16-odometer-lower-warning")
+        snap("19-odometer-lower-warning")
     }
 
     func test04History() {
@@ -180,12 +219,7 @@ final class ScreenshotTour: XCTestCase {
         launch(tab: "history")
         tapLabel("За позиціями")
         snap("24-history-by-item")
-        let first = app.cells.element(boundBy: 1)
-        if first.waitForExistence(timeout: 3) {
-            first.tap()
-            pause()
-            snap("25-history-item")
-        }
+        if tapLabel("Моторне масло") { snap("25-history-item") }
     }
 
     func test05Entry() {
@@ -214,7 +248,10 @@ final class ScreenshotTour: XCTestCase {
             let search = app.searchFields.firstMatch
             type(into: search, "гальм")
             snap("34-item-picker-search")
-            search.typeText("ування радіатора")
+            if let current = search.value as? String {
+                search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: current.count))
+            }
+            search.typeText("Промивка радіатора")
             pause()
             snap("35-item-picker-new-custom")
         }
@@ -224,61 +261,63 @@ final class ScreenshotTour: XCTestCase {
         launch(tab: "parts")
         snap("40-schedule")
         scrollDown(2)
+        snap("41-schedule-middle")
+        scrollDown(2)
         if tap("parts.archive") { scrollDown() }
-        snap("41-schedule-bottom")
+        snap("42-schedule-bottom")
         launch(tab: "parts")
         if tap("parts.select", byCoordinate: true) {
             app.cells.element(boundBy: 0).tap()
             app.cells.element(boundBy: 1).tap()
             pause()
-            snap("42-schedule-select")
-            if tap("select.action", byCoordinate: true) { snap("43-schedule-remove-confirm") }
+            snap("43-schedule-select")
+            if tap("select.action", byCoordinate: true) { snap("44-schedule-remove-confirm") }
         }
         launch(tab: "parts")
         app.swipeDown()
         let search = app.searchFields.firstMatch
         type(into: search, "фільтр")
-        snap("44-schedule-search")
+        snap("45-schedule-search")
     }
 
     func test07Items() {
         launch(tab: "parts", ["-demoSheet", "item:engine_oil"])
-        snap("45-item-oil")
+        snap("46-item-oil")
         scrollDown()
-        snap("46-item-oil-middle")
+        snap("47-item-oil-middle")
         scrollDown(2)
-        snap("47-item-oil-bottom")
+        snap("48-item-oil-bottom")
         launch(tab: "parts", ["-demoSheet", "item:seasonal_tires"])
-        snap("48-item-season")
+        snap("49-item-season")
         launch(tab: "parts", ["-demoSheet", "item:insurance"])
-        snap("49-item-valid-until")
+        snap("50-item-valid-until")
         launch(tab: "parts", ["-demoSheet", "newItem"])
-        snap("50-item-new")
+        snap("51-item-new")
         tap("item.save")
-        snap("51-item-new-errors")
-        launch(tab: "parts", ["-demoSheet", "item:engine_oil"])
+        snap("52-item-new-errors")
+        launch(tab: "parts", ["-demoSheet", "item:custom"])
+        snap("53-item-custom")
         let name = app.textFields.firstMatch
         if name.waitForExistence(timeout: 3) {
             name.tap()
-            name.typeText(" Castrol")
-            hideKeyboard()
-            tap("item.save")
-            snap("52-item-rename-question")
+            name.typeText(" і бачка")
+            tap("item.save", byCoordinate: true)
+            snap("54-item-rename-question")
         }
     }
 
     func test08AddItems() {
         launch(tab: "parts", ["-demoSheet", "addItems"])
-        snap("53-catalog")
-        tap("check.Антифриз")
-        tap("check.Щітки склоочисника")
-        snap("54-catalog-picked")
+        snap("55-catalog")
+        tapScrolling("check.Антифриз")
+        tapScrolling("check.Щітки склоочисника")
+        snap("56-catalog-picked")
         scrollDown(4)
-        snap("55-catalog-bottom")
+        snap("57-catalog-bottom")
         tap("catalog.next", byCoordinate: true)
-        snap("56-catalog-intervals")
+        snap("58-catalog-intervals")
         scrollDown()
-        snap("57-catalog-intervals-bottom")
+        snap("59-catalog-intervals-bottom")
     }
 
     func test09Expenses() {
@@ -304,8 +343,10 @@ final class ScreenshotTour: XCTestCase {
         snap("72-assistant-due-at")
         launch(tab: "assistant", ["-demoQuestion", "Скільки я витратив цього року?"])
         snap("73-assistant-spending")
+        launch(tab: "assistant", ["-demoQuestion", "Скільки коштувало масло?"])
+        snap("74-assistant-price")
         launch(tab: "assistant", ["-demoQuestion", "Номер масляного фільтра"])
-        snap("74-assistant-part-number")
+        snap("75-assistant-part-number")
     }
 
     func test11Settings() {
@@ -327,12 +368,13 @@ final class ScreenshotTour: XCTestCase {
         }
         launch(tab: "settings")
         scrollDown(2)
+        if tap("settings.importLink") { snap("87-import") }
+        launch(tab: "settings", ["-demoImportText",
+                                 "12.03.2024 185000 масло, фільтр салону | 05.2023 170 тис колодки передні | жовт 2022 158к ГРМ + помпа | 2021 радіатор"])
+        scrollDown(2)
         if tap("settings.importLink") {
-            snap("87-import")
-            let text = app.textViews["import.text"].firstMatch
-            type(into: text, "12.03.2024 185000 масло, фільтр салону\n05.2023 170 тис колодки передні\nжовт 2022 158к ГРМ + помпа")
-            hideKeyboard()
-            if tap("import.parse") { snap("88-import-preview") }
+            snap("88-import-text")
+            if tap("import.parse") { snap("89-import-preview") }
         }
     }
 }

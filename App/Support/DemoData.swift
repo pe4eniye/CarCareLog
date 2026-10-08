@@ -48,7 +48,11 @@ enum DemoMode {
             let sorted = FetchDescriptor<ServiceEntry>(sortBy: [SortDescriptor(\.date, order: .reverse)])
             if let entry = (try? context.fetch(sorted))?.first { router.sheet = .editEntry(entry) }
         default:
-            if value.hasPrefix("item:"), let i = item(String(value.dropFirst(5))) { router.sheet = .item(i) }
+            if value == "item:custom", let i = items.first(where: { $0.catalogKey == nil }) {
+                router.sheet = .item(i)
+            } else if value.hasPrefix("item:"), let i = item(String(value.dropFirst(5))) {
+                router.sheet = .item(i)
+            }
         }
     }
 
@@ -108,13 +112,13 @@ enum DemoMode {
         let washer = item(n("Чистка радіатора", "Чистка радиатора", "Radiator cleaning"), km: 40_000)
         let battery = fromCatalog("battery", months: 60)
         battery.isArchived = true
-        _ = washer
+
 
         let entries: [(Int, Int, [Item])] = [
             (340, 214_000, [oil, oilFilter, lpg, air]),
             (200, 221_000, [cabin]),
             (120, 224_500, [brake]),
-            (700, 196_000, [atf, plugs]),
+            (700, 196_000, [atf, plugs, washer]),
             (40, 227_000, [oil, oilFilter]),
             (900, 190_500, [belt, battery]),
             (330, 215_000, [pads]),

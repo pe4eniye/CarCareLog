@@ -36,8 +36,8 @@ struct PartsView: View {
             let byID = Dictionary(items.map { ($0.uuid, $0) }, uniquingKeysWith: { a, _ in a })
             let active = ForecastEngine.urgencySorted(snapshot.activeItems, statuses: statuses)
                 .compactMap { byID[$0.id] }.filter(matches)
-            let scheduled = active.filter { $0.intervalKm != nil || $0.intervalMonths != nil }
-            let noInterval = active.filter { $0.intervalKm == nil && $0.intervalMonths == nil }
+            let scheduled = active.filter { $0.info.hasInterval }
+            let noInterval = active.filter { !$0.info.hasInterval }
             let archived = items.filter { $0.isArchived && matches($0) }
 
             List {
