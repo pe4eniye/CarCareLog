@@ -14,7 +14,10 @@ final class CarCareLogUITests: XCTestCase {
     }
 
     private func openLogService() {
-        app.buttons["addMenu"].firstMatch.tap()
+        // Every tab has its own "+"; tap the one that is on screen.
+        let plus = app.buttons.matching(identifier: "addMenu").allElementsBoundByIndex.first { $0.isHittable }
+        XCTAssertNotNil(plus)
+        plus?.tap()
         let item = app.buttons["Log service"].firstMatch
         XCTAssertTrue(item.waitForExistence(timeout: 5))
         item.tap()
