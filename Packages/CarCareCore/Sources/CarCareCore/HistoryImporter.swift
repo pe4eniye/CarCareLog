@@ -169,10 +169,12 @@ public enum HistoryImporter {
             byID[info.id] = c
             return info
         }
-        let fromCatalog = ItemMatcher.match(chunk, items: pseudo)
-        if let first = fromCatalog.first, let c = byID[first] {
+        // A catalog item only when a whole name matched or every word of the chunk did:
+        // one shared word out of several ("радіатор" vs "Масло варіатора") is not enough.
+        let fromCatalog = ItemMatcher.matchDetailed(chunk, items: pseudo)
+        if fromCatalog.full || fromCatalog.covered, let first = fromCatalog.ids.first, let c = byID[first] {
             if let mine = items.first(where: { $0.catalogKey == c.key }) { return (.existing(mine.id), true) }
-            return (.catalog(c.key), fromCatalog.count == 1)
+            return (.catalog(c.key), fromCatalog.ids.count == 1)
         }
         // Only a partial match with the user's items: suggest it, but flag the row.
         if let first = own.ids.first { return (.existing(first), false) }

@@ -332,15 +332,24 @@ public enum ItemMatcher {
 
     /// Best matches and whether at least one whole phrase (name, alias or synonym) matched.
     public static func matchWithQuality(_ text: String, items: [ItemInfo]) -> (ids: [UUID], full: Bool) {
+        let r = matchDetailed(text, items: items)
+        return (r.ids, r.full)
+    }
+
+    /// Like `matchWithQuality`, plus `covered`: every word of the text matched the best phrase
+    /// ("колодки перед" → "Передні гальмівні колодки"), as opposed to one word out of several.
+    public static func matchDetailed(_ text: String, items: [ItemInfo]) -> (ids: [UUID], full: Bool, covered: Bool) {
         let query = contentTokens(text)
-        guard !query.isEmpty else { return ([], false) }
+        guard !query.isEmpty else { return ([], false, false) }
 
         struct Score: Comparable {
             var matched: Int
             var full: Bool
+            var covered: Bool
             static func < (a: Score, b: Score) -> Bool {
                 if a.matched != b.matched { return a.matched < b.matched }
-                return !a.full && b.full
+                if a.full != b.full { return !a.full && b.full }
+                return !a.covered && b.covered
             }
         }
 
@@ -350,12 +359,13 @@ public enum ItemMatcher {
             for phrase in phrases(for: item) {
                 let matched = phrase.tokens.filter { t in query.contains { TextTools.matches(t, $0) } }.count
                 guard matched > 0 else { continue }
-                let s = Score(matched: matched, full: matched == phrase.tokens.count)
+                let covered = query.allSatisfy { q in phrase.tokens.contains { TextTools.matches(q, $0) } }
+                let s = Score(matched: matched, full: matched == phrase.tokens.count, covered: covered)
                 if best == nil || best! < s { best = s }
             }
             if let b = best { scored.append((item.id, b)) }
         }
-        guard let top = scored.map(\.1).max() else { return ([], false) }
-        return (scored.filter { $0.1 == top }.map(\.0), top.full)
+        guard let top = scored.map(\.1).max() else { return ([], false, false) }
+        return (scored.filter { $0.1 == top }.map(\.0), top.full, top.covered)
     }
 }

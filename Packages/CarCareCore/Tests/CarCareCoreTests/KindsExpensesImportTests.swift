@@ -201,6 +201,16 @@ final class HistoryImporterTests: XCTestCase {
         XCTAssertEqual(rows[4].items, [.catalog("coolant"), .catalog("thermostat")])
     }
 
+    /// A similar-looking word or one shared word is not a match: "радіатор" ≠ "Масло варіатора (CVT)".
+    func testStrictMatching() {
+        let rows = HistoryImporter.parse("2021 150000 радіатор\n2022 160000 масло варіатора", items: [],
+                                         today: TS.today, calendar: cal)
+        XCTAssertEqual(rows[0].items, [.custom("Радіатор")])
+        XCTAssertTrue(rows[0].needsReview)
+        XCTAssertEqual(rows[1].items, [.catalog("cvt_oil")])
+        XCTAssertFalse(TextTools.matches(TextTools.tokens("радіатор")[0], TextTools.tokens("варіатора")[0]))
+    }
+
     func testUnknownAndIncompleteLines() {
         let rows = HistoryImporter.parse("чистка инжектора у Васи\n10.10.2030 100000 масло", items: [],
                                          today: TS.today, calendar: cal)

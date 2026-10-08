@@ -87,13 +87,13 @@ public enum TextTools {
 
     /// Exact stem match; prefix match when the shorter stem has ≥ 4 letters;
     /// typo tolerance for words with ≥ 5 letters: edit distance ≤ 2 (≤ 1 when the stem is shorter than 6,
-    /// otherwise "масло" would match "мосты").
+    /// otherwise "масло" would match "мосты"). Typos keep the first letter: "радіатор" is not "варіатор".
     public static func matches(_ a: Token, _ b: Token) -> Bool {
         if a.stem == b.stem { return true }
         let shorter = a.stem.count <= b.stem.count ? a.stem : b.stem
         let longer = a.stem.count <= b.stem.count ? b.stem : a.stem
         if shorter.count >= 4 && longer.hasPrefix(shorter) { return true }
-        if a.word.count >= 5 && b.word.count >= 5 && shorter.count >= 4 {
+        if a.word.count >= 5 && b.word.count >= 5 && shorter.count >= 4 && a.stem.first == b.stem.first {
             let limit = shorter.count >= 6 ? 2 : 1
             return editDistance(a.stem, b.stem) <= limit
         }
