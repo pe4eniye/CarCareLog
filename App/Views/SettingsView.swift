@@ -7,9 +7,15 @@ struct SettingsView: View {
     @EnvironmentObject private var persistence: Persistence
     @Environment(\.modelContext) private var context
     @Query private var cars: [Car]
+    @Query private var entries: [ServiceEntry]
+    @Query private var readings: [OdometerReading]
+    @Query private var items: [Item]
 
     @State private var avgKm: Int?
     @State private var faceIDError = false
+    @State private var confirmWipe = false
+    @State private var confirmWipeAgain = false
+    @State private var pdfURL: URL?
 
     private var car: Car? { SnapshotBuilder.primaryCar(cars) }
 
@@ -47,7 +53,7 @@ struct SettingsView: View {
                 } header: {
                     Text(L10n.t("settings.carSection"))
                 } footer: {
-                    Text(L10n.t("settings.avgKmFooter"))
+                    Text(avgFooter)
                 }
 
                 Section(L10n.t("settings.reminders")) {
@@ -86,6 +92,24 @@ struct SettingsView: View {
                 BackupSection()
 
                 Section {
+                    Button {
+                        pdfURL = ServiceBookPDF.make(context: context)
+                    } label: {
+                        Label(L10n.t("pdf.export"), systemImage: "doc.richtext").frame(minHeight: 44)
+                    }
+                    .disabled(entries.isEmpty && items.isEmpty)
+                } footer: {
+                    Text(L10n.t("pdf.footer"))
+                }
+
+                Section {
+                    Button(L10n.t("wipe.button"), role: .destructive) { confirmWipe = true }
+                        .frame(minHeight: 44)
+                } footer: {
+                    Text(L10n.t("wipe.footer"))
+                }
+
+                Section {
                     LabeledField(label: L10n.t("settings.version")) {
                         Text(Self.versionString).foregroundStyle(.secondary)
                     }
@@ -102,7 +126,38 @@ struct SettingsView: View {
             .alert(L10n.t("settings.faceIDUnavailable"), isPresented: $faceIDError) {
                 Button("OK", role: .cancel) {}
             }
+            .sheet(isPresented: Binding(get: { pdfURL != nil }, set: { if !$0 { pdfURL = nil } })) {
+                if let pdfURL { ShareSheet(items: [pdfURL]) }
+            }
+            .confirmationDialog(L10n.t("wipe.title"), isPresented: $confirmWipe, titleVisibility: .visible) {
+                Button(L10n.t("wipe.continue"), role: .destructive) { confirmWipeAgain = true }
+            } message: {
+                Text(L10n.t("wipe.text"))
+            }
+            .alert(L10n.t("wipe.finalTitle"), isPresented: $confirmWipeAgain) {
+                Button(L10n.t("wipe.finalButton"), role: .destructive) { wipe() }
+                Button(L10n.t("common.cancel"), role: .cancel) {}
+            } message: {
+                Text(L10n.t("wipe.finalText"))
+            }
         }
+    }
+
+    /// Which km/month the forecast uses right now: computed from the user's data or the manual value.
+    private var avgFooter: String {
+        let snap = SnapshotBuilder.make(cars: cars, items: items, entries: entries, readings: readings)
+        let e = MileageEstimator.estimate(snapshot: snap, today: Date(), calendar: Fmt.calendar)
+        if e.isAutomatic {
+            return L10n.f("settings.avgAuto", AssistantFormat.groupDigits(Int(e.value), separator: "\u{00A0}"),
+                          max(1, e.spanDays / 30))
+        }
+        return L10n.t("settings.avgManual")
+    }
+
+    private func wipe() {
+        try? SnapshotBuilder.deleteAll(in: context)
+        settings.onboardingDone = false
+        DataEvents.changed(context)
     }
 
     static func leadTimeTitle(_ lead: ReminderLeadTime) -> String {
@@ -165,6 +220,9 @@ struct CarEditorView: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
     @Query private var cars: [Car]
+    @Query private var entries: [ServiceEntry]
+    @Query private var readings: [OdometerReading]
+    @Query private var items: [Item]
 
     @State private var name = ""
     @State private var vin = ""

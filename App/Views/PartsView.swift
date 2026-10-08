@@ -2,7 +2,8 @@ import SwiftUI
 import SwiftData
 import CarCareCore
 
-/// "Schedule" tab: what the user maintains and how often. Archived items are collapsed at the bottom.
+/// "Schedule" tab: what the user maintains and how often, the most urgent on top.
+/// Items without an interval and archived items are separate blocks at the bottom.
 struct PartsView: View {
     @Environment(\.modelContext) private var context
     @EnvironmentObject private var router: Router
@@ -15,60 +16,56 @@ struct PartsView: View {
     @State private var pendingDelete: Item?
     @State private var restoreBlocked: String?
     @State private var showArchive = false
+    @State private var selecting = false
+    @State private var selection = Set<UUID>()
+    @State private var confirmBulk = false
 
     private func matches(_ item: Item) -> Bool {
         let q = search.trimmed
         guard !q.isEmpty else { return true }
-        return ([item.name] + item.aliases + [item.oemNumber ?? ""] + item.analogNumbers)
+        return ([item.displayName] + item.aliases + [item.oemNumber ?? ""] + item.analogNumbers)
             .contains { $0.localizedCaseInsensitiveContains(q) }
     }
 
     var body: some View {
         NavigationStack {
+            let now = Date()
             let snapshot = SnapshotBuilder.make(cars: cars, items: items, entries: entries, readings: readings)
-            let statuses = ForecastEngine.statuses(for: snapshot, today: Date(), calendar: Fmt.calendar)
-            let active = items.filter { !$0.isArchived && matches($0) }
+            let statuses = ForecastEngine.statuses(for: snapshot, today: now, calendar: Fmt.calendar)
+            let current = snapshot.currentOdometerKm
+            let byID = Dictionary(items.map { ($0.uuid, $0) }, uniquingKeysWith: { a, _ in a })
+            let active = ForecastEngine.urgencySorted(snapshot.activeItems, statuses: statuses)
+                .compactMap { byID[$0.id] }.filter(matches)
+            let scheduled = active.filter { $0.intervalKm != nil || $0.intervalMonths != nil }
+            let noInterval = active.filter { $0.intervalKm == nil && $0.intervalMonths == nil }
             let archived = items.filter { $0.isArchived && matches($0) }
 
             List {
                 if items.isEmpty {
                     Banner(icon: "list.bullet.clipboard", text: L10n.t("parts.empty"),
-                           actionTitle: L10n.t("add.item")) { router.open(.newItem(Router.ItemDraft())) }
+                           actionTitle: L10n.t("add.item")) { router.open(.addItems) }
                 }
-                ForEach(active) { item in
-                    Button {
-                        router.open(.item(item))
-                    } label: {
-                        ItemRow(item: item, snapshot: snapshot, status: statuses[item.uuid])
+                Section {
+                    ForEach(scheduled) { item in
+                        itemButton(item, snapshot: snapshot, status: statuses[item.uuid], now: now, current: current)
                     }
-                    .foregroundStyle(.primary)
-                    .swipeActions {
-                        if ItemActions.hasHistory(item) {
-                            Button(L10n.t("parts.archive")) {
-                                item.isArchived = true
-                                DataEvents.changed(context)
-                            }
-                            .tint(.orange)
-                        } else {
-                            Button(L10n.t("common.delete"), role: .destructive) { pendingDelete = item }
+                }
+                if !noInterval.isEmpty {
+                    Section {
+                        ForEach(noInterval) { item in
+                            itemButton(item, snapshot: snapshot, status: nil, now: now, current: current)
                         }
+                    } header: {
+                        Text(L10n.t("parts.noIntervalTitle"))
+                    } footer: {
+                        Text(L10n.t("parts.noIntervalFooter"))
                     }
                 }
-
                 if !archived.isEmpty {
                     Section {
                         DisclosureGroup(isExpanded: $showArchive) {
                             ForEach(archived) { item in
-                                Button {
-                                    router.open(.item(item))
-                                } label: {
-                                    ItemRow(item: item, snapshot: snapshot, status: nil)
-                                }
-                                .foregroundStyle(.secondary)
-                                .swipeActions {
-                                    Button(L10n.t("common.delete"), role: .destructive) { pendingDelete = item }
-                                    Button(L10n.t("parts.restore")) { restore(item) }.tint(.green)
-                                }
+                                itemButton(item, snapshot: snapshot, status: nil, now: now, current: current)
                             }
                         } label: {
                             Text(L10n.f("parts.archiveTitle", archived.count)).font(.headline)
@@ -81,7 +78,29 @@ struct PartsView: View {
             .searchable(text: $search, prompt: L10n.t("parts.search"))
             .navigationTitle(L10n.t("tab.parts"))
             .toolbar {
+                if !items.isEmpty {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(selecting ? L10n.t("common.done") : L10n.t("select.start")) {
+                            selecting.toggle()
+                            selection = []
+                        }
+                        .accessibilityIdentifier("parts.select")
+                    }
+                }
                 ToolbarItem(placement: .primaryAction) { AddMenuButton() }
+            }
+            .safeAreaInset(edge: .bottom) {
+                if selecting {
+                    SelectionBar(count: selection.count, allSelected: selection.count == items.count,
+                                 actionTitle: L10n.f("select.archiveOrDelete", selection.count)) {
+                        selection = selection.count == items.count ? [] : Set(items.map(\.uuid))
+                    } action: {
+                        confirmBulk = true
+                    }
+                }
+            }
+            .confirmationDialog(bulkTitle, isPresented: $confirmBulk, titleVisibility: .visible) {
+                Button(L10n.t("select.confirm"), role: .destructive) { applyBulk() }
             }
             .confirmationDialog(deleteTitle, isPresented: Binding(get: { pendingDelete != nil },
                                                                   set: { if !$0 { pendingDelete = nil } }),
@@ -99,14 +118,72 @@ struct PartsView: View {
         }
     }
 
+    @ViewBuilder
+    private func itemButton(_ item: Item, snapshot: DataSnapshot, status: ItemStatus?, now: Date, current: Int?) -> some View {
+        Button {
+            if selecting { toggle(item.uuid) } else { router.open(.item(item)) }
+        } label: {
+            HStack(spacing: 12) {
+                if selecting { SelectionMark(selected: selection.contains(item.uuid)) }
+                ItemRow(item: item, snapshot: snapshot, status: status, today: now, currentKm: current)
+            }
+        }
+        .foregroundStyle(item.isArchived ? .secondary : .primary)
+        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+            if !selecting { selecting = true; selection = [item.uuid] }
+        })
+        .swipeActions {
+            if !selecting {
+                if item.isArchived {
+                    Button(L10n.t("common.delete"), role: .destructive) { pendingDelete = item }
+                    Button(L10n.t("parts.restore")) { restore(item) }.tint(.green)
+                } else if ItemActions.hasHistory(item) {
+                    Button(L10n.t("parts.archive")) {
+                        item.isArchived = true
+                        DataEvents.changed(context)
+                    }
+                    .tint(.orange)
+                } else {
+                    Button(L10n.t("common.delete"), role: .destructive) { pendingDelete = item }
+                }
+            }
+        }
+    }
+
+    private func toggle(_ id: UUID) {
+        if selection.contains(id) { selection.remove(id) } else { selection.insert(id) }
+    }
+
+    /// Items with history go to the archive (history stays), the rest is deleted. Archived items are deleted.
+    private var bulkSplit: (archive: [Item], delete: [Item]) {
+        let chosen = items.filter { selection.contains($0.uuid) }
+        let archive = chosen.filter { !$0.isArchived && ItemActions.hasHistory($0) }
+        let archiveIDs = Set(archive.map(\.uuid))
+        return (archive, chosen.filter { !archiveIDs.contains($0.uuid) })
+    }
+
+    private var bulkTitle: String {
+        let s = bulkSplit
+        return L10n.f("select.archiveDeleteSummary", s.archive.count, s.delete.count)
+    }
+
+    private func applyBulk() {
+        let s = bulkSplit
+        for item in s.archive { item.isArchived = true }
+        for item in s.delete { context.delete(item) }
+        selection = []
+        selecting = false
+        DataEvents.changed(context)
+    }
+
     private var deleteTitle: String {
         guard let item = pendingDelete else { return "" }
-        return ItemActions.hasHistory(item) ? L10n.f("parts.deleteKeepsHistory", item.name)
-                                            : L10n.f("parts.deleteConfirm", item.name)
+        return ItemActions.hasHistory(item) ? L10n.f("parts.deleteKeepsHistory", item.displayName)
+                                            : L10n.f("parts.deleteConfirm", item.displayName)
     }
 
     private func restore(_ item: Item) {
-        if case .active(let other) = ItemNameRules.conflict(for: item.name, editingItemID: item.uuid,
+        if case .active(let other) = ItemNameRules.conflict(for: item.displayName, editingItemID: item.uuid,
                                                              items: items.map(\.info)) {
             restoreBlocked = L10n.f("parts.restoreBlocked", other.name)
             return
@@ -116,28 +193,35 @@ struct PartsView: View {
     }
 }
 
-/// Schedule row: name, interval, last replacement, next one.
+/// Schedule row: colored dot, name, interval, last replacement, next one.
 struct ItemRow: View {
     let item: Item
     let snapshot: DataSnapshot
     let status: ItemStatus?
+    let today: Date
+    let currentKm: Int?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text(item.name).font(.body.weight(.medium)).foregroundStyle(.primary).lineLimit(2)
-            let interval = Self.intervalText(km: item.intervalKm, months: item.intervalMonths)
-            if !interval.isEmpty {
-                Label(interval, systemImage: "arrow.triangle.2.circlepath").font(.subheadline)
-            }
-            if let last = ForecastEngine.lastEntry(for: item.uuid, entries: snapshot.entries) {
-                Label(L10n.f("parts.lastLine", Fmt.km(last.odometerKm), Fmt.date(last.date)),
-                      systemImage: "checkmark.circle")
-                    .font(.subheadline)
-            }
-            if let f = status?.forecast {
-                Label(nextText(f), systemImage: f.isOverdue ? "exclamationmark.triangle" : "calendar")
-                    .font(.subheadline)
-                    .foregroundStyle(f.isOverdue ? Color.red : Color.secondary)
+        let forecast = status?.forecast
+        let urgency = forecast?.urgency(today: today, calendar: Fmt.calendar, currentOdometerKm: currentKm)
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Circle().fill(urgency?.color ?? Color.secondary.opacity(0.4)).frame(width: 8, height: 8)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(item.displayName).font(.body.weight(.medium)).foregroundStyle(.primary).lineLimit(2)
+                let interval = Self.intervalText(km: item.intervalKm, months: item.intervalMonths)
+                if !interval.isEmpty {
+                    Label(interval, systemImage: "arrow.triangle.2.circlepath").font(.subheadline)
+                }
+                if let last = ForecastEngine.lastEntry(for: item.uuid, entries: snapshot.entries) {
+                    Label(L10n.f("parts.lastLine", Fmt.km(last.odometerKm), Fmt.date(last.date)),
+                          systemImage: "checkmark.circle")
+                        .font(.subheadline)
+                }
+                if let f = forecast {
+                    Label(nextText(f), systemImage: f.isOverdue ? "exclamationmark.triangle" : "calendar")
+                        .font(.subheadline)
+                        .foregroundStyle(f.isOverdue ? Color.red : Color.secondary)
+                }
             }
         }
         .foregroundStyle(.secondary)
@@ -148,7 +232,13 @@ struct ItemRow: View {
 
     private func nextText(_ f: ItemForecast) -> String {
         if f.isOverdue { return L10n.t("home.overdue") }
-        if let d = f.dueDate { return L10n.f("parts.nextLine", Fmt.km(f.predictedOdometerKm), Fmt.date(d)) }
+        if let d = f.dueDate {
+            var text = L10n.f("parts.nextLine", Fmt.km(f.predictedOdometerKm), Fmt.monthYear(d).lowercased())
+            if let left = f.kmLeft(currentOdometerKm: currentKm), left > 0 {
+                text += " · " + L10n.f("home.inKm", Fmt.km(left))
+            }
+            return text
+        }
         return L10n.f("parts.nextKmOnly", Fmt.km(f.dueKm ?? f.predictedOdometerKm))
     }
 
@@ -160,8 +250,8 @@ struct ItemRow: View {
     }
 }
 
-/// New item or item card. A new item needs its last replacement (it becomes a History entry).
-/// An existing item shows its last replacement read-only, with "Log service".
+/// Item card. Catalog items have a fixed (translated) name; custom names can be edited. A new item (only for
+/// "It's a different part") needs its last replacement. Shows the item's full replacement history.
 struct ItemEditorView: View {
     let item: Item?
     let draft: Router.ItemDraft
@@ -172,7 +262,6 @@ struct ItemEditorView: View {
     @Query(sort: \Item.createdAt) private var allItems: [Item]
     @Query private var entries: [ServiceEntry]
     @Query private var readings: [OdometerReading]
-    @Query private var cars: [Car]
 
     @State private var name = ""
     @State private var aliases = ""
@@ -195,16 +284,19 @@ struct ItemEditorView: View {
     @State private var askConflict = false
 
     private var isNew: Bool { item == nil }
+    private var isCatalog: Bool { item?.isFromCatalog == true }
+    private var catalogItem: CatalogItem? { Catalog.item(item?.catalogKey) }
 
     private var currentOdometer: OdometerReadingInfo? {
         OdometerRules.current(readings: readings.map(\.info), entries: entries.map(\.info), calendar: Fmt.calendar)
     }
 
     private var nameConflict: ItemNameRules.Conflict {
-        ItemNameRules.conflict(for: name, editingItemID: item?.uuid, items: allItems.map(\.info))
+        isCatalog ? .none : ItemNameRules.conflict(for: name, editingItemID: item?.uuid, items: allItems.map(\.info))
     }
 
     private var nameError: FieldError? {
+        if isCatalog { return nil }
         if let e = ValidationRules.text(name, required: true, max: Limits.itemName) { return e }
         if case .active(let other) = nameConflict { return .duplicate(name: other.name) }
         return nil
@@ -227,19 +319,31 @@ struct ItemEditorView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField(L10n.t("item.name"), text: $name)
-                        .limitLength($name, Limits.itemName)
-                        .frame(minHeight: 44)
-                    FieldErrorText(error: nameError, show: triedSave || nameError != .required)
+                    if isCatalog {
+                        LabeledField(label: L10n.t("item.nameLabel")) {
+                            Text(item?.displayName ?? "").foregroundStyle(.secondary)
+                        }
+                    } else {
+                        TextField(L10n.t("item.name"), text: $name)
+                            .limitLength($name, Limits.itemName)
+                            .frame(minHeight: 44)
+                        FieldErrorText(error: nameError, show: triedSave || nameError != .required)
+                        if case .catalog(let c) = nameConflict {
+                            Text(L10n.f("item.inCatalog", c.name(L10n.assistantLanguage)))
+                                .font(.footnote).foregroundStyle(.orange)
+                        }
+                    }
+                } footer: {
+                    if isCatalog { Text(L10n.t("item.catalogNameFooter")) }
                 }
 
                 Section {
                     LabeledField(label: L10n.t("item.intervalKm")) {
-                        NumberField(title: L10n.t("item.optional"), value: $intervalKm).frame(maxWidth: 120)
+                        NumberField(title: hintKm, value: $intervalKm).frame(maxWidth: 140)
                     }
                     FieldErrorText(error: kmError)
                     LabeledField(label: L10n.t("item.intervalMonths")) {
-                        NumberField(title: L10n.t("item.optional"), value: $intervalMonths).frame(maxWidth: 120)
+                        NumberField(title: hintMonths, value: $intervalMonths).frame(maxWidth: 140)
                     }
                     FieldErrorText(error: monthsError)
                 } header: {
@@ -249,6 +353,14 @@ struct ItemEditorView: View {
                 }
 
                 lastReplacementSection
+
+                if let item, !isNew {
+                    Section {
+                        ItemHistoryList(item: item)
+                    } header: {
+                        Text(L10n.f("history.count", (item.entries ?? []).count))
+                    }
+                }
 
                 Section {
                     DisclosureGroup(L10n.t("item.more"), isExpanded: $showMore) {
@@ -276,7 +388,7 @@ struct ItemEditorView: View {
                     Button(L10n.t("common.cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.t("common.save")) { startSave() }
+                    Button(L10n.t("common.save")) { startSave() }.accessibilityIdentifier("item.save")
                 }
             }
             .alert(L10n.f("item.archivedDuplicateTitle", askArchivedDuplicate?.name ?? ""),
@@ -310,6 +422,15 @@ struct ItemEditorView: View {
             }
             .onAppear(perform: load)
         }
+    }
+
+    private var hintKm: String {
+        catalogItem?.hintKm.map { L10n.f("hint.usually", AssistantFormat.groupDigits($0, separator: "\u{00A0}")) }
+            ?? L10n.t("item.optional")
+    }
+
+    private var hintMonths: String {
+        catalogItem?.hintMonths.map { L10n.f("hint.usually", String($0)) } ?? L10n.t("item.optional")
     }
 
     @ViewBuilder
@@ -387,7 +508,7 @@ struct ItemEditorView: View {
         triedSave = true
         keepOldOEM = false
         guard isValid else { return }
-        let renamed = item.map { ItemNameRules.key($0.name) != ItemNameRules.key(name) } ?? true
+        let renamed = !isCatalog && (item.map { ItemNameRules.key($0.name) != ItemNameRules.key(name) } ?? true)
         if renamed, case .archived(let other) = nameConflict {
             askArchivedDuplicate = other
         } else {
@@ -395,9 +516,9 @@ struct ItemEditorView: View {
         }
     }
 
-    // Step 2: renaming an item that has history.
+    // Step 2: renaming a custom item that has history.
     private func afterArchivedCheck() {
-        if let i = item, ItemNameRules.key(i.name) != ItemNameRules.key(name), ItemActions.hasHistory(i) {
+        if !isCatalog, let i = item, ItemNameRules.key(i.name) != ItemNameRules.key(name), ItemActions.hasHistory(i) {
             askRename = true
         } else {
             afterRenameCheck(typo: false)
@@ -435,7 +556,7 @@ struct ItemEditorView: View {
             target = Item(name: name.trimmed)
             context.insert(target)
         }
-        target.name = name.trimmed
+        if !isCatalog { target.name = name.trimmed }
         target.aliases = aliases.listItems.map { String($0.prefix(Limits.alias)) }
         target.intervalKm = intervalKm
         target.intervalMonths = intervalMonths

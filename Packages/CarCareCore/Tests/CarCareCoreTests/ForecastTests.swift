@@ -147,8 +147,8 @@ final class ForecastTests: XCTestCase {
         let statuses = ForecastEngine.statuses(for: g.snapshot, today: today, calendar: cal)
         let groups = ForecastGroups.make(from: statuses, calendar: cal)
         XCTAssertTrue(groups.overdue.isEmpty)
-        // Engine oil, oil filter and LPG filters are all due on 27 Oct (230 000 km).
-        XCTAssertEqual(groups.upcoming.first?.day, TS.d(2026, 10, 27))
+        // Engine oil, oil filter and LPG filters are all due on 27 Oct (230 000 km): the October card.
+        XCTAssertEqual(groups.upcoming.first?.month, TS.d(2026, 10, 1))
         XCTAssertEqual(Set(groups.upcoming.first?.forecasts.map(\.itemID) ?? []),
                        Set([g.engineOil.id, g.oilFilter.id, g.lpg.id]))
         let days = groups.upcoming.map(\.day)

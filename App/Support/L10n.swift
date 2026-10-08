@@ -54,6 +54,12 @@ enum Fmt {
         AssistantFormat.date(date, L10n.assistantLanguage, calendar: calendar)
     }
 
+    /// "Березень 2027": month card titles.
+    static func monthYear(_ date: Date) -> String {
+        let s = AssistantFormat.monthYear(date, L10n.assistantLanguage, calendar: calendar)
+        return s.prefix(1).uppercased() + s.dropFirst()
+    }
+
     /// "20 листопада" for dates in the current year, otherwise with the year.
     static func shortDate(_ date: Date) -> String {
         let cal = calendar

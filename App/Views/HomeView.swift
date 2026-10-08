@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import CarCareCore
 
+/// Home: odometer card, then overdue items, then one card per month (traffic-light colors), then "Later".
 struct HomeView: View {
     @Query private var cars: [Car]
     @Query(sort: \Item.createdAt) private var items: [Item]
@@ -23,20 +24,16 @@ struct HomeView: View {
             let groups = ForecastGroups.make(from: statuses, calendar: calendar, today: now,
                                              currentOdometerKm: current?.km)
             let activeItems = items.filter { !$0.isArchived }
-            let noHistoryCount = statuses.values.filter { $0 == .noHistory }.count
+            let withoutForecast = activeItems.filter { statuses[$0.uuid]?.forecast == nil }.count
+            let stale = OdometerRules.needsNudge(readings: snapshot.odometerReadings, entries: snapshot.entries,
+                                                 now: now, calendar: calendar)
+            let ctx = RowContext(today: now, calendar: calendar, currentKm: current?.km)
 
             List {
                 Section {
-                    odometerCard(current: current, now: now)
+                    odometerCard(current: current, now: now, stale: stale)
                 }
-
-                if OdometerRules.needsNudge(readings: snapshot.odometerReadings, entries: snapshot.entries,
-                                            now: now, calendar: calendar) {
-                    Section {
-                        Banner(icon: "speedometer", text: L10n.t("home.nudge"), style: .warning,
-                               actionTitle: L10n.t("home.updateOdometer")) { router.open(.odometer) }
-                    }
-                }
+                .listRowBackground(stale ? Color.orange.opacity(0.14) : nil)
 
                 if persistence.iCloudState.showsWarning {
                     Section {
@@ -50,24 +47,22 @@ struct HomeView: View {
 
                 if !groups.overdue.isEmpty {
                     Section {
-                        ForEach(groups.overdue, id: \.itemID) { f in row(f, sameDay: [f.itemID]) }
+                        ForEach(groups.overdue, id: \.itemID) { f in
+                            row(f, ctx: ctx, sameDay: [f.itemID])
+                        }
+                        .listRowBackground(Urgency.overdue.tint)
                     } header: {
-                        Label(L10n.t("home.overdue"), systemImage: "exclamationmark.triangle.fill")
-                            .foregroundStyle(.red)
+                        CardHeader(title: L10n.t("home.overdue"), urgency: .overdue)
                     }
                 }
 
-                ForEach(groups.upcoming, id: \.day) { group in
-                    Section(Fmt.date(group.day)) {
-                        ForEach(group.forecasts, id: \.itemID) { f in
-                            row(f, sameDay: group.forecasts.map(\.itemID))
-                        }
-                    }
+                ForEach(groups.upcoming, id: \.month) { group in
+                    monthSection(group, ctx: ctx)
                 }
 
                 if !groups.undated.isEmpty {
                     Section {
-                        ForEach(groups.undated, id: \.itemID) { f in row(f, sameDay: [f.itemID]) }
+                        ForEach(groups.undated, id: \.itemID) { f in row(f, ctx: ctx, sameDay: [f.itemID]) }
                     } header: {
                         Text(L10n.t("home.undated"))
                     } footer: {
@@ -78,9 +73,11 @@ struct HomeView: View {
                 if !groups.later.isEmpty {
                     Section {
                         DisclosureGroup(isExpanded: $showLater) {
-                            ForEach(groups.later, id: \.day) { group in
+                            ForEach(groups.later, id: \.month) { group in
+                                Text(Fmt.monthYear(group.month)).font(.subheadline.weight(.semibold))
+                                    .foregroundStyle(.secondary)
                                 ForEach(group.forecasts, id: \.itemID) { f in
-                                    row(f, sameDay: group.forecasts.map(\.itemID), showDate: true)
+                                    row(f, ctx: ctx, sameDay: [f.itemID])
                                 }
                             }
                         } label: {
@@ -92,11 +89,14 @@ struct HomeView: View {
                     }
                 }
 
-                if noHistoryCount > 0 {
+                if withoutForecast > 0 {
                     Section {
-                        Text(L10n.f("home.noRecordsCount", noHistoryCount))
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
+                        Button {
+                            router.tab = .parts
+                        } label: {
+                            Label(L10n.f("home.noForecastCount", withoutForecast), systemImage: "info.circle")
+                                .font(.footnote)
+                        }
                     }
                 }
             }
@@ -107,14 +107,39 @@ struct HomeView: View {
         }
     }
 
-    /// Tap: item card. Swipe right: "Log service" with all items due that day preselected.
+    struct RowContext {
+        let today: Date
+        let calendar: Calendar
+        let currentKm: Int?
+    }
+
     @ViewBuilder
-    private func row(_ f: ItemForecast, sameDay: [UUID], showDate: Bool = false) -> some View {
+    private func monthSection(_ group: ForecastGroups.MonthGroup, ctx: RowContext) -> some View {
+        let urgency = group.forecasts.map { $0.urgency(today: ctx.today, calendar: ctx.calendar,
+                                                      currentOdometerKm: ctx.currentKm) }.max() ?? .ok
+        Section {
+            ForEach(group.forecasts, id: \.itemID) { f in
+                let sameDay = group.forecasts
+                    .filter { ctx.calendar.isDate($0.dueDate ?? .distantPast, inSameDayAs: f.dueDate ?? .distantFuture) }
+                    .map(\.itemID)
+                row(f, ctx: ctx, sameDay: sameDay)
+            }
+            .listRowBackground(urgency.tint)
+        } header: {
+            CardHeader(title: Fmt.monthYear(group.month), urgency: urgency)
+        }
+    }
+
+    /// Tap: item card. Swipe right: "Log service" with the items due that same day preselected.
+    @ViewBuilder
+    private func row(_ f: ItemForecast, ctx: RowContext, sameDay: [UUID]) -> some View {
         let item = items.first { $0.uuid == f.itemID }
         Button {
             if let item { router.open(.item(item)) }
         } label: {
-            ForecastRow(name: item?.name ?? "", forecast: f, showDate: showDate)
+            HomeRow(name: item?.displayName ?? "", forecast: f,
+                    urgency: f.urgency(today: ctx.today, calendar: ctx.calendar, currentOdometerKm: ctx.currentKm),
+                    currentKm: ctx.currentKm)
         }
         .foregroundStyle(.primary)
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
@@ -127,19 +152,19 @@ struct HomeView: View {
         }
     }
 
-    private func odometerCard(current: OdometerReadingInfo?, now: Date) -> some View {
+    private func odometerCard(current: OdometerReadingInfo?, now: Date, stale: Bool) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(L10n.t("home.odometer")).font(.subheadline).foregroundStyle(.secondary)
+            HStack(alignment: .center) {
+                VStack(alignment: .leading, spacing: 2) {
+                    let carName = SnapshotBuilder.primaryCar(cars)?.name ?? ""
+                    Text(carName.isEmpty ? L10n.t("home.odometer") : L10n.t("home.odometer") + " · " + carName)
+                        .font(.subheadline).foregroundStyle(.secondary).lineLimit(1)
                     Text(current.map { Fmt.km($0.km) } ?? "—")
                         .font(.title.bold())
                         .monospacedDigit()
                         .lineLimit(1)
                         .fixedSize()
-                    if let car = SnapshotBuilder.primaryCar(cars), !car.name.isEmpty {
-                        Text(car.name).font(.footnote).foregroundStyle(.secondary).lineLimit(1)
-                    }
+                        .accessibilityIdentifier("home.odometerValue")
                 }
                 Spacer(minLength: 8)
                 Button {
@@ -148,21 +173,22 @@ struct HomeView: View {
                     Text(L10n.t("home.update")).frame(minWidth: 90, minHeight: 44)
                 }
                 .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("home.update")
             }
-            Divider()
-            // One text, so it wraps naturally on narrow screens.
-            Label(L10n.f("home.today", Fmt.date(now)) + (current.map { " · " + updatedText($0.date, now: now) } ?? ""),
-                  systemImage: "calendar")
+            Label(statusLine(current: current, now: now), systemImage: stale ? "exclamationmark.circle" : "calendar")
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(stale ? Color.orange : Color.secondary)
                 .lineLimit(2)
         }
         .padding(.vertical, 6)
     }
 
-    private func updatedText(_ date: Date, now: Date) -> String {
-        let days = OdometerRules.daysSince(date, now: now, calendar: Fmt.calendar)
-        return days == 0 ? L10n.t("home.updatedToday") : L10n.f("home.updatedDaysAgo", days)
+    private func statusLine(current: OdometerReadingInfo?, now: Date) -> String {
+        let today = L10n.f("home.today", Fmt.date(now))
+        guard let current else { return today }
+        let days = OdometerRules.daysSince(current.date, now: now, calendar: Fmt.calendar)
+        let updated = days == 0 ? L10n.t("home.updatedToday") : L10n.f("home.updatedDaysAgo", days)
+        return today + " · " + updated
     }
 
     private var emptyState: some View {
@@ -170,7 +196,7 @@ struct HomeView: View {
             Text(L10n.t("home.emptyTitle")).font(.headline)
             Text(L10n.t("home.emptyText")).font(.callout).foregroundStyle(.secondary)
             Button {
-                router.open(.newItem(Router.ItemDraft()))
+                router.open(.addItems)
             } label: {
                 Label(L10n.t("add.item"), systemImage: "plus").frame(maxWidth: .infinity, minHeight: 44)
             }
@@ -186,6 +212,65 @@ struct HomeView: View {
         case .localFallback: return L10n.t("icloud.unavailable")
         default: return L10n.t("icloud.syncError")
         }
+    }
+}
+
+/// Month card header: colored dot + title.
+struct CardHeader: View {
+    let title: String
+    let urgency: Urgency
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Circle().fill(urgency.color).frame(width: 9, height: 9)
+            Text(title).foregroundStyle(urgency.color)
+        }
+        .font(.subheadline.weight(.semibold))
+        .textCase(nil)
+    }
+}
+
+/// One item on Home: dot, name, "≈ 236 000 km · in 7 900 km" (or how far past the limit for overdue items).
+struct HomeRow: View {
+    let name: String
+    let forecast: ItemForecast
+    let urgency: Urgency
+    let currentKm: Int?
+
+    var body: some View {
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            Circle().fill(urgency.color).frame(width: 8, height: 8)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(name).font(.body.weight(.medium)).lineLimit(2)
+                Label(detail, systemImage: forecast.reason == .mileage ? "gauge.with.dots.needle.33percent" : "clock")
+                    .font(.subheadline)
+                    .foregroundStyle(urgency == .overdue ? Color.red : Color.secondary)
+                    .lineLimit(2)
+            }
+        }
+        .padding(.vertical, 3)
+        .contentShape(Rectangle())
+    }
+
+    private var detail: String {
+        if forecast.isOverdue {
+            let limits = forecast.overdueLimits
+            var parts: [String] = []
+            if let km = limits.km {
+                parts.append(L10n.f("home.overdueKm", Fmt.km(km)))
+                if let cur = currentKm, cur > km { parts.append(L10n.f("home.overBy", Fmt.km(cur - km))) }
+            }
+            if let d = limits.date { parts.append(L10n.f("home.overdueDate", Fmt.date(d))) }
+            return parts.joined(separator: " · ")
+        }
+        if forecast.dueDate == nil, let km = forecast.dueKm {
+            return L10n.f("home.atKm", Fmt.km(km))
+        }
+        var text = "≈ " + Fmt.km(forecast.predictedOdometerKm)
+        if let left = forecast.kmLeft(currentOdometerKm: currentKm), left > 0 {
+            text += " · " + L10n.f("home.inKm", Fmt.km(left))
+        }
+        return text
     }
 }
 
@@ -209,6 +294,7 @@ struct OdometerUpdateView: View {
             Form {
                 Section {
                     NumberField(title: L10n.t("odometer.placeholder"), value: $km)
+                        .accessibilityIdentifier("odometer.field")
                         .font(.title2)
                     FieldErrorText(error: error, show: triedSave)
                 } footer: {
@@ -224,7 +310,7 @@ struct OdometerUpdateView: View {
                     Button(L10n.t("common.cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.t("common.save")) { trySave() }
+                    Button(L10n.t("common.save")) { trySave() }.accessibilityIdentifier("odometer.save")
                 }
             }
             .alert(L10n.t("odometer.lowerTitle"), isPresented: $confirmLower) {

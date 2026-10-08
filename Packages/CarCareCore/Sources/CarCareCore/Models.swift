@@ -55,10 +55,12 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
     public var analogNumbers: [String]
     /// Archived items keep their history but get no forecast and no reminders.
     public var isArchived: Bool
+    /// Set for items added from the built-in catalog: their name follows the app language.
+    public var catalogKey: String?
 
     public init(id: UUID = UUID(), name: String, aliases: [String] = [], intervalKm: Int? = nil,
                 intervalMonths: Int? = nil, oemNumber: String? = nil, analogNumbers: [String] = [],
-                isArchived: Bool = false) {
+                isArchived: Bool = false, catalogKey: String? = nil) {
         self.id = id
         self.name = name
         self.aliases = aliases
@@ -67,6 +69,7 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
         self.oemNumber = oemNumber
         self.analogNumbers = analogNumbers
         self.isArchived = isArchived
+        self.catalogKey = catalogKey
     }
 
     public init(from decoder: Decoder) throws {
@@ -79,7 +82,13 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
         oemNumber = try c.decodeIfPresent(String.self, forKey: .oemNumber)
         analogNumbers = try c.decodeIfPresent([String].self, forKey: .analogNumbers) ?? []
         isArchived = try c.decodeIfPresent(Bool.self, forKey: .isArchived) ?? false
+        catalogKey = try c.decodeIfPresent(String.self, forKey: .catalogKey)
     }
+
+    public var catalogItem: CatalogItem? { Catalog.item(catalogKey) }
+
+    /// Names in all three languages for catalog items, otherwise the custom name.
+    public var allNames: [String] { catalogItem?.allNames ?? [name] }
 
     public var hasInterval: Bool {
         (intervalKm ?? 0) > 0 || (intervalMonths ?? 0) > 0
@@ -94,13 +103,17 @@ public struct ServiceEntryInfo: Codable, Equatable, Identifiable {
     /// Item names as they were when the entry was recorded, same order as itemIDs.
     /// History shows these, so renaming or deleting an item never rewrites the past.
     public var itemNames: [String]
+    /// Catalog keys of the items, same order ("" for custom items), so names can follow the app language.
+    public var itemCatalogKeys: [String]
 
-    public init(id: UUID = UUID(), date: Date, odometerKm: Int, itemIDs: [UUID], itemNames: [String] = []) {
+    public init(id: UUID = UUID(), date: Date, odometerKm: Int, itemIDs: [UUID], itemNames: [String] = [],
+                itemCatalogKeys: [String] = []) {
         self.id = id
         self.date = date
         self.odometerKm = odometerKm
         self.itemIDs = itemIDs
         self.itemNames = itemNames
+        self.itemCatalogKeys = itemCatalogKeys
     }
 
     public init(from decoder: Decoder) throws {
@@ -110,6 +123,7 @@ public struct ServiceEntryInfo: Codable, Equatable, Identifiable {
         odometerKm = try c.decode(Int.self, forKey: .odometerKm)
         itemIDs = try c.decode([UUID].self, forKey: .itemIDs)
         itemNames = try c.decodeIfPresent([String].self, forKey: .itemNames) ?? []
+        itemCatalogKeys = try c.decodeIfPresent([String].self, forKey: .itemCatalogKeys) ?? []
     }
 
     /// Recorded names, falling back to the current item name for entries without a snapshot.

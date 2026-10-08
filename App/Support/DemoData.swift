@@ -57,23 +57,31 @@ enum DemoMode {
             return i
         }
 
-        let oil = item(n("Моторне масло", "Моторное масло", "Engine oil"), km: 10_000, months: 12,
-                       oem: "G 052 195 M4", analogs: ["Castrol EDGE 5W-30 LL"])
-        let oilFilter = item(n("Масляний фільтр", "Масляный фильтр", "Oil filter"), km: 10_000, months: 12,
-                             oem: "03C 115 562", analogs: ["MANN W 719/45", "BOSCH F 026 407 209"])
-        let cabin = item(n("Фільтр салону", "Фильтр салона", "Cabin filter"), km: 15_000, months: 12,
-                         oem: "5Q0 819 653")
-        let air = item(n("Повітряний фільтр", "Воздушный фильтр", "Air filter"), km: 30_000, months: 24,
-                       oem: "5Q0 129 620 B")
-        let atf = item(n("Масло АКП", "Масло АКП", "ATF"), km: 60_000, oem: "G 052 182 A2",
-                       analogs: ["Febi 39070"], aliases: ["ATF", "DSG"])
-        let plugs = item(n("Свічки запалювання", "Свечи зажигания", "Spark plugs"), km: 60_000,
-                         oem: "04E 905 612 C")
-        let lpg = item(n("Фільтри ГБО", "Фильтры ГБО", "LPG filters"), km: 10_000)
-        let brake = item(n("Гальмівна рідина", "Тормозная жидкость", "Brake fluid"), months: 24)
-        let belt = item(n("Ремінь ГРМ", "Ремень ГРМ", "Timing belt"), km: 90_000, months: 60)
-        let battery = item(n("Акумулятор", "Аккумулятор", "Battery"), months: 60)
+        func fromCatalog(_ key: String, km: Int? = nil, months: Int? = nil, oem: String? = nil,
+                         analogs: [String] = []) -> Item {
+            let i = item(Catalog.name(key, L10n.assistantLanguage) ?? key, km: km, months: months, oem: oem, analogs: analogs)
+            i.catalogKey = key
+            return i
+        }
+
+        let oil = fromCatalog("engine_oil", km: 10_000, months: 12, oem: "G 052 195 M4",
+                              analogs: ["Castrol EDGE 5W-30 LL"])
+        let oilFilter = fromCatalog("oil_filter", km: 10_000, months: 12, oem: "03C 115 562",
+                                    analogs: ["MANN W 719/45", "BOSCH F 026 407 209"])
+        let cabin = fromCatalog("cabin_filter", km: 15_000, months: 12, oem: "5Q0 819 653")
+        let air = fromCatalog("air_filter", km: 30_000, months: 24, oem: "5Q0 129 620 B")
+        let atf = fromCatalog("dsg_oil", km: 60_000, oem: "G 052 182 A2", analogs: ["Febi 39070"])
+        let plugs = fromCatalog("spark_plugs", km: 60_000, oem: "04E 905 612 C")
+        let lpg = fromCatalog("lpg_filters", km: 10_000)
+        let brake = fromCatalog("brake_fluid", months: 24)
+        let belt = fromCatalog("timing_belt", km: 90_000, months: 60)
+        let pads = fromCatalog("front_pads", km: 30_000)
+        let tires = fromCatalog("seasonal_tires", months: 6)
+        // A custom item, shown as typed in every language.
+        let washer = item(n("Чистка радіатора", "Чистка радиатора", "Radiator cleaning"), km: 40_000)
+        let battery = fromCatalog("battery", months: 60)
         battery.isArchived = true
+        _ = washer
 
         let entries: [(Int, Int, [Item])] = [
             (340, 214_000, [oil, oilFilter, lpg, air]),
@@ -81,7 +89,9 @@ enum DemoMode {
             (120, 224_500, [brake]),
             (700, 196_000, [atf, plugs]),
             (40, 227_000, [oil, oilFilter]),
-            (900, 190_500, [belt, battery])
+            (900, 190_500, [belt, battery]),
+            (330, 215_000, [pads]),
+            (150, 223_000, [tires])
         ]
         for (days, km, items) in entries {
             context.insert(ServiceEntry(date: daysAgo(days), odometerKm: km, items: items))

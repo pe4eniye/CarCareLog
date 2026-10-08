@@ -23,6 +23,7 @@ final class Car {
 @Model
 final class Item {
     var uuid: UUID = UUID()
+    /// Custom name. For catalog items: the name in the language used when it was added (fallback only).
     var name: String = ""
     var aliases: [String] = []
     var intervalKm: Int?
@@ -30,18 +31,29 @@ final class Item {
     var oemNumber: String?
     var analogNumbers: [String] = []
     var isArchived: Bool = false
+    /// Set for items added from the built-in catalog; the shown name then follows the app language.
+    var catalogKey: String?
     var createdAt: Date = Date()
     var entries: [ServiceEntry]? = []
 
-    init(name: String) {
+    init(name: String, catalogKey: String? = nil) {
         self.name = name
+        self.catalogKey = catalogKey
     }
+
+    /// Name in the current app language.
+    var displayName: String { Catalog.name(catalogKey, L10n.assistantLanguage) ?? name }
+    var isFromCatalog: Bool { Catalog.item(catalogKey) != nil }
 }
 
 /// The name of an item as it was when the entry was recorded.
 struct EntryItemSnapshot: Codable, Hashable {
     var itemID: UUID
     var name: String
+    /// Catalog items are shown in the current app language.
+    var catalogKey: String?
+
+    var displayName: String { Catalog.name(catalogKey, L10n.assistantLanguage) ?? name }
 }
 
 @Model
@@ -64,24 +76,26 @@ final class ServiceEntry {
 
     /// Sets the linked items. Names already recorded for kept items stay as they were.
     func setItems(_ newItems: [Item]) {
-        let old = Dictionary(snapshot.map { ($0.itemID, $0.name) }, uniquingKeysWith: { a, _ in a })
+        let old = Dictionary(snapshot.map { ($0.itemID, $0) }, uniquingKeysWith: { a, _ in a })
         let liveBefore = Set((items ?? []).map(\.uuid))
         let newIDs = Set(newItems.map(\.uuid))
         // Items deleted since the entry was recorded are no longer linked; keep their recorded names.
         // Linked items the user unticked are dropped.
         let deleted = snapshot.filter { !liveBefore.contains($0.itemID) && !newIDs.contains($0.itemID) }
         items = newItems
-        snapshot = deleted + newItems.map { EntryItemSnapshot(itemID: $0.uuid, name: old[$0.uuid] ?? $0.name) }
+        snapshot = deleted + newItems.map {
+            old[$0.uuid] ?? EntryItemSnapshot(itemID: $0.uuid, name: $0.displayName, catalogKey: $0.catalogKey)
+        }
     }
 
-    /// Names to show in History, alphabetically.
+    /// Names to show in History, alphabetically, in the current language for catalog items.
     var displayNames: [String] {
-        let names = snapshot.isEmpty ? (items ?? []).map(\.name) : snapshot.map(\.name)
+        let names = snapshot.isEmpty ? (items ?? []).map(\.displayName) : snapshot.map(\.displayName)
         return names.sorted { $0.localizedCaseInsensitiveCompare($1) == .orderedAscending }
     }
 
     var sortedItems: [Item] {
-        (items ?? []).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        (items ?? []).sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
     }
 }
 
@@ -97,7 +111,7 @@ final class OdometerReading {
     }
 }
 
-// MARK: - Mapping to CarCareCore values
+// MARK: - Mapping to CarCareCore values (names resolved in the current app language)
 
 extension Car {
     var info: CarInfo { CarInfo(id: uuid, name: name, vin: vin, avgKmPerMonth: avgKmPerMonth) }
@@ -105,8 +119,8 @@ extension Car {
 
 extension Item {
     var info: ItemInfo {
-        ItemInfo(id: uuid, name: name, aliases: aliases, intervalKm: intervalKm, intervalMonths: intervalMonths,
-                 oemNumber: oemNumber, analogNumbers: analogNumbers, isArchived: isArchived)
+        ItemInfo(id: uuid, name: displayName, aliases: aliases, intervalKm: intervalKm, intervalMonths: intervalMonths,
+                 oemNumber: oemNumber, analogNumbers: analogNumbers, isArchived: isArchived, catalogKey: catalogKey)
     }
 }
 
@@ -115,10 +129,11 @@ extension ServiceEntry {
         if snapshot.isEmpty {
             let list = items ?? []
             return ServiceEntryInfo(id: uuid, date: date, odometerKm: odometerKm, itemIDs: list.map(\.uuid),
-                                    itemNames: list.map(\.name))
+                                    itemNames: list.map(\.displayName), itemCatalogKeys: list.map { $0.catalogKey ?? "" })
         }
         return ServiceEntryInfo(id: uuid, date: date, odometerKm: odometerKm, itemIDs: snapshot.map(\.itemID),
-                                itemNames: snapshot.map(\.name))
+                                itemNames: snapshot.map(\.displayName),
+                                itemCatalogKeys: snapshot.map { $0.catalogKey ?? "" })
     }
 }
 
@@ -145,14 +160,19 @@ enum SnapshotBuilder {
         cars.min { $0.createdAt < $1.createdAt }
     }
 
-    /// Replaces everything in the store with the backup contents.
-    static func restore(_ snapshot: DataSnapshot, into context: ModelContext) throws {
+    /// Deletes everything (car, items, history, odometer).
+    static func deleteAll(in context: ModelContext) throws {
         // Deleting one by one is slower than a batch delete but safe with relationships.
         for e in try context.fetch(FetchDescriptor<ServiceEntry>()) { context.delete(e) }
         for i in try context.fetch(FetchDescriptor<Item>()) { context.delete(i) }
         for r in try context.fetch(FetchDescriptor<OdometerReading>()) { context.delete(r) }
         for c in try context.fetch(FetchDescriptor<Car>()) { context.delete(c) }
         try context.save()
+    }
+
+    /// Replaces everything in the store with the backup contents.
+    static func restore(_ snapshot: DataSnapshot, into context: ModelContext) throws {
+        try deleteAll(in: context)
 
         if let c = snapshot.car {
             let car = Car(name: c.name, vin: c.vin, avgKmPerMonth: c.avgKmPerMonth)
@@ -161,7 +181,7 @@ enum SnapshotBuilder {
         }
         var byID: [UUID: Item] = [:]
         for (index, i) in snapshot.items.enumerated() {
-            let item = Item(name: i.name)
+            let item = Item(name: i.name, catalogKey: i.catalogKey)
             item.uuid = i.id
             item.aliases = i.aliases
             item.intervalKm = i.intervalKm
@@ -178,7 +198,11 @@ enum SnapshotBuilder {
             let entry = ServiceEntry(date: e.date, odometerKm: e.odometerKm, items: e.itemIDs.compactMap { byID[$0] })
             entry.uuid = e.id
             let names = e.displayNames(items: snapshot.items)
-            entry.snapshot = zip(e.itemIDs, names).map { EntryItemSnapshot(itemID: $0, name: $1) }
+            entry.snapshot = e.itemIDs.enumerated().map { index, id in
+                let key = index < e.itemCatalogKeys.count ? e.itemCatalogKeys[index] : ""
+                return EntryItemSnapshot(itemID: id, name: index < names.count ? names[index] : "",
+                                         catalogKey: key.isEmpty ? nil : key)
+            }
             context.insert(entry)
         }
         for r in snapshot.odometerReadings {
@@ -193,13 +217,42 @@ enum SnapshotBuilder {
 /// Item operations shared by the editor and the lists.
 @MainActor
 enum ItemActions {
-    /// "Fix a typo": rename the item and the names recorded in its history.
+    /// "Fix a typo": rename the item and the names recorded in its history (custom items only).
     static func renameEverywhere(_ item: Item, to newName: String) {
         item.name = newName
         for entry in item.entries ?? [] {
-            entry.snapshot = entry.snapshot.map { $0.itemID == item.uuid ? EntryItemSnapshot(itemID: $0.itemID, name: newName) : $0 }
+            entry.snapshot = entry.snapshot.map {
+                $0.itemID == item.uuid ? EntryItemSnapshot(itemID: $0.itemID, name: newName, catalogKey: nil) : $0
+            }
         }
     }
 
     static func hasHistory(_ item: Item) -> Bool { !(item.entries ?? []).isEmpty }
+
+    /// A new item for a pick in "Log service" or the catalog list.
+    static func makeItem(_ choice: ItemChoiceDraft, order: Int, context: ModelContext) -> Item {
+        let item: Item
+        switch choice {
+        case .catalog(let key):
+            item = Item(name: Catalog.name(key, L10n.assistantLanguage) ?? key, catalogKey: key)
+        case .custom(let name):
+            item = Item(name: name)
+        }
+        item.createdAt = Date().addingTimeInterval(TimeInterval(order) / 1000)
+        context.insert(item)
+        return item
+    }
+}
+
+/// Something to add that is not in the schedule yet.
+enum ItemChoiceDraft: Hashable {
+    case catalog(String)
+    case custom(String)
+
+    var displayName: String {
+        switch self {
+        case .catalog(let key): return Catalog.name(key, L10n.assistantLanguage) ?? key
+        case .custom(let name): return name
+        }
+    }
 }

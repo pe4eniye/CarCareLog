@@ -3,46 +3,153 @@ import SwiftData
 import CarCareCore
 
 struct HistoryView: View {
+    enum Mode: Hashable { case byDate, byItem }
+
     @Environment(\.modelContext) private var context
     @EnvironmentObject private var router: Router
     @Query(sort: [SortDescriptor(\ServiceEntry.date, order: .reverse),
                   SortDescriptor(\ServiceEntry.odometerKm, order: .reverse)])
     private var entries: [ServiceEntry]
+    @Query(sort: \Item.createdAt) private var items: [Item]
 
-    @State private var pendingDelete: ServiceEntry?
+    @State private var mode: Mode = .byDate
+    @State private var selecting = false
+    @State private var selection = Set<UUID>()
+    @State private var confirmDelete = false
 
     var body: some View {
         NavigationStack {
             List {
-                if entries.isEmpty {
-                    Banner(icon: "plus.circle", text: L10n.t("history.empty"))
-                }
-                ForEach(entries) { entry in
-                    Button {
-                        router.open(.editEntry(entry))
-                    } label: {
-                        EntryRow(entry: entry)
+                if !entries.isEmpty {
+                    Picker("", selection: $mode) {
+                        Text(L10n.t("history.byDate")).tag(Mode.byDate)
+                        Text(L10n.t("history.byItem")).tag(Mode.byItem)
                     }
-                    .foregroundStyle(.primary)
-                    .swipeActions {
-                        Button(L10n.t("common.delete"), role: .destructive) { pendingDelete = entry }
+                    .pickerStyle(.segmented)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .disabled(selecting)
+                }
+                if entries.isEmpty {
+                    Banner(icon: "plus.circle", text: L10n.t("history.empty"),
+                           actionTitle: L10n.t("add.logService")) { router.open(.logService([])) }
+                }
+                if mode == .byDate {
+                    ForEach(entries) { entry in
+                        Button {
+                            if selecting { toggle(entry.uuid) } else { router.open(.editEntry(entry)) }
+                        } label: {
+                            HStack(spacing: 12) {
+                                if selecting { SelectionMark(selected: selection.contains(entry.uuid)) }
+                                EntryRow(entry: entry)
+                            }
+                        }
+                        .foregroundStyle(.primary)
+                        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+                            startSelecting(with: entry.uuid)
+                        })
+                        .swipeActions {
+                            if !selecting {
+                                Button(L10n.t("common.delete"), role: .destructive) {
+                                    selection = [entry.uuid]
+                                    confirmDelete = true
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    ForEach(itemsWithHistory) { item in
+                        NavigationLink {
+                            ItemHistoryView(item: item)
+                        } label: {
+                            ItemHistorySummaryRow(item: item)
+                        }
                     }
                 }
             }
             .navigationTitle(L10n.t("tab.history"))
             .toolbar {
+                if mode == .byDate && !entries.isEmpty {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button(selecting ? L10n.t("common.done") : L10n.t("select.start")) {
+                            selecting.toggle()
+                            selection = []
+                        }
+                        .accessibilityIdentifier("history.select")
+                    }
+                }
                 ToolbarItem(placement: .primaryAction) { AddMenuButton() }
             }
-            .confirmationDialog(L10n.t("entry.deleteConfirm"),
-                                isPresented: Binding(get: { pendingDelete != nil }, set: { if !$0 { pendingDelete = nil } }),
+            .safeAreaInset(edge: .bottom) {
+                if selecting {
+                    SelectionBar(count: selection.count, allSelected: selection.count == entries.count,
+                                 actionTitle: L10n.f("select.delete", selection.count)) {
+                        selection = selection.count == entries.count ? [] : Set(entries.map(\.uuid))
+                    } action: {
+                        confirmDelete = true
+                    }
+                }
+            }
+            .confirmationDialog(L10n.f("history.deleteMany", selection.count), isPresented: $confirmDelete,
                                 titleVisibility: .visible) {
                 Button(L10n.t("common.delete"), role: .destructive) {
-                    if let e = pendingDelete { context.delete(e) }
-                    pendingDelete = nil
+                    for e in entries where selection.contains(e.uuid) { context.delete(e) }
+                    selection = []
+                    selecting = false
                     DataEvents.changed(context)
                 }
             }
         }
+    }
+
+    private var itemsWithHistory: [Item] {
+        items.filter { ItemActions.hasHistory($0) }
+            .sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
+    }
+
+    private func toggle(_ id: UUID) {
+        if selection.contains(id) { selection.remove(id) } else { selection.insert(id) }
+    }
+
+    private func startSelecting(with id: UUID) {
+        guard !selecting else { return }
+        selecting = true
+        selection = [id]
+    }
+}
+
+struct SelectionMark: View {
+    let selected: Bool
+
+    var body: some View {
+        Image(systemName: selected ? "checkmark.circle.fill" : "circle")
+            .font(.title3)
+            .foregroundStyle(selected ? Color.accentColor : Color.secondary)
+    }
+}
+
+/// Bottom bar in selection mode: "Select all / Deselect all" and a destructive action.
+struct SelectionBar: View {
+    let count: Int
+    let allSelected: Bool
+    let actionTitle: String
+    let toggleAll: () -> Void
+    let action: () -> Void
+
+    var body: some View {
+        HStack {
+            Button(allSelected ? L10n.t("select.none") : L10n.t("select.all"), action: toggleAll)
+                .frame(minHeight: 44)
+            Spacer()
+            Button(actionTitle, role: .destructive, action: action)
+                .buttonStyle(.borderedProminent)
+                .tint(.red)
+                .disabled(count == 0)
+                .accessibilityIdentifier("select.action")
+        }
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+        .background(.bar)
     }
 }
 
@@ -69,6 +176,95 @@ struct EntryRow: View {
     }
 }
 
+/// "By item" row: name, number of replacements, the last one.
+struct ItemHistorySummaryRow: View {
+    let item: Item
+
+    var body: some View {
+        let list = (item.entries ?? []).sorted { $0.date > $1.date }
+        VStack(alignment: .leading, spacing: 4) {
+            HStack {
+                Text(item.displayName).font(.body.weight(.medium)).lineLimit(2)
+                if item.isArchived {
+                    Text(L10n.t("parts.archivedBadge")).font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            if let last = list.first {
+                Text(L10n.f("history.itemSummary", list.count, Fmt.date(last.date), Fmt.km(last.odometerKm)))
+                    .font(.subheadline).foregroundStyle(.secondary)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+/// All replacements of one item, newest first, with the distance between them.
+struct ItemHistoryList: View {
+    let item: Item
+
+    var body: some View {
+        let list = (item.entries ?? []).sorted { a, b in a.date != b.date ? a.date > b.date : a.odometerKm > b.odometerKm }
+        if list.isEmpty {
+            Text(L10n.t("item.noRecords")).foregroundStyle(.secondary)
+        }
+        ForEach(Array(list.enumerated()), id: \.element.uuid) { index, entry in
+            VStack(alignment: .leading, spacing: 3) {
+                HStack(spacing: 14) {
+                    Label(Fmt.date(entry.date), systemImage: "calendar")
+                    Label(Fmt.km(entry.odometerKm), systemImage: "gauge.with.dots.needle.33percent").monospacedDigit()
+                }
+                .font(.subheadline)
+                if index + 1 < list.count {
+                    let prev = list[index + 1]
+                    let km = entry.odometerKm - prev.odometerKm
+                    let months = Fmt.calendar.dateComponents([.month], from: prev.date, to: entry.date).month ?? 0
+                    Text(L10n.f("history.sincePrevious", Fmt.km(max(km, 0)), months))
+                        .font(.caption).foregroundStyle(.secondary)
+                }
+            }
+            .padding(.vertical, 2)
+        }
+    }
+}
+
+struct ItemHistoryView: View {
+    let item: Item
+    @EnvironmentObject private var router: Router
+
+    var body: some View {
+        List {
+            Section {
+                ItemHistoryList(item: item)
+            } header: {
+                Text(L10n.f("history.count", (item.entries ?? []).count))
+            }
+            if !item.isArchived {
+                Section {
+                    Button {
+                        router.open(.logService([item.uuid]))
+                    } label: {
+                        Label(L10n.t("add.logService"), systemImage: "checkmark.circle").frame(minHeight: 44)
+                    }
+                }
+            }
+        }
+        .navigationTitle(item.displayName)
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}
+
+/// A position chosen in "Log service": an existing item, or a catalog/custom one created on save.
+struct PickedItem: Hashable, Identifiable {
+    enum Kind: Hashable {
+        case existing(UUID)
+        case draft(ItemChoiceDraft)
+    }
+
+    let kind: Kind
+    let name: String
+    var id: Kind { kind }
+}
+
 /// "Log service": date and odometer are required and start empty, so nothing is recorded "by default".
 struct EntryEditorView: View {
     let entry: ServiceEntry?
@@ -82,7 +278,7 @@ struct EntryEditorView: View {
 
     @State private var date: Date?
     @State private var odometer: Int?
-    @State private var selected: [Item] = []
+    @State private var selected: [PickedItem] = []
     @State private var showPicker = false
     @State private var loaded = false
     @State private var triedSave = false
@@ -107,6 +303,7 @@ struct EntryEditorView: View {
                     FieldErrorText(error: dateError, show: triedSave)
                     LabeledField(label: L10n.t("entry.odometer")) {
                         NumberField(title: L10n.t("entry.km"), value: $odometer).frame(maxWidth: 140)
+                            .accessibilityIdentifier("entry.odometer")
                     }
                     FieldErrorText(error: kmError, show: triedSave)
                 } footer: {
@@ -116,8 +313,15 @@ struct EntryEditorView: View {
                 }
 
                 Section {
-                    ForEach(selected) { item in
-                        Text(item.name).lineLimit(2).frame(minHeight: 36)
+                    ForEach(selected) { p in
+                        HStack {
+                            Text(p.name).lineLimit(2)
+                            if case .draft = p.kind {
+                                Spacer()
+                                Text(L10n.t("entry.newItemBadge")).font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                        .frame(minHeight: 36)
                     }
                     .onDelete { selected.remove(atOffsets: $0) }
                     Button {
@@ -125,11 +329,14 @@ struct EntryEditorView: View {
                     } label: {
                         Label(L10n.t("entry.pickParts"), systemImage: "plus.circle").frame(minHeight: 44)
                     }
+                    .accessibilityIdentifier("entry.pick")
                 } header: {
                     Text(L10n.t("entry.parts"))
                 } footer: {
                     if selected.isEmpty && triedSave {
                         Text(L10n.t("entry.needParts")).foregroundStyle(.red)
+                    } else if selected.contains(where: { if case .draft = $0.kind { return true } else { return false } }) {
+                        Text(L10n.t("entry.newItemsFooter"))
                     }
                 }
 
@@ -147,7 +354,7 @@ struct EntryEditorView: View {
                     Button(L10n.t("common.cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.t("common.save")) { trySave() }
+                    Button(L10n.t("common.save")) { trySave() }.accessibilityIdentifier("entry.save")
                 }
             }
             .sheet(isPresented: $showPicker) {
@@ -173,13 +380,15 @@ struct EntryEditorView: View {
     private func load() {
         guard !loaded else { return }
         loaded = true
+        let source: [Item]
         if let e = entry {
             date = e.date
             odometer = e.odometerKm
-            selected = e.sortedItems
+            source = e.sortedItems
         } else {
-            selected = preselected.compactMap { id in allItems.first { $0.uuid == id } }
+            source = preselected.compactMap { id in allItems.first { $0.uuid == id } }
         }
+        selected = source.map { PickedItem(kind: .existing($0.uuid), name: $0.displayName) }
     }
 
     private func trySave() {
@@ -196,73 +405,170 @@ struct EntryEditorView: View {
 
     private func save() {
         guard let km = odometer, let d = date else { return }
+        var resolved: [Item] = []
+        for (index, p) in selected.enumerated() {
+            switch p.kind {
+            case .existing(let id):
+                if let item = allItems.first(where: { $0.uuid == id }) { resolved.append(item) }
+            case .draft(let draft):
+                resolved.append(ItemActions.makeItem(draft, order: index, context: context))
+            }
+        }
         if let e = entry {
             e.date = d
             e.odometerKm = km
-            e.setItems(selected)
+            e.setItems(resolved)
         } else {
-            context.insert(ServiceEntry(date: d, odometerKm: km, items: selected))
+            context.insert(ServiceEntry(date: d, odometerKm: km, items: resolved))
         }
         DataEvents.changed(context)
         dismiss()
     }
 }
 
-/// Multi-select list of active items with search.
+/// Multi-select: your schedule, then the catalog, then "Custom item «…»" for a search with no match.
+/// A "Done · N selected" bar stays visible even while searching.
 struct ItemPickerView: View {
-    @Binding var selected: [Item]
-
+    @Binding var selected: [PickedItem]
     @Environment(\.dismiss) private var dismiss
-    @Query(filter: #Predicate<Item> { !$0.isArchived }, sort: \Item.createdAt) private var items: [Item]
     @State private var search = ""
-
-    private var filtered: [Item] {
-        let q = search.trimmed
-        guard !q.isEmpty else { return items }
-        return items.filter { item in
-            ([item.name] + item.aliases).contains { $0.localizedCaseInsensitiveContains(q) }
-        }
-    }
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(filtered) { item in
-                    Button {
-                        toggle(item)
-                    } label: {
-                        HStack {
-                            Text(item.name).foregroundStyle(.primary).lineLimit(2)
-                            Spacer()
-                            if selected.contains(where: { $0.uuid == item.uuid }) {
-                                Image(systemName: "checkmark").foregroundStyle(Color.accentColor)
-                            }
-                        }
-                        .frame(minHeight: 44)
-                        .contentShape(Rectangle())
+            PickerList(selected: $selected, search: search)
+                .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always),
+                            prompt: L10n.t("picker.search"))
+                .navigationTitle(L10n.t("entry.parts"))
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .confirmationAction) {
+                        Button(L10n.t("common.done")) { dismiss() }
                     }
                 }
-                if items.isEmpty {
-                    Text(L10n.t("picker.empty")).foregroundStyle(.secondary)
+                .safeAreaInset(edge: .bottom) {
+                    if !selected.isEmpty {
+                        Button {
+                            dismiss()
+                        } label: {
+                            Text(L10n.f("picker.doneCount", selected.count)).frame(maxWidth: .infinity, minHeight: 50)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding(.horizontal)
+                        .padding(.bottom, 8)
+                        .accessibilityIdentifier("picker.done")
+                    }
+                }
+        }
+    }
+}
+
+private struct PickerList: View {
+    @Binding var selected: [PickedItem]
+    let search: String
+
+    @Environment(\.dismissSearch) private var dismissSearch
+    @Query(sort: \Item.createdAt) private var items: [Item]
+    @State private var showCatalog = false
+    @State private var customHint: String?
+
+    private var lang: AssistantLanguage { L10n.assistantLanguage }
+    private var query: String { search.trimmed }
+
+    private func matches(_ names: [String]) -> Bool {
+        query.isEmpty || names.contains { $0.localizedCaseInsensitiveContains(query) }
+    }
+
+    var body: some View {
+        let active = items.filter { !$0.isArchived && matches([$0.displayName] + $0.aliases) }
+        let usedKeys = Set(items.compactMap(\.catalogKey))
+        let catalog = Catalog.items.filter { !usedKeys.contains($0.key) && matches($0.allNames + $0.synonyms) }
+            .sorted { $0.name(lang).localizedCaseInsensitiveCompare($1.name(lang)) == .orderedAscending }
+        let drafts = selected.filter { if case .draft(.custom(_)) = $0.kind { return true } else { return false } }
+
+        List {
+            if !drafts.isEmpty {
+                Section(L10n.t("catalog.yourCustom")) {
+                    ForEach(drafts) { p in
+                        CheckRow(title: p.name, checked: true) { selected.removeAll { $0.id == p.id } }
+                    }
                 }
             }
-            .searchable(text: $search, placement: .navigationBarDrawer(displayMode: .always),
-                        prompt: L10n.t("picker.search"))
-            .navigationTitle(L10n.t("entry.parts"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(L10n.t("common.done")) { dismiss() }
+            Section(L10n.t("picker.yourSchedule")) {
+                if items.allSatisfy(\.isArchived) {
+                    Text(L10n.t("picker.emptySchedule")).font(.footnote).foregroundStyle(.secondary)
+                }
+                ForEach(active) { item in
+                    let p = PickedItem(kind: .existing(item.uuid), name: item.displayName)
+                    CheckRow(title: item.displayName, checked: selected.contains(p)) { toggle(p) }
+                }
+            }
+            if !query.isEmpty && !hasExactMatch(active: active, catalog: catalog) {
+                Section {
+                    Button {
+                        addCustom()
+                    } label: {
+                        Label(L10n.f("picker.createCustom", query), systemImage: "plus.circle.fill").frame(minHeight: 44)
+                    }
+                    .accessibilityIdentifier("picker.createCustom")
+                    if let customHint {
+                        Text(customHint).font(.footnote).foregroundStyle(.secondary)
+                    }
+                }
+            }
+            if !catalog.isEmpty {
+                Section {
+                    if query.isEmpty {
+                        DisclosureGroup(L10n.f("picker.catalog", catalog.count), isExpanded: $showCatalog) {
+                            catalogRows(catalog)
+                        }
+                    } else {
+                        catalogRows(catalog)
+                    }
+                } header: {
+                    if !query.isEmpty { Text(L10n.t("picker.catalogHeader")) }
+                } footer: {
+                    Text(L10n.t("picker.catalogFooter"))
                 }
             }
         }
     }
 
-    private func toggle(_ item: Item) {
-        if let i = selected.firstIndex(where: { $0.uuid == item.uuid }) {
-            selected.remove(at: i)
-        } else {
-            selected.append(item)
+    @ViewBuilder
+    private func catalogRows(_ list: [CatalogItem]) -> some View {
+        ForEach(list) { c in
+            let p = PickedItem(kind: .draft(.catalog(c.key)), name: c.name(lang))
+            CheckRow(title: c.name(lang), checked: selected.contains(p)) { toggle(p) }
         }
+    }
+
+    private func hasExactMatch(active: [Item], catalog: [CatalogItem]) -> Bool {
+        let k = ItemNameRules.key(query)
+        return active.contains { ItemNameRules.key($0.displayName) == k }
+            || catalog.contains { $0.allNames.contains { ItemNameRules.key($0) == k } }
+            || selected.contains { ItemNameRules.key($0.name) == k }
+    }
+
+    private func toggle(_ p: PickedItem) {
+        if let i = selected.firstIndex(of: p) { selected.remove(at: i) } else { selected.append(p) }
+        dismissSearch()
+    }
+
+    private func addCustom() {
+        let name = String(query.prefix(Limits.itemName))
+        switch ItemNameRules.conflict(for: name, editingItemID: nil, items: items.map(\.info)) {
+        case .active(let other):
+            let p = PickedItem(kind: .existing(other.id), name: other.name)
+            if !selected.contains(p) { selected.append(p) }
+        case .archived(let other):
+            customHint = L10n.f("picker.inArchive", other.name)
+            return
+        case .catalog(let c):
+            let p = PickedItem(kind: .draft(.catalog(c.key)), name: c.name(lang))
+            if !selected.contains(p) { selected.append(p) }
+        case .none:
+            selected.append(PickedItem(kind: .draft(.custom(name)), name: name))
+        }
+        customHint = nil
+        dismissSearch()
     }
 }

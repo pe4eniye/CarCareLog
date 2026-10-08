@@ -73,18 +73,29 @@ public enum ItemNameRules {
 
     public enum Conflict: Equatable {
         case none
-        /// An active item has the same name: saving is not allowed.
+        /// An active item has the same name (in any language for catalog items): saving is not allowed.
         case active(ItemInfo)
         /// Only an archived item has this name: offer "Restore from archive" or "Create new".
         case archived(ItemInfo)
+        /// Not used yet, but the built-in catalog has this item: offer to take it from the catalog.
+        case catalog(CatalogItem)
     }
 
     public static func conflict(for name: String, editingItemID: UUID?, items: [ItemInfo]) -> Conflict {
         let k = key(name)
         guard !k.isEmpty else { return .none }
-        let same = items.filter { $0.id != editingItemID && key($0.name) == k }
+        let same = items.filter { $0.id != editingItemID && $0.allNames.contains { key($0) == k } }
         if let active = same.first(where: { !$0.isArchived }) { return .active(active) }
         if let archived = same.first { return .archived(archived) }
+        if let fromCatalog = Catalog.items.first(where: { $0.allNames.contains { key($0) == k } }),
+           !items.contains(where: { $0.id != editingItemID && $0.catalogKey == fromCatalog.key }) {
+            return .catalog(fromCatalog)
+        }
         return .none
+    }
+
+    /// Is this catalog item already in the user's list (active or archived)?
+    public static func catalogItemInUse(_ key: String, items: [ItemInfo]) -> ItemInfo? {
+        items.first { $0.catalogKey == key }
     }
 }

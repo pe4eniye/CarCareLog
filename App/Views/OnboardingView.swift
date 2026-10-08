@@ -5,7 +5,7 @@ import CarCareCore
 
 /// First launch: car profile → offer Face ID → notification permission → main screen (empty state guides further).
 struct OnboardingView: View {
-    enum Step { case car, faceID, notifications }
+    enum Step { case car, items, faceID, notifications }
 
     @EnvironmentObject private var settings: AppSettings
     @Environment(\.modelContext) private var context
@@ -25,12 +25,16 @@ struct OnboardingView: View {
     }
 
     var body: some View {
-        NavigationStack {
-            switch step {
-            case .car: carStep
-            case .faceID: faceIDStep
-            case .notifications: notificationsStep
-            }
+        switch step {
+        case .car:
+            NavigationStack { carStep }
+        case .items:
+            // "What do you maintain?" — the same multi-select catalog as "+" → "Add items"; can be skipped.
+            AddItemsFlow(onFinish: { step = AppLock.biometryAvailable ? .faceID : .notifications }, skippable: true)
+        case .faceID:
+            NavigationStack { faceIDStep }
+        case .notifications:
+            NavigationStack { notificationsStep }
         }
     }
 
@@ -107,7 +111,7 @@ struct OnboardingView: View {
         car.avgKmPerMonth = Double(avg)
         context.insert(OdometerReading(date: Date(), km: km))
         DataEvents.changed(context)
-        step = AppLock.biometryAvailable ? .faceID : .notifications
+        step = .items
     }
 
     private func finish() {

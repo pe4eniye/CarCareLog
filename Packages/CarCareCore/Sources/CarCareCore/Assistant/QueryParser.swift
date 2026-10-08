@@ -285,7 +285,8 @@ public enum ItemMatcher {
 
     /// Item's own phrases (name + aliases) plus phrases of synonym groups the item belongs to.
     static func phrases(for item: ItemInfo) -> [Phrase] {
-        let own = ([item.name] + item.aliases)
+        let catalogPhrases = item.catalogItem.map { $0.allNames + $0.synonyms } ?? []
+        let own = ([item.name] + item.aliases + catalogPhrases)
             .map { contentTokens($0, fallbackToAll: true) }
             .filter { !$0.isEmpty }
         var result = own.map { Phrase(tokens: $0) }

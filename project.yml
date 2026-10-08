@@ -109,15 +109,30 @@ targets:
         TEST_HOST: $(BUILT_PRODUCTS_DIR)/CarCareLog.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CarCareLog
         BUNDLE_LOADER: $(TEST_HOST)
 
+  CarCareLogUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: UITests
+    dependencies:
+      - target: CarCareLog
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.carcarelog.app.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: CarCareLog
+
 schemes:
   CarCareLog:
     build:
       targets:
         CarCareLog: all
         CarCareLogTests: [test]
+        CarCareLogUITests: [test]
     test:
       targets:
         - CarCareLogTests
+        - CarCareLogUITests
       gatherCoverageData: false
     archive:
       config: Release

@@ -35,15 +35,12 @@ entry.pickParts	Вибрати позиції	Выбрать позиции	Choo
 history.empty	Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший.	Здесь появятся ваши записи об обслуживании. Нажмите «+», чтобы добавить первую.	Your service entries will appear here. Tap “+” to add the first one.
 home.atKm	при %@	на %@	at %@
 home.emptyTitle	Почнімо	Начнём	Let’s start
-home.noRecordsCount	Без записів, прогнозу немає: %d	Без записей, прогноза нет: %d	No records, no forecast: %d
-home.nudge	Давно не оновлювали пробіг. Введіть поточний — так прогноз буде точнішим.	Давно не обновляли пробег. Введите текущий — так прогноз будет точнее.	You haven’t updated the odometer for a while. Enter the current value to keep the forecast accurate.
 home.odometer	Пробіг	Пробег	Odometer
 home.overdue	Прострочено	Просрочено	Overdue
 home.overdueSince	термін: %@	срок: %@	was due: %@
 home.undated	За пробігом	По пробегу	By mileage
 home.undatedFooter	Дату не розраховано: вкажіть середній пробіг за місяць у налаштуваннях.	Дата не рассчитана: укажите средний пробег за месяц в настройках.	No date estimate: set the average km per month in Settings.
 home.update	Оновити	Обновить	Update
-home.updateOdometer	Ввести пробіг	Ввести пробег	Enter odometer
 icloud.checking	Перевірка…	Проверка…	Checking…
 icloud.errorShort	Помилка синхронізації	Ошибка синхронизации	Sync error
 icloud.full	Сховище iCloud заповнене — резервне копіювання зупинено. Дані на iPhone у безпеці; звільніть місце або зробіть експорт у файл.	Хранилище iCloud заполнено — резервное копирование остановлено. Данные на iPhone в безопасности; освободите место или сделайте экспорт в файл.	iCloud storage is full, so backup has stopped. Your data on this iPhone is safe; free up space or export a backup file.
@@ -102,7 +99,6 @@ onb.welcome	Вітаємо! Це особистий журнал обслуго�
 parts.deleteConfirm	Видалити «%@»?	Удалить «%@»?	Delete “%@”?
 parts.everyKm	кожні %@	каждые %@	every %@
 parts.everyMonths	кожні %d міс.	каждые %d мес.	every %d mo
-picker.search	Пошук або нова назва	Поиск или новое название	Search or new name
 reason.mileage	за пробігом	по пробегу	by mileage
 reason.time	за часом	по времени	by time
 settings.appearance	Вигляд	Внешний вид	Appearance
@@ -129,10 +125,7 @@ tab.settings	Налаштування	Настройки	Settings
 widget.empty	Немає запланованих замін	Нет запланированных замен	Nothing scheduled
 widget.overdue	Прострочено: %d	Просрочено: %d	Overdue: %d
 tab.parts	Регламент	Регламент	Schedule
-parts.empty	Тут буде ваш регламент: що ви обслуговуєте і як часто. Додайте першу позицію — назву, інтервал і коли міняли востаннє.	Здесь будет ваш регламент: что вы обслуживаете и как часто. Добавьте первую позицию — название, интервал и когда меняли последний раз.	Your schedule lives here: what you maintain and how often. Add the first item: name, interval and when it was last done.
 parts.search	Пошук за назвою або номером	Поиск по названию или номеру	Search by name or number
-home.emptyText	Додайте позиції регламенту: назву (наприклад, «Моторне масло»), інтервал (10 000 км або 12 місяців) і коли міняли востаннє. Тоді тут з’явиться прогноз.	Добавьте позиции регламента: название (например, «Моторное масло»), интервал (10 000 км или 12 месяцев) и когда меняли последний раз. Тогда здесь появится прогноз.	Add schedule items: a name (e.g. “Engine oil”), an interval (10,000 km or 12 months) and when it was last done. The forecast will appear here.
-picker.empty	Позицій ще немає. Додайте їх через «+» → «Додати позицію».	Позиций пока нет. Добавьте их через «+» → «Добавить позицию».	No items yet. Add them with “+” → “Add item”.
 entry.newTitle	Записати обслуговування	Записать обслуживание	Log service
 add.item	Додати позицію	Добавить позицию	Add item
 add.logService	Записати обслуговування	Записать обслуживание	Log service
@@ -180,3 +173,84 @@ parts.nextKmOnly	наступна: при %@	следующая: на %@	next: a
 parts.nextLine	наступна: ≈ %1$@ · %2$@	следующая: ≈ %1$@ · %2$@	next: ≈ %1$@ · %2$@
 parts.restore	Повернути	Вернуть	Restore
 parts.restoreBlocked	Не можна повернути: активна позиція «%@» має таку саму назву. Спочатку перейменуйте одну з них.	Нельзя вернуть: активная позиция «%@» с таким же названием. Сначала переименуйте одну из них.	Can’t restore: the active item “%@” has the same name. Rename one of them first.
+bulk.dontKnow	Не знаю — для всіх від сьогодні	Не знаю — для всех от сегодня	Don’t know — count all from today
+bulk.dontKnowFooter	Відлік для всіх позицій почнеться з сьогодні й поточного пробігу.	Отсчёт для всех позиций начнётся с сегодняшнего дня и текущего пробега.	All items will count from today and the current odometer.
+bulk.lastFooter	Від цього рахується наступна заміна. Стане записом в Історії.	От этого считается следующая замена. Станет записью в Истории.	The next replacement is counted from this. It becomes a History entry.
+bulk.sameForAll	Одна дата й пробіг для всіх	Одна дата и пробег для всех	Same date and odometer for all
+bulk.saveAll	Зберегти все	Сохранить все	Save all
+bulk.title	Інтервали й остання заміна	Интервалы и последняя замена	Intervals and last service
+catalog.addCustom	Додати	Добавить	Add
+catalog.added	уже в регламенті	уже в регламенте	already added
+catalog.custom	Своя позиція	Своя позиция	Custom item
+catalog.customFooter	Якщо потрібного немає в довіднику — введіть свою назву. Свої назви не перекладаються.	Если нужного нет в справочнике — введите своё название. Свои названия не переводятся.	If it’s not in the list, type your own name. Custom names aren’t translated.
+catalog.customPlaceholder	Наприклад: Чищення радіатора	Например: Чистка радиатора	For example: Radiator cleaning
+catalog.inArchive	в архіві	в архиве	archived
+catalog.next	Далі (%d)	Далее (%d)	Next (%d)
+catalog.search	Пошук у довіднику	Поиск в справочнике	Search the list
+catalog.title	Що ви обслуговуєте?	Что вы обслуживаете?	What do you maintain?
+catalog.usedCatalog	«%@» є в довіднику — позначено його.	«%@» есть в справочнике — отмечено его.	“%@” is in the list — ticked it.
+catalog.yourCustom	Ваші позиції	Ваши позиции	Your items
+entry.newItemBadge	нова	новая	new
+entry.newItemsFooter	Нові позиції з’являться в Регламенті. Інтервал можна задати там.	Новые позиции появятся в Регламенте. Интервал можно задать там.	New items will appear in the Schedule. You can set their interval there.
+hint.usually	зазвичай %@	обычно %@	usually %@
+history.byDate	За датами	По датам	By date
+history.byItem	За позиціями	По позициям	By item
+history.count	Історія замін (%d)	История замен (%d)	Service history (%d)
+history.deleteMany	Видалити записів: %d?	Удалить записей: %d?	Delete %d entries?
+history.itemSummary	Замін: %1$d · остання %2$@ · %3$@	Замен: %1$d · последняя %2$@ · %3$@	%1$d times · last %2$@ · %3$@
+history.sincePrevious	+%1$@ і %2$d міс. від попередньої заміни	+%1$@ и %2$d мес. с предыдущей замены	+%1$@ and %2$d mo since the previous one
+home.inKm	через %@	через %@	in %@
+home.noForecastCount	Позицій без прогнозу: %d — задайте інтервал у Регламенті	Позиций без прогноза: %d — задайте интервал в Регламенте	%d items without a forecast — set an interval in the Schedule
+home.overBy	уже +%@	уже +%@	%@ over
+home.overdueDate	термін був %@	срок был %@	was due %@
+home.overdueKm	термін був %@	срок был %@	was due at %@
+item.catalogNameFooter	Назва з довідника: перекладається мовою застосунку й не редагується. Інтервал і номери деталей — ваші.	Название из справочника: переводится на язык приложения и не редактируется. Интервал и номера деталей — ваши.	A name from the list follows the app language and can’t be edited. The interval and part numbers are yours.
+item.inCatalog	Така позиція є в довіднику: «%@». Краще додати її звідти — тоді назва перекладатиметься.	Такая позиция есть в справочнике: «%@». Лучше добавить её оттуда — тогда название будет переводиться.	This item is in the list: “%@”. Add it from there so its name gets translated.
+item.nameLabel	Назва	Название	Name
+notif.actionDone	Відмітити виконаним	Отметить выполненным	Mark as done
+notif.actionOdometer	Ввести пробіг	Ввести пробег	Enter odometer
+notif.actionSnooze	Нагадати завтра	Напомнить завтра	Remind me tomorrow
+parts.archivedBadge	архів	архив	archived
+parts.noIntervalFooter	Задайте інтервал (км або місяці) — і з’явиться прогноз.	Задайте интервал (км или месяцы) — и появится прогноз.	Set an interval (km or months) to get a forecast.
+parts.noIntervalTitle	Без інтервалу — прогнозу немає	Без интервала — прогноза нет	No interval — no forecast
+pdf.analogs	Аналоги: %@	Аналоги: %@	Analogs: %@
+pdf.colInterval	Інтервал	Интервал	Interval
+pdf.colItem	Позиція	Позиция	Item
+pdf.colLast	Остання заміна	Последняя замена	Last done
+pdf.colNext	Наступна	Следующая	Next
+pdf.export	Сервісна книжка (PDF)	Сервисная книжка (PDF)	Service book (PDF)
+pdf.footer	Уся історія та регламент одним файлом — для продажу авто чи візиту на СТО.	Вся история и регламент одним файлом — для продажи авто или визита на СТО.	Your whole history and schedule in one file — for selling the car or visiting a workshop.
+pdf.generated	сформовано %@	сформировано %@	generated %@
+pdf.history	Історія обслуговування (%d)	История обслуживания (%d)	Service history (%d)
+pdf.numbers	Номери деталей	Номера деталей	Part numbers
+pdf.odometer	пробіг %@	пробег %@	odometer %@
+pdf.schedule	Регламент	Регламент	Schedule
+pdf.title	Сервісна книжка	Сервисная книжка	Service book
+picker.catalog	Довідник (%d)	Справочник (%d)	From the list (%d)
+picker.catalogFooter	Позиції з довідника й свої позиції з’являться в Регламенті після збереження.	Позиции из справочника и свои позиции появятся в Регламенте после сохранения.	Items from the list and custom items will appear in the Schedule after saving.
+picker.catalogHeader	Довідник	Справочник	From the list
+picker.createCustom	Своя позиція «%@»	Своя позиция «%@»	Custom item “%@”
+picker.doneCount	Готово · обрано %d	Готово · выбрано %d	Done · %d selected
+picker.emptySchedule	Регламент поки порожній — оберіть із довідника нижче або знайдіть пошуком.	Регламент пока пустой — выберите из справочника ниже или найдите поиском.	The schedule is empty — pick from the list below or search.
+picker.inArchive	«%@» в архіві. Поверніть її в Регламенті, щоб записати обслуговування.	«%@» в архиве. Верните её в Регламенте, чтобы записать обслуживание.	“%@” is archived. Restore it in the Schedule to log a service.
+picker.yourSchedule	Ваш регламент	Ваш регламент	Your schedule
+select.all	Обрати все	Выбрать все	Select all
+select.archiveDeleteSummary	В архів: %1$d (є історія) · видалити: %2$d	В архив: %1$d (есть история) · удалить: %2$d	Archive: %1$d (have history) · delete: %2$d
+select.archiveOrDelete	Прибрати (%d)	Убрать (%d)	Remove (%d)
+select.confirm	Підтвердити	Подтвердить	Confirm
+select.delete	Видалити (%d)	Удалить (%d)	Delete (%d)
+select.none	Зняти все	Снять все	Deselect all
+select.start	Обрати	Выбрать	Select
+settings.avgAuto	Зараз: %1$@ км/міс — пораховано за вашими даними за %2$d міс. Ручне значення вище — запасне.	Сейчас: %1$@ км/мес — посчитано по вашим данным за %2$d мес. Ручное значение выше — запасное.	Now: %1$@ km/month, from your data over %2$d months. The value above is a fallback.
+settings.avgManual	Поки даних мало, тому використовується це значення. Через 2 місяці оновлень пробігу застосунок рахуватиме сам.	Пока данных мало, поэтому используется это значение. Через 2 месяца обновлений пробега приложение будет считать само.	Not enough data yet, so this value is used. After 2 months of odometer updates the app calculates it itself.
+wipe.button	Видалити всі дані	Удалить все данные	Delete all data
+wipe.continue	Продовжити	Продолжить	Continue
+wipe.finalButton	Видалити все	Удалить всё	Delete everything
+wipe.finalText	Авто, регламент, історію та пробіг буде видалено з цього iPhone. Відновити можна лише з файлу резервної копії.	Авто, регламент, история и пробег будут удалены с этого iPhone. Восстановить можно только из файла резервной копии.	The car, schedule, history and odometer will be deleted from this iPhone. Only a backup file can bring them back.
+wipe.finalTitle	Точно видалити все?	Точно удалить всё?	Delete everything?
+wipe.footer	Спершу збережіть резервну копію, якщо дані можуть знадобитися.	Сначала сохраните резервную копию, если данные могут понадобиться.	Save a backup first if you might need the data.
+wipe.text	Рекомендуємо спершу експортувати резервну копію.	Рекомендуем сначала экспортировать резервную копию.	We recommend exporting a backup first.
+wipe.title	Видалити всі дані?	Удалить все данные?	Delete all data?
+picker.search	Пошук	Поиск	Search
+home.emptyText	Оберіть, що ви обслуговуєте: оливу, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях.	Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам.	Choose what you maintain: oil, filters, brakes, insurance — from the list or your own items. A month-by-month forecast will appear here.
+parts.empty	Тут буде ваш регламент: що ви обслуговуєте і як часто. Оберіть позиції з довідника — можна одразу кілька.	Здесь будет ваш регламент: что вы обслуживаете и как часто. Выберите позиции из справочника — можно сразу несколько.	Your schedule lives here: what you maintain and how often. Pick items from the list — several at once.

@@ -193,3 +193,18 @@ struct RequiredDateField: View {
         }
     }
 }
+
+// MARK: - Urgency colors (red overdue, yellow ≤ 2 months, green otherwise)
+
+extension Urgency {
+    var color: Color {
+        switch self {
+        case .overdue: return .red
+        case .soon: return .orange
+        case .ok: return .green
+        }
+    }
+
+    /// Card background: a light wash of the color, readable in light and dark mode.
+    var tint: Color { color.opacity(0.13) }
+}

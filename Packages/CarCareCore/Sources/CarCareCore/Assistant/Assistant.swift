@@ -113,7 +113,9 @@ public enum Assistant {
         let snap = context.snapshot
         if item.isArchived { return [ReplyLine(s.archived(item.name))] }
         let status = ForecastEngine.status(for: item, entries: snap.entries, currentOdometerKm: snap.currentOdometerKm,
-                                           avgKmPerMonth: snap.car?.avgKmPerMonth ?? 0, today: context.today,
+                                           avgKmPerMonth: MileageEstimator.estimate(snapshot: snap, today: context.today,
+                                                                                    calendar: context.calendar).value,
+                                           today: context.today,
                                            calendar: context.calendar)
         switch status {
         case .noInterval:
@@ -160,7 +162,7 @@ public enum Assistant {
 
     static func dueAtMileage(_ limit: Int, context: AssistantContext, strings s: AssistantStrings) -> [ReplyLine] {
         let snap = context.snapshot
-        let avg = snap.car?.avgKmPerMonth ?? 0
+        let avg = MileageEstimator.estimate(snapshot: snap, today: context.today, calendar: context.calendar).value
         let statuses = ForecastEngine.statuses(for: snap, today: context.today, calendar: context.calendar)
         var hits: [(ItemInfo, ItemForecast, Int)] = []
         var noHistory: [String] = []

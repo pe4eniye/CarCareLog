@@ -7,7 +7,8 @@ struct CarCareLogApp: App {
     @StateObject private var persistence = Persistence(inMemory: DemoMode.isOn)
     @StateObject private var settings = AppSettings.shared
     @StateObject private var lock = AppLock()
-    @StateObject private var router = Router()
+    @StateObject private var router = Router.shared
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
         WindowGroup {
@@ -28,6 +29,9 @@ struct CarCareLogApp: App {
 /// Tab selection and every form sheet, shared so any screen, the Home empty state and widget deep links
 /// can open them.
 final class Router: ObservableObject {
+    /// Shared so notification actions can open forms.
+    static let shared = Router()
+
     enum Tab: Hashable { case home, history, parts, assistant, settings }
 
     /// Values for a new item, e.g. after "This is a different part" on rename.
@@ -41,6 +45,8 @@ final class Router: ObservableObject {
         /// "Log service" with these items preselected.
         case logService([UUID])
         case editEntry(ServiceEntry)
+        /// Catalog + custom items, several at once.
+        case addItems
         case newItem(ItemDraft)
         case item(Item)
         case odometer
@@ -49,6 +55,7 @@ final class Router: ObservableObject {
             switch self {
             case .logService(let ids): return "log-" + ids.map(\.uuidString).joined(separator: ",")
             case .editEntry(let e): return "entry-" + e.uuid.uuidString
+            case .addItems: return "addItems"
             case .newItem(let d): return "new-" + d.name
             case .item(let i): return "item-" + i.uuid.uuidString
             case .odometer: return "odometer"
@@ -149,6 +156,7 @@ struct MainTabView: View {
             switch sheet {
             case .logService(let ids): EntryEditorView(entry: nil, preselected: ids)
             case .editEntry(let entry): EntryEditorView(entry: entry, preselected: [])
+            case .addItems: AddItemsFlow()
             case .newItem(let draft): ItemEditorView(item: nil, draft: draft)
             case .item(let item): ItemEditorView(item: item, draft: Router.ItemDraft())
             case .odometer: OdometerUpdateView()
@@ -167,18 +175,22 @@ struct AddMenuButton: View {
                 router.open(.logService([]))
             } label: {
                 Label(L10n.t("add.logService"), systemImage: "checkmark.circle")
+                    .accessibilityIdentifier("add.logService")
             }
             Button {
-                router.open(.newItem(Router.ItemDraft()))
+                router.open(.addItems)
             } label: {
                 Label(L10n.t("add.item"), systemImage: "plus.square")
+                    .accessibilityIdentifier("add.items")
             }
         } label: {
             Image(systemName: "plus").font(.title3.weight(.semibold)).frame(minWidth: 44, minHeight: 44)
         }
         .accessibilityLabel(L10n.t("add.menu"))
+        .accessibilityIdentifier("addMenu")
     }
 }
+
 struct LockView: View {
     @EnvironmentObject private var lock: AppLock
     @EnvironmentObject private var settings: AppSettings
