@@ -8,12 +8,12 @@ on:
     inputs:
       languages:
         description: "Languages, space-separated (uk ru en)"
-        default: "uk ru"
+        default: "uk"
 
 jobs:
   screenshots:
     runs-on: macos-15
-    timeout-minutes: 45
+    timeout-minutes: 75
     steps:
       - uses: actions/checkout@v4
 
@@ -24,7 +24,7 @@ jobs:
           mkdir -p build shots
           DEVICE_ID=$(bash scripts/pick-simulator.sh)
           echo "DEVICE_ID=$DEVICE_ID" >> "$GITHUB_ENV"
-          xcodebuild build \
+          xcodebuild build-for-testing \
             -project CarCareLog.xcodeproj -scheme CarCareLog \
             -destination "id=$DEVICE_ID" \
             -derivedDataPath build/dd \
@@ -36,5 +36,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: screenshots
-          path: shots/
+          path: |
+            shots/
+            build/shots-*.log
           retention-days: 14

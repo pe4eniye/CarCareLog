@@ -40,6 +40,7 @@ struct ImportHistoryView: View {
                         Label(L10n.t("import.parse"), systemImage: "wand.and.stars").frame(minHeight: 44)
                     }
                     .disabled(text.trimmed.isEmpty)
+                    .accessibilityIdentifier("import.parse")
                 }
             } else {
                 Section {

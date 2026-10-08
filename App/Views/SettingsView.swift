@@ -72,6 +72,7 @@ struct SettingsView: View {
                                 .lineLimit(1)
                         }
                     }
+                    .accessibilityIdentifier("settings.carLink")
                     LabeledField(label: L10n.t("settings.avgKm")) {
                         NumberField(title: "1000", value: $avgKm)
                             .frame(maxWidth: 120)
@@ -94,6 +95,7 @@ struct SettingsView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
+                    .accessibilityIdentifier("settings.notificationsLink")
                 }
 
                 Section(L10n.t("settings.security")) {
@@ -143,6 +145,7 @@ struct SettingsView: View {
                     } label: {
                         Label(L10n.t("import.title"), systemImage: "doc.on.clipboard").frame(minHeight: 44)
                     }
+                    .accessibilityIdentifier("settings.importLink")
                 } footer: {
                     Text(L10n.t("import.settingsFooter"))
                 }
@@ -161,6 +164,7 @@ struct SettingsView: View {
                 Section {
                     Button(L10n.t("wipe.button"), role: .destructive) { confirmWipe = true }
                         .frame(minHeight: 44)
+                        .accessibilityIdentifier("settings.wipe")
                 } footer: {
                     Text(L10n.t("wipe.footer"))
                 }

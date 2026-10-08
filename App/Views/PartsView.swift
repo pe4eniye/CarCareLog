@@ -69,6 +69,7 @@ struct PartsView: View {
                             }
                         } label: {
                             Text(L10n.f("parts.archiveTitle", archived.count)).font(.headline)
+                                .accessibilityIdentifier("parts.archive")
                         }
                     } footer: {
                         Text(L10n.t("parts.archiveFooter"))

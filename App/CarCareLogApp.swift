@@ -104,7 +104,10 @@ struct RootView: View {
         .onAppear {
             guard !didLaunch else { return }
             didLaunch = true
-            if DemoMode.isOn { DemoMode.seed(context) }
+            if DemoMode.isOn {
+                DemoMode.seed(context)
+                DemoMode.openSheet(context, router: router)
+            }
             lock.lockIfEnabled(settings.faceIDEnabled)
             lock.unlockIfNeeded(enabled: settings.faceIDEnabled)
             DataEvents.appDidBecomeActive(context)

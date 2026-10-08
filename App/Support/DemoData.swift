@@ -31,6 +31,27 @@ enum DemoMode {
 
     static var question: String? { value(after: "-demoQuestion") }
 
+    /// For the screenshot tour: `-demoSheet odometer|log|addItems|newItem|entry|item:<catalogKey>` opens that form
+    /// right after the sample data is in place.
+    @MainActor
+    static func openSheet(_ context: ModelContext, router: Router) {
+        guard let value = value(after: "-demoSheet") else { return }
+        let items = (try? context.fetch(FetchDescriptor<Item>())) ?? []
+        func item(_ key: String) -> Item? { items.first { $0.catalogKey == key } }
+        switch value {
+        case "odometer": router.sheet = .odometer
+        case "log": router.sheet = .logService([item("engine_oil"), item("oil_filter")].compactMap { $0?.uuid })
+        case "addItems": router.sheet = .addItems
+        case "newItem": router.sheet = .newItem(Router.ItemDraft())
+        case "entry":
+            // The latest entry: split prices and a note.
+            let sorted = FetchDescriptor<ServiceEntry>(sortBy: [SortDescriptor(\.date, order: .reverse)])
+            if let entry = (try? context.fetch(sorted))?.first { router.sheet = .editEntry(entry) }
+        default:
+            if value.hasPrefix("item:"), let i = item(String(value.dropFirst(5))) { router.sheet = .item(i) }
+        }
+    }
+
     @MainActor
     static func seed(_ context: ModelContext) {
         let lang = L10n.language
