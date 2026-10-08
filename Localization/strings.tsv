@@ -288,7 +288,7 @@ import.parse	Розібрати	Разобрать	Recognize
 import.paste	Вставити з буфера	Вставить из буфера	Paste from clipboard
 import.pasteHeader	Текст із нотаток	Текст из заметок	Text from your notes
 import.previewFooter	✓ — буде імпортовано (натисніть, щоб зняти). ⚠ — щось вгадано або не знайдено: проведіть ліворуч → «Виправити». ✦ — нова позиція, з’явиться в Регламенті.	✓ — будет импортировано (нажмите, чтобы снять). ⚠ — что-то угадано или не найдено: свайп влево → «Исправить». ✦ — новая позиция, появится в Регламенте.	✓ will be imported (tap to skip). ⚠ something was guessed or missing: swipe left → Fix. ✦ a new item, will appear in the Schedule.
-import.previewHeader	Розпізнано: %1$d з %2$d	Распознано: %1$d из %2$d	Recognized: %1$d of %2$d
+import.previewHeader	Розпізнано %1$d із %2$d	Распознано: %1$d из %2$d	Recognized: %1$d of %2$d
 import.settingsFooter	Перенесіть історію з нотаток чи блокнота за кілька секунд — вставте текст, перевірте й імпортуйте.	Перенесите историю из заметок или блокнота за пару секунд — вставьте текст, проверьте и импортируйте.	Move your history from notes in seconds: paste, check, import.
 import.title	Імпорт історії з нотаток	Импорт истории из заметок	Import history from notes
 item.expiryFooter	Для страховки, техогляду тощо: нагадування прийде до дати закінчення.	Для страховки, техосмотра и т. п.: напоминание придёт до даты окончания.	For insurance, inspection etc.: you’ll be reminded before the end date.

@@ -1190,7 +1190,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Recognized: %1$d of %2$d" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Распознано: %1$d из %2$d" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розпізнано: %1$d з %2$d" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розпізнано %1$d із %2$d" } }
       }
     },
     "import.settingsFooter" : {
