@@ -327,8 +327,13 @@ public enum ItemMatcher {
 
     /// Returns the best matching item ids. Ranking: more matched words first, then full phrase matches.
     public static func match(_ text: String, items: [ItemInfo]) -> [UUID] {
+        matchWithQuality(text, items: items).ids
+    }
+
+    /// Best matches and whether at least one whole phrase (name, alias or synonym) matched.
+    public static func matchWithQuality(_ text: String, items: [ItemInfo]) -> (ids: [UUID], full: Bool) {
         let query = contentTokens(text)
-        guard !query.isEmpty else { return [] }
+        guard !query.isEmpty else { return ([], false) }
 
         struct Score: Comparable {
             var matched: Int
@@ -350,7 +355,7 @@ public enum ItemMatcher {
             }
             if let b = best { scored.append((item.id, b)) }
         }
-        guard let top = scored.map(\.1).max() else { return [] }
-        return scored.filter { $0.1 == top }.map(\.0)
+        guard let top = scored.map(\.1).max() else { return ([], false) }
+        return (scored.filter { $0.1 == top }.map(\.0), top.full)
     }
 }

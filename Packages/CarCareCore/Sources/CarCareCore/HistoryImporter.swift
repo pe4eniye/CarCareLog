@@ -159,8 +159,9 @@ public enum HistoryImporter {
 
     /// The user's items first, then the catalog. `sure` is false for ambiguous or unknown chunks.
     static func matchItem(_ chunk: String, items: [ItemInfo]) -> (ImportedRow.Item, Bool) {
-        let own = ItemMatcher.match(chunk, items: items)
-        if let first = own.first { return (.existing(first), own.count == 1) }
+        // The user's items only on a whole-phrase match ("колодки перед" must not stick to an unrelated item).
+        let own = ItemMatcher.matchWithQuality(chunk, items: items)
+        if own.full, let first = own.ids.first { return (.existing(first), own.ids.count == 1) }
 
         var byID: [UUID: CatalogItem] = [:]
         let pseudo = Catalog.items.map { c -> ItemInfo in
@@ -173,6 +174,8 @@ public enum HistoryImporter {
             if let mine = items.first(where: { $0.catalogKey == c.key }) { return (.existing(mine.id), true) }
             return (.catalog(c.key), fromCatalog.count == 1)
         }
+        // Only a partial match with the user's items: suggest it, but flag the row.
+        if let first = own.ids.first { return (.existing(first), false) }
         let name = chunk.prefix(1).uppercased() + chunk.dropFirst()
         return (.custom(String(name.prefix(Limits.itemName))), false)
     }
