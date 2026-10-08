@@ -79,7 +79,7 @@ struct PartsView: View {
             .navigationTitle(L10n.t("tab.parts"))
             .toolbar {
                 if !items.isEmpty {
-                    ToolbarItem(placement: .topBarLeading) {
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button(selecting ? L10n.t("common.done") : L10n.t("select.start")) {
                             selecting.toggle()
                             selection = []
@@ -87,6 +87,7 @@ struct PartsView: View {
                         .accessibilityIdentifier("parts.select")
                     }
                 }
+                ToolbarItem(placement: .topBarLeading) { SettingsButton() }
                 ToolbarItem(placement: .primaryAction) { AddMenuButton() }
             }
             .safeAreaInset(edge: .bottom) {

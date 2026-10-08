@@ -154,6 +154,7 @@ struct ExpensesView: View {
                 }
             }
             .navigationTitle(L10n.t("tab.expenses"))
+            .toolbar { ToolbarItem(placement: .topBarLeading) { SettingsButton() } }
         }
     }
 

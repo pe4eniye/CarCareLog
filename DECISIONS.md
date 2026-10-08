@@ -144,7 +144,7 @@
 - **Expenses tab** (Month / Year / All time): total, bars by month (or by year), donut by catalog category (custom
   items → "Other"; an unsplit multi-item total is shared equally between its items), list of paid services.
   Non-service costs (fuel, wash, fines) are out of scope.
-- **Navigation**: Home · History · Schedule · Expenses · Assistant; Settings opens from the gear on Home (iOS shows
+- **Navigation**: Home · History · Schedule · Expenses · Assistant; Settings opens from the gear in the top-left corner of every tab (iOS shows
   at most 5 tabs).
 - **Item kinds**: Interval (km and/or months, at least one required), Valid until (insurance, inspection: reminder
   before the end date, entered in the item or when logging the service), Season (months of the year, e.g. April and

@@ -108,15 +108,7 @@ struct HomeView: View {
             .animation(.snappy, value: filter)
             .navigationTitle(L10n.t("tab.home"))
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        router.open(.settings)
-                    } label: {
-                        Image(systemName: "gearshape").font(.title3).frame(minWidth: 44, minHeight: 44)
-                    }
-                    .accessibilityLabel(L10n.t("tab.settings"))
-                    .accessibilityIdentifier("home.settings")
-                }
+                ToolbarItem(placement: .topBarLeading) { SettingsButton(identifier: "home.settings") }
                 ToolbarItem(placement: .primaryAction) { AddMenuButton() }
             }
         }

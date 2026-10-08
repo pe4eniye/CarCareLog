@@ -49,6 +49,7 @@ struct AssistantView: View {
                 if history.isEmpty, let q = DemoMode.question { ask(q) }
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) { SettingsButton() }
                 if !history.isEmpty {
                     ToolbarItem(placement: .primaryAction) {
                         Button(L10n.t("assistant.clear")) { history.removeAll() }

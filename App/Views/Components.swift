@@ -323,3 +323,19 @@ struct SeasonMonthsGrid: View {
         .padding(.vertical, 4)
     }
 }
+
+/// The gear in the top-left corner of every tab: opens Settings.
+struct SettingsButton: View {
+    @EnvironmentObject private var router: Router
+    var identifier = "settings.open"
+
+    var body: some View {
+        Button {
+            router.open(.settings)
+        } label: {
+            Image(systemName: "gearshape").font(.title3).frame(minWidth: 44, minHeight: 44)
+        }
+        .accessibilityLabel(L10n.t("tab.settings"))
+        .accessibilityIdentifier(identifier)
+    }
+}

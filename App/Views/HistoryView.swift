@@ -70,7 +70,7 @@ struct HistoryView: View {
             .navigationTitle(L10n.t("tab.history"))
             .toolbar {
                 if mode == .byDate && !entries.isEmpty {
-                    ToolbarItem(placement: .topBarLeading) {
+                    ToolbarItem(placement: .topBarTrailing) {
                         Button(selecting ? L10n.t("common.done") : L10n.t("select.start")) {
                             selecting.toggle()
                             selection = []
@@ -78,6 +78,7 @@ struct HistoryView: View {
                         .accessibilityIdentifier("history.select")
                     }
                 }
+                ToolbarItem(placement: .topBarLeading) { SettingsButton() }
                 ToolbarItem(placement: .primaryAction) { AddMenuButton() }
             }
             .safeAreaInset(edge: .bottom) {
