@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import CarCareCore
 
 /// Demo mode for screenshots on CI: launch with `-demo` (in-memory store with sample data, no onboarding,
 /// no Face ID). Optional: `-startTab home|history|parts|assistant|settings`, `-demoQuestion "…"`,
