@@ -51,10 +51,9 @@ final class CarCareLogUITests: XCTestCase {
         XCTAssertTrue(done.waitForExistence(timeout: 3))
         XCTAssertEqual(done.label, "Done · 1 selected")
 
-        // Cancel in the search field keeps the selection.
-        if app.buttons["Cancel"].exists { app.buttons["Cancel"].firstMatch.tap() }
-        XCTAssertTrue(done.waitForExistence(timeout: 3))
-        done.tap()
+        // The search closed by itself after the pick, the selection is kept.
+        XCTAssertTrue(app.buttons["check.Engine oil"].waitForExistence(timeout: 3))
+        done.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
 
         XCTAssertTrue(app.staticTexts["Brake fluid"].waitForExistence(timeout: 5))
     }
