@@ -132,3 +132,42 @@
 - **Service book PDF** (Settings): cover, schedule table with status dots, full history, part numbers.
 - **UI tests** (`UITests/`) run on CI in demo mode: picker select/deselect/search, custom item from Log service,
   odometer update → overdue on Home and Schedule, History multi-delete.
+
+
+## Round 3 (2026-10-08)
+- **Costs** live only in service entries: optional total, or "Split by item" (price per item; the total is their
+  sum), plus an optional note. An item's "last price" is derived from History (split price, or the total of a
+  single-item entry); nothing is stored on the item.
+- **Currencies**: ₴ (default), $, €. Every entry remembers its currency. Totals never mix currencies: Expenses shows
+  the app currency big and other currencies as a small line you can tap to switch. No exchange-rate conversion
+  (that would need the internet).
+- **Expenses tab** (Month / Year / All time): total, bars by month (or by year), donut by catalog category (custom
+  items → "Other"; an unsplit multi-item total is shared equally between its items), list of paid services.
+  Non-service costs (fuel, wash, fines) are out of scope.
+- **Navigation**: Home · History · Schedule · Expenses · Assistant; Settings opens from the gear on Home (iOS shows
+  at most 5 tabs).
+- **Item kinds**: Interval (km and/or months, at least one required), Valid until (insurance, inspection: reminder
+  before the end date, entered in the item or when logging the service), Season (months of the year, e.g. April and
+  October: due on the 1st of the next season month after the last service; overdue once that month has passed).
+  Catalog defaults: insurance and inspection → Valid until, seasonal tires → Season (Apr, Oct).
+- **Texts**: time-based forecasts read "in ~5 mo." (days below 45 days), mileage-based ones "in 7 900 km · ≈ 236 000 km".
+- **Home**: compact car card in the theme color (orange when the odometer is stale, which replaces the separate
+  banner), summary chips "1 overdue · 2 soon · 6 fine" that filter the list, month cards with the month inside the
+  card and a single status dot + word ("Soon"); no dots on items.
+- **Schedule**: wear rings (share of the interval used: max of time share and km share; "!" when overdue).
+- **Notifications** (Settings → Notifications): master switch, separate switches for service / odometer / backup,
+  time picker with minutes, lead time, odometer reminder every 1–60 days or off (the same value turns the Home
+  odometer card orange).
+- **Theme color**: teal (default), blue, purple, coral, graphite.
+- **Lock screen widgets**: round gauge of the most urgent item ("8.9k km" / "38 d"), rectangular nearest month.
+- **Automatic backup**: weekly, last 5 files, to iCloud Drive → CarCare Log in the iCloud build, otherwise to Files →
+  On My iPhone → CarCare Log (which does not protect against losing the phone; Settings says so). Home and a
+  notification remind after 14 days without any backup (automatic or exported).
+- **Import from notes**: one service per line; dates (12.03.2024, 15/07/23, 05.2023, "окт 2022", a year), odometer
+  (185000, 185 000, 185к, 170 тыс; a bare 10–999 is read as thousands and flagged), items via the user's items
+  (whole-phrase matches only) then the catalog (synonyms, typos, 3 languages), else a new custom item. Preview with
+  ✓ / ⚠, fix date or odometer per row, nothing is imported without confirmation.
+- **Assistant**: Apple's on-device model does not support Ukrainian or Russian (as of the sources checked), so the
+  rule-based assistant stays and now answers "how much did I spend (this year)?" and "how much was the oil?".
+- **Haptics**: success on saving a service or bulk add, selection ticks on chips and season months.
+- Backup format version 3 (reads 1 and 2).

@@ -274,11 +274,14 @@ struct CardTitle: View {
             Circle().fill(urgency.color).frame(width: 9, height: 9)
             Text(title).font(.subheadline.weight(.semibold)).foregroundStyle(urgency.textColor)
             Spacer()
-            Text(L10n.t(urgency.wordKey))
-                .font(.caption.weight(.semibold))
-                .foregroundStyle(urgency.textColor)
-                .padding(.horizontal, 8).padding(.vertical, 2)
-                .background(Capsule().fill(urgency.color.opacity(0.18)))
+            // The overdue card's title already says it.
+            if urgency != .overdue {
+                Text(L10n.t(urgency.wordKey))
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(urgency.textColor)
+                    .padding(.horizontal, 8).padding(.vertical, 2)
+                    .background(Capsule().fill(urgency.color.opacity(0.18)))
+            }
         }
         .accessibilityElement(children: .combine)
     }

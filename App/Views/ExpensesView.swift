@@ -109,14 +109,15 @@ struct ExpensesView: View {
                         HStack(spacing: 16) {
                             Chart(slices) { s in
                                 SectorMark(angle: .value("", s.value), innerRadius: .ratio(0.62), angularInset: 1.5)
-                                    .foregroundStyle(by: .value("", s.name))
+                                    .foregroundStyle(Self.palette[s.id % Self.palette.count])
                                     .cornerRadius(3)
                             }
                             .chartLegend(.hidden)
                             .frame(width: 110, height: 110)
                             VStack(alignment: .leading, spacing: 5) {
                                 ForEach(Array(slices.prefix(6))) { s in
-                                    HStack {
+                                    HStack(spacing: 6) {
+                                        Circle().fill(Self.palette[s.id % Self.palette.count]).frame(width: 8, height: 8)
                                         Text(s.name).font(.footnote).lineLimit(1)
                                         Spacer()
                                         Text("\(Int((s.value / sum * 100).rounded()))%").font(.footnote.weight(.semibold))
@@ -155,6 +156,9 @@ struct ExpensesView: View {
             .navigationTitle(L10n.t("tab.expenses"))
         }
     }
+
+    /// Category colors; the same order is used by the donut and its legend.
+    static let palette: [Color] = [.teal, .orange, .purple, .green, .blue, .pink, .yellow, .indigo, .brown, .gray, .mint]
 
     private func categoryName(_ c: CatalogItem.Category?) -> String {
         c.map { Catalog.categoryName($0, lang) } ?? L10n.t("expenses.other")

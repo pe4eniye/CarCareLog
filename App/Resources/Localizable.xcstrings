@@ -2665,6 +2665,14 @@
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "%@т км" } }
       }
     },
+    "text.thisMonth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "this month" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "в этом месяце" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "цього місяця" } }
+      }
+    },
     "text.today" : {
       "extractionState" : "manual",
       "localizations" : {

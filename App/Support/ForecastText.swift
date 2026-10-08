@@ -28,7 +28,9 @@ enum ForecastText {
         case .expiry:
             return L10n.f("text.validUntil", f.dueDate.map(Fmt.date) ?? "") + " · " + timeLeft(days)
         case .seasonal:
-            return L10n.f("text.season", f.dueDate.map(Fmt.monthYear) ?? "") + " · " + timeLeft(days)
+            // Due on the 1st of the month: once that month has started, it's "this month", not "today".
+            let month = f.dueDate.map { AssistantFormat.monthYear($0, L10n.assistantLanguage, calendar: Fmt.calendar) } ?? ""
+            return L10n.f("text.season", month) + " · " + (days == 0 ? L10n.t("text.thisMonth") : timeLeft(days))
         case .interval:
             if f.dueDate == nil, let km = f.dueKm { return L10n.f("home.atKm", Fmt.km(km)) }
             if f.reason == .mileage {
