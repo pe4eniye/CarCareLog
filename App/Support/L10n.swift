@@ -60,6 +60,14 @@ enum Fmt {
         return s.prefix(1).uppercased() + s.dropFirst()
     }
 
+    /// "жовт.": short month name for season lists.
+    static func shortMonth(_ m: Int) -> String {
+        let f = DateFormatter()
+        f.locale = L10n.locale
+        guard (1...12).contains(m) else { return "" }
+        return f.shortStandaloneMonthSymbols[m - 1]
+    }
+
     /// "20 листопада" for dates in the current year, otherwise with the year.
     static func shortDate(_ date: Date) -> String {
         let cal = calendar

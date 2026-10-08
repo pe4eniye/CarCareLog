@@ -6,6 +6,7 @@ struct SettingsView: View {
     @EnvironmentObject private var settings: AppSettings
     @EnvironmentObject private var persistence: Persistence
     @Environment(\.modelContext) private var context
+    @Environment(\.dismiss) private var dismiss
     @Query private var cars: [Car]
     @Query private var entries: [ServiceEntry]
     @Query private var readings: [OdometerReading]
@@ -33,6 +34,32 @@ struct SettingsView: View {
                         Text(L10n.t("settings.themeSystem")).tag("system")
                     }
                     .frame(minHeight: 44)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(L10n.t("settings.accent"))
+                        HStack(spacing: 14) {
+                            ForEach(AccentTheme.allCases) { theme in
+                                Button {
+                                    settings.accentRaw = theme.rawValue
+                                    UISelectionFeedbackGenerator().selectionChanged()
+                                } label: {
+                                    Circle().fill(theme.color).frame(width: 32, height: 32)
+                                        .overlay(Circle().strokeBorder(.white, lineWidth: 2).padding(2)
+                                            .opacity(settings.accent == theme ? 1 : 0))
+                                        .overlay(Circle().strokeBorder(theme.color, lineWidth: 2).padding(-3)
+                                            .opacity(settings.accent == theme ? 1 : 0))
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel(L10n.t(theme.titleKey))
+                            }
+                        }
+                    }
+                    .padding(.vertical, 6)
+                    Picker(L10n.t("settings.currency"), selection: $settings.currencyRaw) {
+                        Text("₴ " + L10n.t("currency.uah")).tag(Currency.uah.rawValue)
+                        Text("$ " + L10n.t("currency.usd")).tag(Currency.usd.rawValue)
+                        Text("€ " + L10n.t("currency.eur")).tag(Currency.eur.rawValue)
+                    }
+                    .frame(minHeight: 44)
                 }
 
                 Section {
@@ -56,13 +83,17 @@ struct SettingsView: View {
                     Text(avgFooter)
                 }
 
-                Section(L10n.t("settings.reminders")) {
-                    Picker(L10n.t("settings.leadTime"), selection: $settings.leadTimeDays) {
-                        ForEach(ReminderLeadTime.allCases) { lead in
-                            Text(Self.leadTimeTitle(lead)).tag(lead.rawValue)
+                Section {
+                    NavigationLink {
+                        NotificationSettingsView()
+                    } label: {
+                        LabeledField(label: L10n.t("settings.notifications")) {
+                            Text(settings.notificationsEnabled
+                                 ? String(format: "%02d:%02d", settings.notifyHour, settings.notifyMinute)
+                                 : L10n.t("settings.off"))
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    .frame(minHeight: 44)
                 }
 
                 Section(L10n.t("settings.security")) {
@@ -92,6 +123,31 @@ struct SettingsView: View {
                 BackupSection()
 
                 Section {
+                    LabeledField(label: L10n.t("autobackup.last")) {
+                        Text(settings.lastBackup.map(Fmt.date) ?? L10n.t("autobackup.never")).foregroundStyle(.secondary)
+                    }
+                    Button {
+                        AutoBackup.runNow(force: true)
+                    } label: {
+                        Label(L10n.t("backup.now"), systemImage: "arrow.triangle.2.circlepath.icloud").frame(minHeight: 44)
+                    }
+                } header: {
+                    Text(L10n.t("autobackup.section"))
+                } footer: {
+                    Text(L10n.t(settings.backupLocation == "local" ? "autobackup.footerLocal" : "autobackup.footer"))
+                }
+
+                Section {
+                    NavigationLink {
+                        ImportHistoryView()
+                    } label: {
+                        Label(L10n.t("import.title"), systemImage: "doc.on.clipboard").frame(minHeight: 44)
+                    }
+                } footer: {
+                    Text(L10n.t("import.settingsFooter"))
+                }
+
+                Section {
                     Button {
                         pdfURL = ServiceBookPDF.make(context: context)
                     } label: {
@@ -116,6 +172,12 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle(L10n.t("tab.settings"))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(L10n.t("common.done")) { dismiss() }
+                }
+            }
             .onAppear { avgKm = car.map { Int($0.avgKmPerMonth) } }
             .onChange(of: avgKm) { _, newValue in
                 guard let car, let v = newValue, Limits.avgKmPerMonth.contains(v), Double(v) != car.avgKmPerMonth else { return }

@@ -39,7 +39,7 @@ question2() {
 for L in $LANGS; do
   xcrun simctl ui "$DEVICE_ID" appearance light
   # Settings first (UserDefaults argument domain), demo flags last.
-  for TAB in home history parts settings; do
+  for TAB in home history parts expenses settings; do
     shot "$L-$TAB" -settings.language "$L" -settings.theme light -demo -startTab "$TAB"
   done
   shot "$L-assistant" -settings.language "$L" -settings.theme light -demo -startTab assistant \

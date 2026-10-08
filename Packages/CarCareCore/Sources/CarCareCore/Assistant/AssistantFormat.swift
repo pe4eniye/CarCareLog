@@ -118,6 +118,17 @@ struct AssistantStrings {
     func yearLabel(_ year: Int) -> String {
         pick("\(year) рік", "\(year) год", "\(year)")
     }
+    var allTime: String { pick("За весь час", "За всё время", "All time") }
+    var noSpending: String {
+        pick("Витрат не записано.", "Расходы не записаны.", "No costs recorded.")
+    }
+    func spent(_ amounts: String, _ count: Int) -> String {
+        pick("Витрачено: \(amounts) (записів: \(count))", "Потрачено: \(amounts) (записей: \(count))",
+             "Spent: \(amounts) (\(count) entries)")
+    }
+    func noPrice(_ name: String) -> String {
+        pick("\(name): ціни ще немає.", "\(name): цены пока нет.", "\(name): no price recorded yet.")
+    }
     var last12Months: String {
         pick("Останні 12 місяців", "Последние 12 месяцев", "Last 12 months")
     }

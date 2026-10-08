@@ -37,9 +37,10 @@ public enum OdometerRules {
 
     /// The Home banner shows when 14+ days passed since the last update, or when there is none.
     public static func needsNudge(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo] = [],
-                                  now: Date, calendar: Calendar) -> Bool {
+                                  now: Date, calendar: Calendar, intervalDays: Int = nudgeIntervalDays) -> Bool {
+        guard intervalDays > 0 else { return false } // reminders turned off
         guard let last = lastUpdate(readings: readings, entries: entries, calendar: calendar) else { return true }
-        return daysSince(last, now: now, calendar: calendar) >= nudgeIntervalDays
+        return daysSince(last, now: now, calendar: calendar) >= intervalDays
     }
 
     public static func daysSince(_ date: Date, now: Date, calendar: Calendar) -> Int {
@@ -48,14 +49,16 @@ public enum OdometerRules {
 
     /// Future reminder dates for odometer nudges: every 14 days after the last update, at `hour` local time.
     public static func nudgeDates(readings: [OdometerReadingInfo], entries: [ServiceEntryInfo] = [], now: Date,
-                                  calendar: Calendar, count: Int = 3, hour: Int = ReminderPlanner.fireHour) -> [Date] {
+                                  calendar: Calendar, count: Int = 3, hour: Int = ReminderPlanner.fireHour,
+                                  minute: Int = 0, intervalDays: Int = nudgeIntervalDays) -> [Date] {
+        guard intervalDays > 0 else { return [] }
         let base = lastUpdate(readings: readings, entries: entries, calendar: calendar)
             .map { calendar.startOfDay(for: $0) } ?? calendar.startOfDay(for: now)
         var result: [Date] = []
         var step = 1
         while result.count < count && step < 1000 {
-            if let day = calendar.date(byAdding: .day, value: nudgeIntervalDays * step, to: base),
-               let fire = calendar.date(bySettingHour: hour, minute: 0, second: 0, of: day),
+            if let day = calendar.date(byAdding: .day, value: intervalDays * step, to: base),
+               let fire = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: day),
                fire > now {
                 result.append(fire)
             }

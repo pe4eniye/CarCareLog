@@ -3,7 +3,8 @@ import Foundation
 /// One JSON file with all user data. `formatVersion` lets future versions migrate old files.
 public struct BackupFile: Codable, Equatable {
     // 2: car "name" instead of make/model/year, item "isArchived", entry "itemNames". Version 1 files still load.
-    public static let currentFormatVersion = 2
+    // 3: item kind/season/validUntil, entry costs/currency/note.
+    public static let currentFormatVersion = 3
     public static let appIdentifier = "CarCareLog"
 
     public var app: String

@@ -22,6 +22,10 @@ public enum AssistantIntent: Equatable {
     case partNumber
     case dueAtMileage(Int)
     case historyForPeriod(QueryPeriod)
+    /// "How much did I spend (this year)?" — nil period means all time.
+    case spending(QueryPeriod?)
+    /// "How much was the oil?" — last known price of an item.
+    case price
 }
 
 public struct ParsedQuery: Equatable {
@@ -191,6 +195,14 @@ public enum QueryParser {
         "наступна", "наступний", "наступну", "next", "due", "need", "needs", "should", "через", "менять",
         "поменять", "заменить", "міняти", "поміняти", "замінити", "change", "replace", "скоро", "soon"
     ]
+    static let priceWords: Set<String> = [
+        "стоил", "стоило", "стоила", "стоили", "стоимость", "цена", "цену", "ціна", "ціну", "коштував", "коштувало",
+        "коштувала", "коштували", "вартість", "price", "cost", "costs"
+    ]
+    static let spendingWords: Set<String> = [
+        "потратил", "потратила", "потратили", "потрачено", "расходы", "расход", "расходов", "витратив", "витратила",
+        "витратили", "витрачено", "витрати", "витрат", "spent", "spend", "spending", "expenses"
+    ]
     private static let historyWords: Set<String> = [
         "что", "що", "what", "which", "все", "всё", "усе", "всього", "всего", "список", "list",
         "история", "историю", "історія", "історію", "history"
@@ -217,6 +229,8 @@ public enum QueryParser {
             "until", "many", "much", "long", "soon", "which", "and"
         ]
         s.formUnion(partNumberWords)
+        s.formUnion(priceWords)
+        s.formUnion(spendingWords)
         s.formUnion(lastDoneWords)
         s.formUnion(nextDueWords)
         return s
@@ -241,8 +255,14 @@ public enum QueryParser {
 
         let intent: AssistantIntent?
         let lastDone = hasLastDoneMarker(words)
+        let asksPrice = words.contains { priceWords.contains($0) }
+        let asksSpending = words.contains { spendingWords.contains($0) }
         if words.contains(where: { partNumberWords.contains($0) }) {
             intent = .partNumber
+        } else if asksPrice && !itemIDs.isEmpty {
+            intent = .price
+        } else if asksSpending || asksPrice {
+            intent = .spending(period)
         } else if let p = period,
                   itemIDs.isEmpty || words.contains(where: { historyWords.contains($0) }) {
             intent = .historyForPeriod(p)

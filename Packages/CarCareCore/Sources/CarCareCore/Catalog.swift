@@ -16,6 +16,9 @@ public struct CatalogItem: Equatable, Identifiable {
     public var hintMonths: Int?
     /// Extra phrases the assistant should understand for this item.
     public var synonyms: [String]
+    /// Default kind when added: insurance is "valid until", seasonal tires are "by season".
+    public var kind: ItemKind = .interval
+    public var seasonMonths: [Int] = []
 
     public var id: String { key }
 
@@ -32,8 +35,10 @@ public struct CatalogItem: Equatable, Identifiable {
 
 public enum Catalog {
     private static func c(_ key: String, _ cat: CatalogItem.Category, _ uk: String, _ ru: String, _ en: String,
-                          km: Int? = nil, months: Int? = nil, _ synonyms: [String] = []) -> CatalogItem {
-        CatalogItem(key: key, category: cat, uk: uk, ru: ru, en: en, hintKm: km, hintMonths: months, synonyms: synonyms)
+                          km: Int? = nil, months: Int? = nil, _ synonyms: [String] = [],
+                          kind: ItemKind = .interval, season: [Int] = []) -> CatalogItem {
+        CatalogItem(key: key, category: cat, uk: uk, ru: ru, en: en, hintKm: km, hintMonths: months, synonyms: synonyms,
+                    kind: kind, seasonMonths: season)
     }
 
     public static let items: [CatalogItem] = [
@@ -130,7 +135,7 @@ public enum Catalog {
         c("shock_absorbers", .chassis, "Амортизатори", "Амортизаторы", "Shock absorbers", km: 80_000,
           ["амортизаторы", "амортизатори", "shocks"]),
         c("seasonal_tires", .chassis, "Сезонна заміна шин", "Сезонная смена шин", "Seasonal tire change", months: 6,
-          ["переобувка", "резина", "гума", "зимняя резина", "літня гума"]),
+          ["переобувка", "резина", "гума", "зимняя резина", "літня гума"], kind: .seasonal, season: [4, 10]),
         c("tire_rotation", .chassis, "Ротація коліс", "Ротация колёс", "Tire rotation", km: 10_000, months: 6,
           ["ротация", "ротація"]),
         c("wheel_balancing", .chassis, "Балансування коліс", "Балансировка колёс", "Wheel balancing", km: 10_000, months: 12,
@@ -151,9 +156,10 @@ public enum Catalog {
           ["то", "техобслуживание", "техобслуговування", "service"]),
         c("diagnostics", .general, "Комп’ютерна діагностика", "Компьютерная диагностика", "Computer diagnostics",
           km: 30_000, months: 12, ["диагностика", "діагностика", "scan"]),
-        c("inspection", .general, "Техогляд", "Техосмотр", "Vehicle inspection", months: 24, ["техосмотр", "техогляд", "inspection"]),
+        c("inspection", .general, "Техогляд", "Техосмотр", "Vehicle inspection", months: 24,
+          ["техосмотр", "техогляд", "inspection"], kind: .expiry),
         c("insurance", .general, "Страховка", "Страховка", "Insurance", months: 12,
-          ["осаго", "автоцивилка", "автоцивілка", "автогражданка", "страховка"])
+          ["осаго", "автоцивилка", "автоцивілка", "автогражданка", "страховка"], kind: .expiry)
     ]
 
     private static let byKey: [String: CatalogItem] = Dictionary(items.map { ($0.key, $0) }, uniquingKeysWith: { a, _ in a })

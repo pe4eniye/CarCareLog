@@ -31,7 +31,8 @@ public enum ReminderPlanner {
     /// For every upcoming due day: one reminder `leadTime` before (if that moment is still ahead) and one on
     /// the day itself. Overdue items get none (Home shows them). The soonest 50 notifications are kept.
     public static func plan(statuses: [UUID: ItemStatus], items: [ItemInfo], leadTime: ReminderLeadTime,
-                            now: Date, calendar: Calendar) -> [PlannedReminder] {
+                            now: Date, calendar: Calendar, hour: Int = fireHour,
+                            minute: Int = 0) -> [PlannedReminder] {
         let order = Dictionary(items.enumerated().map { ($1.id, $0) }, uniquingKeysWith: { a, _ in a })
         var byDay: [Date: [UUID]] = [:]
         for status in statuses.values {
@@ -41,7 +42,7 @@ public enum ReminderPlanner {
 
         var result: [PlannedReminder] = []
         for day in byDay.keys.sorted() {
-            guard let dueFire = calendar.date(bySettingHour: fireHour, minute: 0, second: 0, of: day) else { continue }
+            guard let dueFire = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: day) else { continue }
             let ids = byDay[day]!.sorted { (order[$0] ?? 0) < (order[$1] ?? 0) }
             let c = calendar.dateComponents([.year, .month, .day], from: day)
             let base = String(format: "due-%04d-%02d-%02d", c.year ?? 0, c.month ?? 0, c.day ?? 0)

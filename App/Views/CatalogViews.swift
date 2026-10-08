@@ -173,7 +173,8 @@ struct CheckRow: View {
     }
 }
 
-/// Second step: intervals and last replacement for every picked item.
+/// Second step: schedule settings and last replacement for every picked item.
+/// Interval items: km/months (+ last replacement). Expiry items: "valid until". Seasonal items: months.
 struct BulkSetupView: View {
     let choices: [ItemChoiceDraft]
     let onSaved: () -> Void
@@ -183,10 +184,13 @@ struct BulkSetupView: View {
     @Query private var entries: [ServiceEntry]
 
     struct Row {
+        var kind: ItemKind = .interval
         var km: Int?
         var months: Int?
         var date: Date?
         var odometer: Int?
+        var validUntil: Date?
+        var season: Set<Int> = []
     }
 
     @State private var rows: [Row] = []
@@ -200,53 +204,39 @@ struct BulkSetupView: View {
         OdometerRules.current(readings: readings.map(\.info), entries: entries.map(\.info), calendar: Fmt.calendar)
     }
 
+    private var hasIntervalItems: Bool { rows.contains { $0.kind == .interval } }
+
     var body: some View {
         Form {
-            Section {
-                if current != nil {
-                    Toggle(L10n.t("bulk.dontKnow"), isOn: $dontKnow).frame(minHeight: 44)
-                }
-                if !dontKnow {
-                    Toggle(L10n.t("bulk.sameForAll"), isOn: $sameForAll).frame(minHeight: 44)
-                    if sameForAll {
-                        RequiredDateField(title: L10n.t("entry.date"), date: $commonDate)
-                        FieldErrorText(error: ValidationRules.pastOrToday(commonDate, now: Date(), calendar: Fmt.calendar),
-                                       show: triedSave)
-                        LabeledField(label: L10n.t("entry.odometer")) {
-                            NumberField(title: L10n.t("entry.km"), value: $commonOdometer).frame(maxWidth: 140)
-                        }
-                        FieldErrorText(error: ValidationRules.number(commonOdometer, required: true, range: Limits.odometer),
-                                       show: triedSave)
+            if hasIntervalItems {
+                Section {
+                    if current != nil {
+                        Toggle(L10n.t("bulk.dontKnow"), isOn: $dontKnow).frame(minHeight: 44)
                     }
+                    if !dontKnow {
+                        Toggle(L10n.t("bulk.sameForAll"), isOn: $sameForAll).frame(minHeight: 44)
+                        if sameForAll {
+                            RequiredDateField(title: L10n.t("entry.date"), date: $commonDate)
+                            FieldErrorText(error: ValidationRules.pastOrToday(commonDate, now: Date(), calendar: Fmt.calendar),
+                                           show: triedSave)
+                            LabeledField(label: L10n.t("entry.odometer")) {
+                                NumberField(title: L10n.t("entry.km"), value: $commonOdometer).frame(maxWidth: 140)
+                            }
+                            FieldErrorText(error: ValidationRules.number(commonOdometer, required: true, range: Limits.odometer),
+                                           show: triedSave)
+                        }
+                    }
+                } header: {
+                    Text(L10n.t("item.lastSection"))
+                } footer: {
+                    Text(dontKnow ? L10n.t("bulk.dontKnowFooter") : L10n.t("bulk.lastFooter"))
                 }
-            } header: {
-                Text(L10n.t("item.lastSection"))
-            } footer: {
-                Text(dontKnow ? L10n.t("bulk.dontKnowFooter") : L10n.t("bulk.lastFooter"))
             }
 
             ForEach(Array(choices.enumerated()), id: \.offset) { index, choice in
                 if index < rows.count {
                     Section(choice.displayName) {
-                        LabeledField(label: L10n.t("item.intervalKm")) {
-                            NumberField(title: hint(km: choice), value: $rows[index].km).frame(maxWidth: 140)
-                        }
-                        FieldErrorText(error: ValidationRules.number(rows[index].km, required: false, range: Limits.intervalKm))
-                        LabeledField(label: L10n.t("item.intervalMonths")) {
-                            NumberField(title: hint(months: choice), value: $rows[index].months).frame(maxWidth: 140)
-                        }
-                        FieldErrorText(error: ValidationRules.number(rows[index].months, required: false,
-                                                                     range: Limits.intervalMonths))
-                        if !dontKnow && !sameForAll {
-                            RequiredDateField(title: L10n.t("item.lastSection"), date: $rows[index].date)
-                            FieldErrorText(error: ValidationRules.pastOrToday(rows[index].date, now: Date(),
-                                                                              calendar: Fmt.calendar), show: triedSave)
-                            LabeledField(label: L10n.t("entry.odometer")) {
-                                NumberField(title: L10n.t("entry.km"), value: $rows[index].odometer).frame(maxWidth: 140)
-                            }
-                            FieldErrorText(error: ValidationRules.number(rows[index].odometer, required: true,
-                                                                         range: Limits.odometer), show: triedSave)
-                        }
+                        rowContent(index: index, choice: choice)
                     }
                 }
             }
@@ -259,7 +249,50 @@ struct BulkSetupView: View {
             }
         }
         .onAppear {
-            if rows.count != choices.count { rows = Array(repeating: Row(), count: choices.count) }
+            guard rows.count != choices.count else { return }
+            rows = choices.map { choice in
+                var row = Row()
+                if case .catalog(let key) = choice, let c = Catalog.item(key) {
+                    row.kind = c.kind
+                    row.season = Set(c.seasonMonths)
+                }
+                return row
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func rowContent(index: Int, choice: ItemChoiceDraft) -> some View {
+        switch rows[index].kind {
+        case .interval:
+            LabeledField(label: L10n.t("item.intervalKm")) {
+                NumberField(title: hint(km: choice), value: $rows[index].km).frame(maxWidth: 140)
+            }
+            FieldErrorText(error: ValidationRules.number(rows[index].km, required: false, range: Limits.intervalKm))
+            LabeledField(label: L10n.t("item.intervalMonths")) {
+                NumberField(title: hint(months: choice), value: $rows[index].months).frame(maxWidth: 140)
+            }
+            FieldErrorText(error: ValidationRules.number(rows[index].months, required: false, range: Limits.intervalMonths))
+            if triedSave && rows[index].km == nil && rows[index].months == nil {
+                Text(L10n.t("item.needInterval")).font(.footnote).foregroundStyle(.red)
+            }
+            if !dontKnow && !sameForAll {
+                RequiredDateField(title: L10n.t("item.lastSection"), date: $rows[index].date)
+                FieldErrorText(error: ValidationRules.pastOrToday(rows[index].date, now: Date(), calendar: Fmt.calendar),
+                               show: triedSave)
+                LabeledField(label: L10n.t("entry.odometer")) {
+                    NumberField(title: L10n.t("entry.km"), value: $rows[index].odometer).frame(maxWidth: 140)
+                }
+                FieldErrorText(error: ValidationRules.number(rows[index].odometer, required: true, range: Limits.odometer),
+                               show: triedSave)
+            }
+        case .expiry:
+            OptionalFutureDateRow(title: L10n.t("item.validUntil"), date: $rows[index].validUntil)
+        case .seasonal:
+            SeasonMonthsGrid(selected: $rows[index].season)
+            if triedSave && rows[index].season.isEmpty {
+                Text(L10n.t("item.needMonths")).font(.footnote).foregroundStyle(.red)
+            }
         }
     }
 
@@ -276,14 +309,22 @@ struct BulkSetupView: View {
     private var isValid: Bool {
         let now = Date(), cal = Fmt.calendar
         for r in rows {
-            if ValidationRules.number(r.km, required: false, range: Limits.intervalKm) != nil { return false }
-            if ValidationRules.number(r.months, required: false, range: Limits.intervalMonths) != nil { return false }
-            if !dontKnow && !sameForAll {
-                if ValidationRules.pastOrToday(r.date, now: now, calendar: cal) != nil { return false }
-                if ValidationRules.number(r.odometer, required: true, range: Limits.odometer) != nil { return false }
+            switch r.kind {
+            case .interval:
+                if r.km == nil && r.months == nil { return false }
+                if ValidationRules.number(r.km, required: false, range: Limits.intervalKm) != nil { return false }
+                if ValidationRules.number(r.months, required: false, range: Limits.intervalMonths) != nil { return false }
+                if !dontKnow && !sameForAll {
+                    if ValidationRules.pastOrToday(r.date, now: now, calendar: cal) != nil { return false }
+                    if ValidationRules.number(r.odometer, required: true, range: Limits.odometer) != nil { return false }
+                }
+            case .seasonal:
+                if r.season.isEmpty { return false }
+            case .expiry:
+                break
             }
         }
-        if !dontKnow && sameForAll {
+        if hasIntervalItems && !dontKnow && sameForAll {
             if ValidationRules.pastOrToday(commonDate, now: now, calendar: cal) != nil { return false }
             if ValidationRules.number(commonOdometer, required: true, range: Limits.odometer) != nil { return false }
         }
@@ -295,23 +336,31 @@ struct BulkSetupView: View {
         guard isValid else { return }
         var created: [(Item, Row)] = []
         for (index, choice) in choices.enumerated() {
+            let row = rows[index]
             let item = ItemActions.makeItem(choice, order: index, context: context)
-            item.intervalKm = rows[index].km
-            item.intervalMonths = rows[index].months
-            created.append((item, rows[index]))
+            item.kind = row.kind
+            item.intervalKm = row.kind == .interval ? row.km : nil
+            item.intervalMonths = row.kind == .interval ? row.months : nil
+            item.seasonMonths = row.season.sorted()
+            item.validUntil = row.kind == .expiry ? row.validUntil : nil
+            created.append((item, row))
         }
-        if dontKnow, let cur = current {
-            context.insert(ServiceEntry(date: Date(), odometerKm: cur.km, items: created.map(\.0)))
-        } else if sameForAll, let d = commonDate, let km = commonOdometer {
-            context.insert(ServiceEntry(date: d, odometerKm: km, items: created.map(\.0)))
-        } else {
-            for (item, row) in created {
-                if let d = row.date, let km = row.odometer {
-                    context.insert(ServiceEntry(date: d, odometerKm: km, items: [item]))
+        let intervalItems = created.filter { $0.1.kind == .interval }.map(\.0)
+        if !intervalItems.isEmpty {
+            if dontKnow, let cur = current {
+                context.insert(ServiceEntry(date: Date(), odometerKm: cur.km, items: intervalItems))
+            } else if sameForAll, let d = commonDate, let km = commonOdometer {
+                context.insert(ServiceEntry(date: d, odometerKm: km, items: intervalItems))
+            } else {
+                for (item, row) in created where row.kind == .interval {
+                    if let d = row.date, let km = row.odometer {
+                        context.insert(ServiceEntry(date: d, odometerKm: km, items: [item]))
+                    }
                 }
             }
         }
         DataEvents.changed(context)
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         onSaved()
     }
 }

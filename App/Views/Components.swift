@@ -208,3 +208,118 @@ extension Urgency {
     /// Card background: a light wash of the color, readable in light and dark mode.
     var tint: Color { color.opacity(0.13) }
 }
+
+extension Urgency {
+    /// Darker shade for text on the tinted card background.
+    var textColor: Color {
+        switch self {
+        case .overdue: return Color(red: 0.71, green: 0.14, blue: 0.10)
+        case .soon: return Color(red: 0.62, green: 0.38, blue: 0.0)
+        case .ok: return Color(red: 0.12, green: 0.45, blue: 0.27)
+        }
+    }
+
+    /// One word next to the month: "Overdue" / "Soon" / "Fine".
+    var wordKey: String {
+        switch self {
+        case .overdue: return "status.overdue"
+        case .soon: return "status.soon"
+        case .ok: return "status.ok"
+        }
+    }
+
+    /// Summary chips: "1 overdue" / "2 soon" / "6 fine".
+    var countKey: String {
+        switch self {
+        case .overdue: return "chip.overdue"
+        case .soon: return "chip.soon"
+        case .ok: return "chip.ok"
+        }
+    }
+}
+
+/// Amount input with the currency symbol, accepting "1 200,50" or "1200.5".
+struct MoneyField: View {
+    let currency: Currency
+    @Binding var value: Double?
+
+    @State private var text = ""
+
+    var body: some View {
+        HStack(spacing: 4) {
+            if currency == .usd { Text(currency.symbol).foregroundStyle(.secondary) }
+            TextField("0", text: $text)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .onAppear { text = value.map(Self.format) ?? "" }
+                .onChange(of: text) { _, newValue in
+                    let parsed = Self.parse(newValue)
+                    if parsed != value { value = parsed }
+                }
+            if currency != .usd { Text(currency.symbol).foregroundStyle(.secondary) }
+        }
+    }
+
+    static func parse(_ s: String) -> Double? {
+        let cleaned = s.filter { $0.isNumber || $0 == "," || $0 == "." }.replacingOccurrences(of: ",", with: ".")
+        guard let v = Double(cleaned), v >= 0, v < 100_000_000 else { return nil }
+        return v
+    }
+
+    static func format(_ v: Double) -> String {
+        v == v.rounded() ? String(Int(v)) : String(format: "%.2f", v)
+    }
+}
+
+/// A date that may be in the future (e.g. "insurance valid until"), optional.
+struct OptionalFutureDateRow: View {
+    let title: String
+    @Binding var date: Date?
+
+    var body: some View {
+        if let current = date {
+            HStack {
+                DatePicker(title, selection: Binding(get: { current }, set: { date = $0 }), displayedComponents: .date)
+                Button {
+                    date = nil
+                } label: {
+                    Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                }
+                .buttonStyle(.borderless)
+            }
+            .frame(minHeight: 44)
+        } else {
+            Button {
+                date = Calendar.current.date(byAdding: .year, value: 1, to: Date())
+            } label: {
+                LabeledField(label: title) { Text(L10n.t("field.setDate")).foregroundStyle(Color.accentColor) }
+            }
+            .foregroundStyle(.primary)
+        }
+    }
+}
+
+/// 12 month toggles for seasonal items (e.g. April and October).
+struct SeasonMonthsGrid: View {
+    @Binding var selected: Set<Int>
+
+    var body: some View {
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 6), spacing: 6) {
+            ForEach(1...12, id: \.self) { m in
+                let on = selected.contains(m)
+                Button {
+                    if on { selected.remove(m) } else { selected.insert(m) }
+                    UISelectionFeedbackGenerator().selectionChanged()
+                } label: {
+                    Text(Fmt.shortMonth(m))
+                        .font(.footnote.weight(on ? .semibold : .regular))
+                        .frame(maxWidth: .infinity, minHeight: 34)
+                        .background(RoundedRectangle(cornerRadius: 8).fill(on ? Color.accentColor : Color(.tertiarySystemFill)))
+                        .foregroundStyle(on ? Color.white : Color.primary)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}

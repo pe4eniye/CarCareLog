@@ -19,6 +19,7 @@ struct CarCareLogApp: App {
                 .environmentObject(router)
                 .environment(\.locale, L10n.locale)
                 .preferredColorScheme(settings.colorScheme)
+                .tint(settings.accent.color)
                 // Rebuild the whole UI when the in-app language changes.
                 .id(settings.language)
         }
@@ -32,13 +33,14 @@ final class Router: ObservableObject {
     /// Shared so notification actions can open forms.
     static let shared = Router()
 
-    enum Tab: Hashable { case home, history, parts, assistant, settings }
+    enum Tab: Hashable { case home, history, parts, expenses, assistant }
 
     /// Values for a new item, e.g. after "This is a different part" on rename.
     struct ItemDraft {
         var name = ""
         var intervalKm: Int?
         var intervalMonths: Int?
+        var kind: ItemKind = .interval
     }
 
     enum Sheet: Identifiable {
@@ -50,6 +52,7 @@ final class Router: ObservableObject {
         case newItem(ItemDraft)
         case item(Item)
         case odometer
+        case settings
 
         var id: String {
             switch self {
@@ -59,12 +62,13 @@ final class Router: ObservableObject {
             case .newItem(let d): return "new-" + d.name
             case .item(let i): return "item-" + i.uuid.uuidString
             case .odometer: return "odometer"
+            case .settings: return "settings"
             }
         }
     }
 
     @Published var tab: Tab = DemoMode.isOn ? DemoMode.startTab : .home
-    @Published var sheet: Sheet?
+    @Published var sheet: Sheet? = DemoMode.isOn && DemoMode.value(after: "-startTab") == "settings" ? .settings : nil
 
     /// Replaces the current sheet with another one (e.g. from an item card to "Log service").
     func open(_ next: Sheet) {
@@ -145,12 +149,12 @@ struct MainTabView: View {
             PartsView()
                 .tabItem { Label(L10n.t("tab.parts"), systemImage: "list.bullet.clipboard") }
                 .tag(Router.Tab.parts)
+            ExpensesView()
+                .tabItem { Label(L10n.t("tab.expenses"), systemImage: "chart.pie") }
+                .tag(Router.Tab.expenses)
             AssistantView()
                 .tabItem { Label(L10n.t("tab.assistant"), systemImage: "bubble.left.and.text.bubble.right") }
                 .tag(Router.Tab.assistant)
-            SettingsView()
-                .tabItem { Label(L10n.t("tab.settings"), systemImage: "gearshape") }
-                .tag(Router.Tab.settings)
         }
         .sheet(item: $router.sheet) { sheet in
             switch sheet {
@@ -160,6 +164,7 @@ struct MainTabView: View {
             case .newItem(let draft): ItemEditorView(item: nil, draft: draft)
             case .item(let item): ItemEditorView(item: item, draft: Router.ItemDraft())
             case .odometer: OdometerUpdateView()
+            case .settings: SettingsView()
             }
         }
     }

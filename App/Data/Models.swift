@@ -31,6 +31,11 @@ final class Item {
     var oemNumber: String?
     var analogNumbers: [String] = []
     var isArchived: Bool = false
+    /// Interval / expiry / seasonal (ItemKind raw value; enums are stored as raw values for CloudKit).
+    var kindRaw: String = ItemKind.interval.rawValue
+    var seasonMonths: [Int] = []
+    /// "Valid until" for expiry items (insurance, inspection).
+    var validUntil: Date?
     /// Set for items added from the built-in catalog; the shown name then follows the app language.
     var catalogKey: String?
     var createdAt: Date = Date()
@@ -44,14 +49,19 @@ final class Item {
     /// Name in the current app language.
     var displayName: String { Catalog.name(catalogKey, L10n.assistantLanguage) ?? name }
     var isFromCatalog: Bool { Catalog.item(catalogKey) != nil }
+    var kind: ItemKind {
+        get { ItemKind(rawValue: kindRaw) ?? .interval }
+        set { kindRaw = newValue.rawValue }
+    }
 }
 
-/// The name of an item as it was when the entry was recorded.
+/// The name of an item as it was when the entry was recorded (and its price in this entry, if split).
 struct EntryItemSnapshot: Codable, Hashable {
     var itemID: UUID
     var name: String
     /// Catalog items are shown in the current app language.
     var catalogKey: String?
+    var cost: Double?
 
     var displayName: String { Catalog.name(catalogKey, L10n.assistantLanguage) ?? name }
 }
@@ -66,6 +76,11 @@ final class ServiceEntry {
     var items: [Item]? = []
     /// What History shows. Survives renaming and deleting items.
     var snapshot: [EntryItemSnapshot] = []
+    /// Optional total cost (the sum of item prices when split by item).
+    var costTotal: Double?
+    /// Currency the entry was recorded in (Currency raw value).
+    var currencyRaw: String = Currency.uah.rawValue
+    var note: String = ""
     var createdAt: Date = Date()
 
     init(date: Date, odometerKm: Int, items: [Item]) {
@@ -74,7 +89,12 @@ final class ServiceEntry {
         setItems(items)
     }
 
-    /// Sets the linked items. Names already recorded for kept items stay as they were.
+    var currency: Currency {
+        get { Currency(rawValue: currencyRaw) ?? .uah }
+        set { currencyRaw = newValue.rawValue }
+    }
+
+    /// Sets the linked items. Names (and prices) already recorded for kept items stay as they were.
     func setItems(_ newItems: [Item]) {
         let old = Dictionary(snapshot.map { ($0.itemID, $0) }, uniquingKeysWith: { a, _ in a })
         let liveBefore = Set((items ?? []).map(\.uuid))
@@ -87,6 +107,19 @@ final class ServiceEntry {
             old[$0.uuid] ?? EntryItemSnapshot(itemID: $0.uuid, name: $0.displayName, catalogKey: $0.catalogKey)
         }
     }
+
+    /// Prices per item (nil = not split). Setting it also sets the total.
+    func setItemCosts(_ costs: [UUID: Double]) {
+        snapshot = snapshot.map { s in
+            var copy = s
+            copy.cost = costs[s.itemID]
+            return copy
+        }
+        let values = snapshot.compactMap(\.cost)
+        if !values.isEmpty { costTotal = values.reduce(0, +) }
+    }
+
+    var hasSplitCosts: Bool { snapshot.contains { $0.cost != nil } }
 
     /// Names to show in History, alphabetically, in the current language for catalog items.
     var displayNames: [String] {
@@ -120,7 +153,8 @@ extension Car {
 extension Item {
     var info: ItemInfo {
         ItemInfo(id: uuid, name: displayName, aliases: aliases, intervalKm: intervalKm, intervalMonths: intervalMonths,
-                 oemNumber: oemNumber, analogNumbers: analogNumbers, isArchived: isArchived, catalogKey: catalogKey)
+                 oemNumber: oemNumber, analogNumbers: analogNumbers, isArchived: isArchived, catalogKey: catalogKey,
+                 kind: kind, seasonMonths: seasonMonths, validUntil: validUntil)
     }
 }
 
@@ -129,11 +163,13 @@ extension ServiceEntry {
         if snapshot.isEmpty {
             let list = items ?? []
             return ServiceEntryInfo(id: uuid, date: date, odometerKm: odometerKm, itemIDs: list.map(\.uuid),
-                                    itemNames: list.map(\.displayName), itemCatalogKeys: list.map { $0.catalogKey ?? "" })
+                                    itemNames: list.map(\.displayName), itemCatalogKeys: list.map { $0.catalogKey ?? "" },
+                                    costTotal: costTotal, currency: currency, note: note)
         }
         return ServiceEntryInfo(id: uuid, date: date, odometerKm: odometerKm, itemIDs: snapshot.map(\.itemID),
                                 itemNames: snapshot.map(\.displayName),
-                                itemCatalogKeys: snapshot.map { $0.catalogKey ?? "" })
+                                itemCatalogKeys: snapshot.map { $0.catalogKey ?? "" },
+                                itemCosts: snapshot.map(\.cost), costTotal: costTotal, currency: currency, note: note)
     }
 }
 
@@ -189,6 +225,9 @@ enum SnapshotBuilder {
             item.oemNumber = i.oemNumber
             item.analogNumbers = i.analogNumbers
             item.isArchived = i.isArchived
+            item.kind = i.kind
+            item.seasonMonths = i.seasonMonths
+            item.validUntil = i.validUntil
             // Keeps the original list order.
             item.createdAt = Date(timeIntervalSince1970: TimeInterval(index))
             context.insert(item)
@@ -200,9 +239,13 @@ enum SnapshotBuilder {
             let names = e.displayNames(items: snapshot.items)
             entry.snapshot = e.itemIDs.enumerated().map { index, id in
                 let key = index < e.itemCatalogKeys.count ? e.itemCatalogKeys[index] : ""
+                let cost = index < e.itemCosts.count ? e.itemCosts[index] : nil
                 return EntryItemSnapshot(itemID: id, name: index < names.count ? names[index] : "",
-                                         catalogKey: key.isEmpty ? nil : key)
+                                         catalogKey: key.isEmpty ? nil : key, cost: cost)
             }
+            entry.costTotal = e.costTotal
+            entry.currency = e.currency
+            entry.note = e.note
             context.insert(entry)
         }
         for r in snapshot.odometerReadings {
@@ -235,6 +278,10 @@ enum ItemActions {
         switch choice {
         case .catalog(let key):
             item = Item(name: Catalog.name(key, L10n.assistantLanguage) ?? key, catalogKey: key)
+            if let c = Catalog.item(key) {
+                item.kind = c.kind
+                item.seasonMonths = c.seasonMonths
+            }
         case .custom(let name):
             item = Item(name: name)
         }

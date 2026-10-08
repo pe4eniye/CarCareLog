@@ -159,3 +159,24 @@ public enum MileageEstimator {
         return Estimate(value: clamped, isAutomatic: true, spanDays: span)
     }
 }
+
+extension ForecastEngine {
+    /// Share of the interval already used, 0…1 (1 when overdue), for the wear rings.
+    /// Time share = elapsed / (due − last); km share = driven / interval km; the larger one counts.
+    /// nil when there is nothing to measure from (e.g. an expiry item without any record).
+    public static func wear(item: ItemInfo, forecast f: ItemForecast, entries: [ServiceEntryInfo],
+                            currentOdometerKm: Int?, today: Date) -> Double? {
+        if f.isOverdue { return 1 }
+        guard lastEntry(for: item.id, entries: entries) != nil else { return nil }
+        var shares: [Double] = []
+        if let due = f.dueByTime {
+            let total = due.timeIntervalSince(f.lastDate)
+            if total > 0 { shares.append(today.timeIntervalSince(f.lastDate) / total) }
+        }
+        if let km = item.intervalKm, km > 0, f.dueKm != nil, let current = currentOdometerKm {
+            shares.append(Double(current - f.lastOdometerKm) / Double(km))
+        }
+        guard let share = shares.max() else { return nil }
+        return min(max(share, 0), 1)
+    }
+}

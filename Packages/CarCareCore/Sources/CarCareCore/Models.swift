@@ -45,6 +45,16 @@ public struct CarInfo: Codable, Equatable {
     }
 }
 
+/// How an item's next date is found.
+public enum ItemKind: String, Codable, CaseIterable {
+    /// Every N km and/or N months after the last replacement (oil, filters…).
+    case interval
+    /// Valid until a date (insurance, inspection).
+    case expiry
+    /// In fixed months of the year (seasonal tire change: April and October).
+    case seasonal
+}
+
 public struct ItemInfo: Codable, Equatable, Identifiable {
     public var id: UUID
     public var name: String
@@ -57,10 +67,16 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
     public var isArchived: Bool
     /// Set for items added from the built-in catalog: their name follows the app language.
     public var catalogKey: String?
+    public var kind: ItemKind
+    /// Months 1…12 for seasonal items.
+    public var seasonMonths: [Int]
+    /// End date for expiry items (e.g. the insurance policy is valid until…).
+    public var validUntil: Date?
 
     public init(id: UUID = UUID(), name: String, aliases: [String] = [], intervalKm: Int? = nil,
                 intervalMonths: Int? = nil, oemNumber: String? = nil, analogNumbers: [String] = [],
-                isArchived: Bool = false, catalogKey: String? = nil) {
+                isArchived: Bool = false, catalogKey: String? = nil, kind: ItemKind = .interval,
+                seasonMonths: [Int] = [], validUntil: Date? = nil) {
         self.id = id
         self.name = name
         self.aliases = aliases
@@ -70,6 +86,9 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
         self.analogNumbers = analogNumbers
         self.isArchived = isArchived
         self.catalogKey = catalogKey
+        self.kind = kind
+        self.seasonMonths = seasonMonths
+        self.validUntil = validUntil
     }
 
     public init(from decoder: Decoder) throws {
@@ -83,6 +102,9 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
         analogNumbers = try c.decodeIfPresent([String].self, forKey: .analogNumbers) ?? []
         isArchived = try c.decodeIfPresent(Bool.self, forKey: .isArchived) ?? false
         catalogKey = try c.decodeIfPresent(String.self, forKey: .catalogKey)
+        kind = try c.decodeIfPresent(ItemKind.self, forKey: .kind) ?? .interval
+        seasonMonths = try c.decodeIfPresent([Int].self, forKey: .seasonMonths) ?? []
+        validUntil = try c.decodeIfPresent(Date.self, forKey: .validUntil)
     }
 
     public var catalogItem: CatalogItem? { Catalog.item(catalogKey) }
@@ -90,8 +112,26 @@ public struct ItemInfo: Codable, Equatable, Identifiable {
     /// Names in all three languages for catalog items, otherwise the custom name.
     public var allNames: [String] { catalogItem?.allNames ?? [name] }
 
+    /// Enough settings to compute a next date: km or months for intervals, months for seasonal items.
+    /// Expiry items always qualify (without a date they show "no date set").
     public var hasInterval: Bool {
-        (intervalKm ?? 0) > 0 || (intervalMonths ?? 0) > 0
+        switch kind {
+        case .interval: return (intervalKm ?? 0) > 0 || (intervalMonths ?? 0) > 0
+        case .expiry: return true
+        case .seasonal: return seasonMonths.contains { (1...12).contains($0) }
+        }
+    }
+}
+
+public enum Currency: String, Codable, CaseIterable {
+    case uah = "UAH", usd = "USD", eur = "EUR"
+
+    public var symbol: String {
+        switch self {
+        case .uah: return "₴"
+        case .usd: return "$"
+        case .eur: return "€"
+        }
     }
 }
 
@@ -105,15 +145,27 @@ public struct ServiceEntryInfo: Codable, Equatable, Identifiable {
     public var itemNames: [String]
     /// Catalog keys of the items, same order ("" for custom items), so names can follow the app language.
     public var itemCatalogKeys: [String]
+    /// Optional price per item, same order as itemIDs ("split by item").
+    public var itemCosts: [Double?]
+    /// Optional total for the whole entry (the sum of itemCosts when split).
+    public var costTotal: Double?
+    /// Currency the entry was recorded in; totals are never mixed across currencies.
+    public var currency: Currency
+    public var note: String
 
     public init(id: UUID = UUID(), date: Date, odometerKm: Int, itemIDs: [UUID], itemNames: [String] = [],
-                itemCatalogKeys: [String] = []) {
+                itemCatalogKeys: [String] = [], itemCosts: [Double?] = [], costTotal: Double? = nil,
+                currency: Currency = .uah, note: String = "") {
         self.id = id
         self.date = date
         self.odometerKm = odometerKm
         self.itemIDs = itemIDs
         self.itemNames = itemNames
         self.itemCatalogKeys = itemCatalogKeys
+        self.itemCosts = itemCosts
+        self.costTotal = costTotal
+        self.currency = currency
+        self.note = note
     }
 
     public init(from decoder: Decoder) throws {
@@ -124,6 +176,10 @@ public struct ServiceEntryInfo: Codable, Equatable, Identifiable {
         itemIDs = try c.decode([UUID].self, forKey: .itemIDs)
         itemNames = try c.decodeIfPresent([String].self, forKey: .itemNames) ?? []
         itemCatalogKeys = try c.decodeIfPresent([String].self, forKey: .itemCatalogKeys) ?? []
+        itemCosts = try c.decodeIfPresent([Double?].self, forKey: .itemCosts) ?? []
+        costTotal = try c.decodeIfPresent(Double.self, forKey: .costTotal)
+        currency = try c.decodeIfPresent(Currency.self, forKey: .currency) ?? .uah
+        note = try c.decodeIfPresent(String.self, forKey: .note) ?? ""
     }
 
     /// Recorded names, falling back to the current item name for entries without a snapshot.
@@ -132,6 +188,14 @@ public struct ServiceEntryInfo: Codable, Equatable, Identifiable {
             if index < itemNames.count, !itemNames[index].isEmpty { return itemNames[index] }
             return items.first { $0.id == id }?.name
         }
+    }
+
+    /// Price of one item in this entry: its own price when split, or the total when it was the only item.
+    public func cost(of itemID: UUID) -> Double? {
+        guard let index = itemIDs.firstIndex(of: itemID) else { return nil }
+        if index < itemCosts.count, let c = itemCosts[index] { return c }
+        if itemIDs.count == 1 { return costTotal }
+        return nil
     }
 }
 

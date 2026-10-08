@@ -68,6 +68,13 @@ public enum ForecastEngine {
         calendar: Calendar
     ) -> ItemStatus {
         guard item.hasInterval else { return .noInterval }
+        switch item.kind {
+        case .expiry, .seasonal:
+            return dateBasedStatus(for: item, entries: entries, currentOdometerKm: currentOdometerKm,
+                                   avgKmPerMonth: avgKmPerMonth, today: today, calendar: calendar)
+        case .interval:
+            break
+        }
         guard let last = lastEntry(for: item.id, entries: entries) else { return .noHistory }
 
         let todayStart = calendar.startOfDay(for: today)
@@ -138,4 +145,82 @@ public enum ForecastEngine {
         ))
     }
 
+}
+
+extension ForecastEngine {
+    /// Expiry items: due on `validUntil`. Seasonal items: due on the 1st of the first season month after the month
+    /// of the last service (or, with no records, the next season month from now); overdue once that month has
+    /// passed without a record. Both are time-based: no km limit.
+    static func dateBasedStatus(for item: ItemInfo, entries: [ServiceEntryInfo], currentOdometerKm: Int?,
+                                avgKmPerMonth: Double, today: Date, calendar: Calendar) -> ItemStatus {
+        let todayStart = calendar.startOfDay(for: today)
+        let last = lastEntry(for: item.id, entries: entries)
+        let current = max(currentOdometerKm ?? last?.odometerKm ?? 0, 0)
+        let kmPerDay = avgKmPerMonth > 0 ? avgKmPerMonth / daysPerMonth : 0
+
+        let due: Date
+        let overdue: Bool
+        switch item.kind {
+        case .expiry:
+            guard let until = item.validUntil else { return .noHistory }
+            due = calendar.startOfDay(for: until)
+            overdue = due < todayStart
+        case .seasonal:
+            guard let next = nextSeasonStart(months: item.seasonMonths, after: last?.date, today: today,
+                                             calendar: calendar) else { return .noInterval }
+            due = next
+            let thisMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: todayStart))!
+            overdue = due < thisMonth
+        case .interval:
+            return .noInterval
+        }
+
+        var predicted = current
+        if due > todayStart {
+            let days = calendar.dateComponents([.day], from: todayStart, to: due).day ?? 0
+            predicted = current + Int((Double(days) * kmPerDay).rounded())
+        }
+        return .forecast(ItemForecast(
+            itemID: item.id,
+            lastDate: last?.date ?? todayStart,
+            lastOdometerKm: last?.odometerKm ?? current,
+            dueByTime: due,
+            dueKm: nil,
+            dueByMileage: nil,
+            dueDate: due,
+            reason: .time,
+            predictedOdometerKm: predicted,
+            isOverdue: overdue,
+            overdueByTime: overdue,
+            overdueByKm: false
+        ))
+    }
+
+    /// First day of the first season month strictly after the month of `after`,
+    /// or (no record) the first season month starting this month or later.
+    public static func nextSeasonStart(months: [Int], after: Date?, today: Date, calendar: Calendar) -> Date? {
+        let valid = Set(months.filter { (1...12).contains($0) })
+        guard !valid.isEmpty else { return nil }
+        func monthStart(_ d: Date) -> Date { calendar.date(from: calendar.dateComponents([.year, .month], from: d))! }
+        var cursor: Date
+        if let after {
+            cursor = calendar.date(byAdding: .month, value: 1, to: monthStart(after))!
+        } else {
+            cursor = monthStart(today)
+        }
+        for _ in 0..<36 {
+            if valid.contains(calendar.component(.month, from: cursor)) { return cursor }
+            cursor = calendar.date(byAdding: .month, value: 1, to: cursor)!
+        }
+        return nil
+    }
+}
+
+extension ItemForecast {
+    /// Whole days until the due date (0 when today or overdue).
+    public func daysLeft(today: Date, calendar: Calendar) -> Int? {
+        guard let d = dueDate else { return nil }
+        return max(0, calendar.dateComponents([.day], from: calendar.startOfDay(for: today),
+                                              to: calendar.startOfDay(for: d)).day ?? 0)
+    }
 }

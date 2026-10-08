@@ -96,7 +96,7 @@ struct AssistantView: View {
         let q = text.trimmed
         guard !q.isEmpty else { return }
         let ctx = AssistantContext(snapshot: SnapshotBuilder.fetch(context), today: Date(), calendar: Fmt.calendar,
-                                   fallbackLanguage: L10n.assistantLanguage)
+                                   fallbackLanguage: L10n.assistantLanguage, currency: AppSettings.shared.currency)
         let reply = Assistant.answer(q, context: ctx, chosenItemID: chosen)
         history.append(Exchange(question: q, reply: reply))
         // Keep the conversation light: the last 50 questions are enough.

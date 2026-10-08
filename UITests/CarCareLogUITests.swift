@@ -96,7 +96,8 @@ final class CarCareLogUITests: XCTestCase {
 
         app.tabBars.buttons["Schedule"].tap()
         XCTAssertTrue(app.staticTexts["Engine oil"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Overdue"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "was due")).firstMatch
+            .waitForExistence(timeout: 5))
     }
 
     /// Selection mode in History: select two entries, delete them, they're gone.

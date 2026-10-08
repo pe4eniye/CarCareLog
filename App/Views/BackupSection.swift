@@ -57,6 +57,7 @@ struct BackupSection: View {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent(name)
             try data.write(to: url, options: .atomic)
             shareURL = url
+            AppSettings.shared.lastBackupTime = Date().timeIntervalSince1970
         } catch {
             message = L10n.t("backup.exportFailed")
         }

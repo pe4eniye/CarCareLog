@@ -40,8 +40,12 @@ public struct AssistantContext {
     public var calendar: Calendar
     /// Used when the language of the question can't be detected (e.g. only digits).
     public var fallbackLanguage: AssistantLanguage
+    /// Currency for spending answers (the app setting).
+    public var currency: Currency
 
-    public init(snapshot: DataSnapshot, today: Date, calendar: Calendar, fallbackLanguage: AssistantLanguage) {
+    public init(snapshot: DataSnapshot, today: Date, calendar: Calendar, fallbackLanguage: AssistantLanguage,
+                currency: Currency = .uah) {
+        self.currency = currency
         self.snapshot = snapshot
         self.today = today
         self.calendar = calendar
@@ -80,7 +84,9 @@ public enum Assistant {
             return reply(.answer, dueAtMileage(km, context: context, strings: s))
         case .historyForPeriod(let period):
             return reply(.answer, history(period, context: context, strings: s))
-        case .lastDone, .nextDue, .partNumber:
+        case .spending(let period):
+            return reply(.answer, spending(period, context: context, strings: s))
+        case .lastDone, .nextDue, .partNumber, .price:
             let items = parsed.itemIDs.compactMap { snap.item(id: $0) }
             if items.isEmpty {
                 return reply(.itemNotFound, [ReplyLine(s.itemNotFound)], examples: s.examples)
@@ -93,6 +99,7 @@ public enum Assistant {
             switch intent {
             case .lastDone: return reply(.answer, lastDone(item, context: context, strings: s))
             case .nextDue: return reply(.answer, nextDue(item, context: context, strings: s))
+            case .price: return reply(.answer, price(item, context: context, strings: s))
             default: return reply(.answer, partNumber(item, strings: s))
             }
         }
@@ -225,5 +232,42 @@ public enum Assistant {
             lines.append(ReplyLine("\(date) · \(AssistantFormat.km(e.odometerKm, s.lang)) — \(names)"))
         }
         return lines
+    }
+}
+
+extension Assistant {
+    static func spending(_ period: QueryPeriod?, context: AssistantContext, strings s: AssistantStrings) -> [ReplyLine] {
+        let snap = context.snapshot
+        let interval = period.map { DateInterval(start: $0.start, end: $0.end) }
+        let header: String
+        if let period {
+            switch period.kind {
+            case .thisYear, .lastYear:
+                header = s.yearLabel(context.calendar.component(.year, from: period.start))
+            case .year(let y):
+                header = s.yearLabel(y)
+            case .thisMonth, .lastMonth:
+                header = AssistantFormat.monthYear(period.start, s.lang, calendar: context.calendar)
+            case .last12Months:
+                header = s.last12Months
+            }
+        } else {
+            header = s.allTime
+        }
+        let totals = Expenses.totalsByCurrency(snap, in: interval)
+        guard !totals.isEmpty else { return [ReplyLine("\(header):"), ReplyLine(s.noSpending)] }
+        // The app currency first, others after it.
+        let ordered = totals.sorted { a, b in (a.0 == context.currency ? 0 : 1) < (b.0 == context.currency ? 0 : 1) }
+        let amounts = ordered.map { AssistantFormat.money($0.1, $0.0, s.lang) }.joined(separator: " + ")
+        let count = Expenses.lines(snap, in: interval).count
+        return [ReplyLine("\(header):"), ReplyLine(s.spent(amounts, count))]
+    }
+
+    static func price(_ item: ItemInfo, context: AssistantContext, strings s: AssistantStrings) -> [ReplyLine] {
+        guard let p = Expenses.lastPrice(of: item.id, in: context.snapshot) else {
+            return [ReplyLine(s.noPrice(item.name))]
+        }
+        let date = AssistantFormat.date(p.date, s.lang, calendar: context.calendar)
+        return [ReplyLine("\(item.name): \(AssistantFormat.money(p.amount, p.currency, s.lang)) (\(date))")]
     }
 }

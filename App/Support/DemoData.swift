@@ -3,7 +3,7 @@ import SwiftData
 import CarCareCore
 
 /// Demo mode for screenshots on CI: launch with `-demo` (in-memory store with sample data, no onboarding,
-/// no Face ID). Optional: `-startTab home|history|parts|assistant|settings`, `-demoQuestion "…"`,
+/// no Face ID). Optional: `-startTab home|history|parts|expenses|assistant|settings` (settings opens the sheet), `-demoQuestion "…"`,
 /// `-settings.language uk|ru|en`, `-settings.theme light|dark|system`.
 enum DemoMode {
     #if DEMO_BUILD
@@ -24,7 +24,7 @@ enum DemoMode {
         case "history": return .history
         case "parts": return .parts
         case "assistant": return .assistant
-        case "settings": return .settings
+        case "expenses": return .expenses
         default: return .home
         }
     }
@@ -77,7 +77,12 @@ enum DemoMode {
         let brake = fromCatalog("brake_fluid", months: 24)
         let belt = fromCatalog("timing_belt", km: 90_000, months: 60)
         let pads = fromCatalog("front_pads", km: 30_000)
-        let tires = fromCatalog("seasonal_tires", months: 6)
+        let tires = fromCatalog("seasonal_tires")
+        tires.kind = .seasonal
+        tires.seasonMonths = [4, 10]
+        let insurance = fromCatalog("insurance")
+        insurance.kind = .expiry
+        insurance.validUntil = cal.date(byAdding: .day, value: 38, to: Date())
         // A custom item, shown as typed in every language.
         let washer = item(n("Чистка радіатора", "Чистка радиатора", "Radiator cleaning"), km: 40_000)
         let battery = fromCatalog("battery", months: 60)
@@ -95,7 +100,21 @@ enum DemoMode {
             (150, 223_000, [tires])
         ]
         for (days, km, items) in entries {
-            context.insert(ServiceEntry(date: daysAgo(days), odometerKm: km, items: items))
+            let entry = ServiceEntry(date: daysAgo(days), odometerKm: km, items: items)
+            entry.currency = .uah
+            switch days {
+            case 40:
+                entry.setItemCosts([oil.uuid: 2_100, oilFilter.uuid: 450])
+                entry.note = "Castrol EDGE 5W-30 LL, 4,7 л"
+            case 340: entry.costTotal = 3_900
+            case 200: entry.costTotal = 650
+            case 120: entry.costTotal = 850
+            case 330: entry.costTotal = 2_400
+            case 150: entry.costTotal = 600
+            case 700: entry.costTotal = 7_800
+            default: break
+            }
+            context.insert(entry)
         }
         context.insert(OdometerReading(date: daysAgo(40), km: 227_000))
         // 20 days ago, so the odometer banner is visible on Home in screenshots.

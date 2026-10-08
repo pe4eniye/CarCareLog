@@ -16,9 +16,14 @@ public struct WidgetSnapshot: Codable, Equatable {
     public var emptyText: String
     /// Items due on dueDay: tapping the widget opens "Log service" with them selected.
     public var itemIDs: [UUID] = []
+    /// Lock screen: the single most urgent item, its short value ("8.9k km", "38 d") and wear 0…1.
+    public var nextTitle: String = ""
+    public var nextValue: String = ""
+    public var nextFraction: Double = 0
 
     public init(generatedAt: Date, dueDay: Date?, dueDayText: String, itemsText: String, overdueText: String,
-                emptyText: String, itemIDs: [UUID] = []) {
+                emptyText: String, itemIDs: [UUID] = [], nextTitle: String = "", nextValue: String = "",
+                nextFraction: Double = 0) {
         self.generatedAt = generatedAt
         self.dueDay = dueDay
         self.dueDayText = dueDayText
@@ -26,6 +31,9 @@ public struct WidgetSnapshot: Codable, Equatable {
         self.overdueText = overdueText
         self.emptyText = emptyText
         self.itemIDs = itemIDs
+        self.nextTitle = nextTitle
+        self.nextValue = nextValue
+        self.nextFraction = nextFraction
     }
 
     public static let fileName = "widget-snapshot.json"

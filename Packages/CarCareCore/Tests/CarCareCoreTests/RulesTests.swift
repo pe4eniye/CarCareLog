@@ -196,7 +196,7 @@ final class BackupTests: XCTestCase {
         XCTAssertEqual(file.snapshot, snap)
 
         let json = String(decoding: data, as: UTF8.self)
-        XCTAssertTrue(json.contains("\"formatVersion\" : 2"))
+        XCTAssertTrue(json.contains("\"formatVersion\" : 3"))
         XCTAssertTrue(json.contains("Моторне масло"))
     }
 

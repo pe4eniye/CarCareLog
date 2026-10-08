@@ -193,7 +193,7 @@ struct PartsView: View {
     }
 }
 
-/// Schedule row: colored dot, name, interval, last replacement, next one.
+/// Schedule row: wear ring, name, interval, last replacement, next one.
 struct ItemRow: View {
     let item: Item
     let snapshot: DataSnapshot
@@ -204,23 +204,25 @@ struct ItemRow: View {
     var body: some View {
         let forecast = status?.forecast
         let urgency = forecast?.urgency(today: today, calendar: Fmt.calendar, currentOdometerKm: currentKm)
-        HStack(alignment: .firstTextBaseline, spacing: 10) {
-            Circle().fill(urgency?.color ?? Color.secondary.opacity(0.4)).frame(width: 8, height: 8)
-            VStack(alignment: .leading, spacing: 4) {
+        let wear = forecast.flatMap {
+            ForecastEngine.wear(item: item.info, forecast: $0, entries: snapshot.entries, currentOdometerKm: currentKm,
+                                today: today)
+        }
+        HStack(alignment: .center, spacing: 12) {
+            WearRing(fraction: wear, urgency: urgency, overdue: forecast?.isOverdue == true)
+            VStack(alignment: .leading, spacing: 3) {
                 Text(item.displayName).font(.body.weight(.medium)).foregroundStyle(.primary).lineLimit(2)
-                let interval = Self.intervalText(km: item.intervalKm, months: item.intervalMonths)
+                let interval = Self.scheduleText(item)
                 if !interval.isEmpty {
-                    Label(interval, systemImage: "arrow.triangle.2.circlepath").font(.subheadline)
+                    Text(interval).font(.subheadline)
                 }
                 if let last = ForecastEngine.lastEntry(for: item.uuid, entries: snapshot.entries) {
-                    Label(L10n.f("parts.lastLine", Fmt.km(last.odometerKm), Fmt.date(last.date)),
-                          systemImage: "checkmark.circle")
-                        .font(.subheadline)
+                    Text(L10n.f("parts.lastLine", Fmt.km(last.odometerKm), Fmt.date(last.date))).font(.subheadline)
                 }
                 if let f = forecast {
-                    Label(nextText(f), systemImage: f.isOverdue ? "exclamationmark.triangle" : "calendar")
-                        .font(.subheadline)
-                        .foregroundStyle(f.isOverdue ? Color.red : Color.secondary)
+                    Text(ForecastText.detail(kind: item.kind, forecast: f, currentKm: currentKm, today: today))
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(f.isOverdue ? Color.red : (urgency ?? .ok).textColor)
                 }
             }
         }
@@ -230,16 +232,16 @@ struct ItemRow: View {
         .contentShape(Rectangle())
     }
 
-    private func nextText(_ f: ItemForecast) -> String {
-        if f.isOverdue { return L10n.t("home.overdue") }
-        if let d = f.dueDate {
-            var text = L10n.f("parts.nextLine", Fmt.km(f.predictedOdometerKm), Fmt.monthYear(d).lowercased())
-            if let left = f.kmLeft(currentOdometerKm: currentKm), left > 0 {
-                text += " · " + L10n.f("home.inKm", Fmt.km(left))
-            }
-            return text
+    /// "every 10 000 km · 12 mo" / "valid until 15 Nov 2026" / "season: Apr, Oct".
+    static func scheduleText(_ item: Item) -> String {
+        switch item.kind {
+        case .interval:
+            return intervalText(km: item.intervalKm, months: item.intervalMonths)
+        case .expiry:
+            return item.validUntil.map { L10n.f("text.validUntil", Fmt.date($0)) } ?? L10n.t("parts.noValidUntil")
+        case .seasonal:
+            return L10n.f("parts.seasonMonths", item.seasonMonths.sorted().map(Fmt.shortMonth).joined(separator: ", "))
         }
-        return L10n.f("parts.nextKmOnly", Fmt.km(f.dueKm ?? f.predictedOdometerKm))
     }
 
     static func intervalText(km: Int?, months: Int?) -> String {
@@ -247,6 +249,32 @@ struct ItemRow: View {
         if let km, km > 0 { parts.append(L10n.f("parts.everyKm", Fmt.km(km))) }
         if let m = months, m > 0 { parts.append(L10n.f("parts.everyMonths", m)) }
         return parts.joined(separator: " · ")
+    }
+}
+
+/// Ring showing how much of the interval is used; "!" when overdue, empty gray ring when unknown.
+struct WearRing: View {
+    let fraction: Double?
+    let urgency: Urgency?
+    let overdue: Bool
+
+    var body: some View {
+        let color = urgency?.color ?? Color.secondary
+        ZStack {
+            Circle().stroke(color.opacity(0.18), lineWidth: 5)
+            if let fraction {
+                Circle()
+                    .trim(from: 0, to: max(0.02, fraction))
+                    .stroke(color, style: StrokeStyle(lineWidth: 5, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                    .animation(.easeOut(duration: 0.6), value: fraction)
+                Text(overdue ? "!" : "\(Int((fraction * 100).rounded()))%")
+                    .font(.system(size: overdue ? 15 : 10, weight: .bold, design: .rounded))
+                    .foregroundStyle(urgency?.textColor ?? .secondary)
+            }
+        }
+        .frame(width: 40, height: 40)
+        .accessibilityHidden(true)
     }
 }
 
@@ -267,6 +295,9 @@ struct ItemEditorView: View {
     @State private var aliases = ""
     @State private var intervalKm: Int?
     @State private var intervalMonths: Int?
+    @State private var kind: ItemKind = .interval
+    @State private var seasonMonths: Set<Int> = []
+    @State private var validUntil: Date?
     @State private var oem = ""
     @State private var analogs = ""
     @State private var lastDate: Date?
@@ -305,14 +336,24 @@ struct ItemEditorView: View {
     private var monthsError: FieldError? {
         ValidationRules.number(intervalMonths, required: false, range: Limits.intervalMonths)
     }
+    /// Only interval items need a last replacement to count from.
+    private var needsLast: Bool { isNew && kind == .interval }
     private var lastDateError: FieldError? {
-        isNew ? ValidationRules.pastOrToday(lastDate, now: Date(), calendar: Fmt.calendar) : nil
+        needsLast ? ValidationRules.pastOrToday(lastDate, now: Date(), calendar: Fmt.calendar) : nil
     }
     private var lastKmError: FieldError? {
-        isNew ? ValidationRules.number(lastKm, required: true, range: Limits.odometer) : nil
+        needsLast ? ValidationRules.number(lastKm, required: true, range: Limits.odometer) : nil
+    }
+    /// Interval items need km or months; seasonal items at least one month.
+    private var scheduleMissing: Bool {
+        switch kind {
+        case .interval: return intervalKm == nil && intervalMonths == nil
+        case .seasonal: return seasonMonths.isEmpty
+        case .expiry: return false
+        }
     }
     private var isValid: Bool {
-        [nameError, kmError, monthsError, lastDateError, lastKmError].allSatisfy { $0 == nil }
+        [nameError, kmError, monthsError, lastDateError, lastKmError].allSatisfy { $0 == nil } && !scheduleMissing
     }
 
     var body: some View {
@@ -338,18 +379,37 @@ struct ItemEditorView: View {
                 }
 
                 Section {
-                    LabeledField(label: L10n.t("item.intervalKm")) {
-                        NumberField(title: hintKm, value: $intervalKm).frame(maxWidth: 140)
+                    Picker("", selection: $kind) {
+                        Text(L10n.t("kind.interval")).tag(ItemKind.interval)
+                        Text(L10n.t("kind.expiry")).tag(ItemKind.expiry)
+                        Text(L10n.t("kind.seasonal")).tag(ItemKind.seasonal)
                     }
-                    FieldErrorText(error: kmError)
-                    LabeledField(label: L10n.t("item.intervalMonths")) {
-                        NumberField(title: hintMonths, value: $intervalMonths).frame(maxWidth: 140)
+                    .pickerStyle(.segmented)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 12, bottom: 8, trailing: 12))
+                    switch kind {
+                    case .interval:
+                        LabeledField(label: L10n.t("item.intervalKm")) {
+                            NumberField(title: hintKm, value: $intervalKm).frame(maxWidth: 140)
+                        }
+                        FieldErrorText(error: kmError)
+                        LabeledField(label: L10n.t("item.intervalMonths")) {
+                            NumberField(title: hintMonths, value: $intervalMonths).frame(maxWidth: 140)
+                        }
+                        FieldErrorText(error: monthsError)
+                    case .expiry:
+                        OptionalFutureDateRow(title: L10n.t("item.validUntil"), date: $validUntil)
+                    case .seasonal:
+                        SeasonMonthsGrid(selected: $seasonMonths)
                     }
-                    FieldErrorText(error: monthsError)
+                    if scheduleMissing && triedSave {
+                        Text(L10n.t(kind == .seasonal ? "item.needMonths" : "item.needInterval"))
+                            .font(.footnote).foregroundStyle(.red)
+                    }
                 } header: {
                     Text(L10n.t("item.interval"))
                 } footer: {
-                    Text(L10n.t("item.intervalFooter"))
+                    Text(L10n.t(kind == .interval ? "item.intervalFooter" : (kind == .expiry ? "item.expiryFooter"
+                                                                                            : "item.seasonFooter")))
                 }
 
                 lastReplacementSection
@@ -435,7 +495,7 @@ struct ItemEditorView: View {
 
     @ViewBuilder
     private var lastReplacementSection: some View {
-        if isNew {
+        if needsLast {
             Section {
                 RequiredDateField(title: L10n.t("entry.date"), date: $lastDate)
                 FieldErrorText(error: lastDateError, show: triedSave)
@@ -466,6 +526,13 @@ struct ItemEditorView: View {
                 } else {
                     Text(L10n.t("item.noRecords")).foregroundStyle(.secondary)
                 }
+                if let price = Expenses.lastPrice(of: item.uuid, in: DataSnapshot(entries: entries.map(\.info))) {
+                    LabeledField(label: L10n.t("item.lastPrice")) {
+                        Text(AssistantFormat.money(price.amount, price.currency, L10n.assistantLanguage)
+                             + " · " + Fmt.date(price.date))
+                            .foregroundStyle(.secondary)
+                    }
+                }
                 if !item.isArchived {
                     Button {
                         router.open(.logService([item.uuid]))
@@ -488,12 +555,16 @@ struct ItemEditorView: View {
             name = draft.name
             intervalKm = draft.intervalKm
             intervalMonths = draft.intervalMonths
+            kind = draft.kind
             return
         }
         name = i.name
         aliases = i.aliases.joined(separator: ", ")
         intervalKm = i.intervalKm
         intervalMonths = i.intervalMonths
+        kind = i.kind
+        seasonMonths = Set(i.seasonMonths)
+        validUntil = i.validUntil
         oem = i.oemNumber ?? ""
         analogs = i.analogNumbers.joined(separator: ", ")
         showMore = !oem.isEmpty || !analogs.isEmpty || !aliases.isEmpty
@@ -560,9 +631,12 @@ struct ItemEditorView: View {
         target.aliases = aliases.listItems.map { String($0.prefix(Limits.alias)) }
         target.intervalKm = intervalKm
         target.intervalMonths = intervalMonths
+        target.kind = kind
+        target.seasonMonths = seasonMonths.sorted()
+        target.validUntil = kind == .expiry ? validUntil : target.validUntil
         target.oemNumber = finalOEM.isEmpty ? nil : finalOEM
         target.analogNumbers = PartNumbers.cleanList(analogs.listItems).map { String($0.prefix(Limits.partNumber)) }
-        if isNew, let d = lastDate, let km = lastKm {
+        if needsLast, let d = lastDate, let km = lastKm {
             context.insert(ServiceEntry(date: d, odometerKm: km, items: [target]))
         }
         DataEvents.changed(context)
@@ -582,6 +656,7 @@ struct ItemEditorView: View {
         guard let i = item else { return }
         i.isArchived = true
         DataEvents.changed(context)
-        router.open(.newItem(Router.ItemDraft(name: name.trimmed, intervalKm: intervalKm, intervalMonths: intervalMonths)))
+        router.open(.newItem(Router.ItemDraft(name: name.trimmed, intervalKm: intervalKm, intervalMonths: intervalMonths,
+                                              kind: kind)))
     }
 }

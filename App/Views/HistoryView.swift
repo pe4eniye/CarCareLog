@@ -266,12 +266,14 @@ struct PickedItem: Hashable, Identifiable {
 }
 
 /// "Log service": date and odometer are required and start empty, so nothing is recorded "by default".
+/// Optional: total cost or a price per item, a note, and "valid until" for insurance-like items.
 struct EntryEditorView: View {
     let entry: ServiceEntry?
     let preselected: [UUID]
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var settings: AppSettings
     @Query(sort: \Item.createdAt) private var allItems: [Item]
     @Query private var readings: [OdometerReading]
     @Query private var entries: [ServiceEntry]
@@ -279,12 +281,18 @@ struct EntryEditorView: View {
     @State private var date: Date?
     @State private var odometer: Int?
     @State private var selected: [PickedItem] = []
+    @State private var splitCosts = false
+    @State private var total: Double?
+    @State private var itemCosts: [PickedItem.Kind: Double] = [:]
+    @State private var validUntil: [PickedItem.Kind: Date] = [:]
+    @State private var note = ""
     @State private var showPicker = false
     @State private var loaded = false
     @State private var triedSave = false
     @State private var confirmLower = false
     @State private var confirmDelete = false
 
+    private var currency: Currency { entry?.currency ?? settings.currency }
     private var dateError: FieldError? { ValidationRules.pastOrToday(date, now: Date(), calendar: Fmt.calendar) }
     private var kmError: FieldError? { ValidationRules.number(odometer, required: true, range: Limits.odometer) }
     private var isValid: Bool { dateError == nil && kmError == nil && !selected.isEmpty }
@@ -293,6 +301,14 @@ struct EntryEditorView: View {
     private var currentOther: OdometerReadingInfo? {
         OdometerRules.current(readings: readings.map(\.info),
                               entries: entries.filter { $0.uuid != entry?.uuid }.map(\.info), calendar: Fmt.calendar)
+    }
+
+    private func kind(of p: PickedItem) -> ItemKind {
+        switch p.kind {
+        case .existing(let id): return allItems.first { $0.uuid == id }?.kind ?? .interval
+        case .draft(.catalog(let key)): return Catalog.item(key)?.kind ?? .interval
+        case .draft(.custom(_)): return .interval
+        }
     }
 
     var body: some View {
@@ -316,8 +332,13 @@ struct EntryEditorView: View {
                     ForEach(selected) { p in
                         HStack {
                             Text(p.name).lineLimit(2)
-                            if case .draft = p.kind {
-                                Spacer()
+                            Spacer()
+                            if splitCosts {
+                                MoneyField(currency: currency, value: Binding(
+                                    get: { itemCosts[p.kind] },
+                                    set: { itemCosts[p.kind] = $0 }))
+                                    .frame(maxWidth: 110)
+                            } else if case .draft = p.kind {
                                 Text(L10n.t("entry.newItemBadge")).font(.caption).foregroundStyle(.secondary)
                             }
                         }
@@ -338,6 +359,47 @@ struct EntryEditorView: View {
                     } else if selected.contains(where: { if case .draft = $0.kind { return true } else { return false } }) {
                         Text(L10n.t("entry.newItemsFooter"))
                     }
+                }
+
+                let expiring = selected.filter { kind(of: $0) == .expiry }
+                if !expiring.isEmpty {
+                    Section {
+                        ForEach(expiring) { p in
+                            OptionalFutureDateRow(title: p.name, date: Binding(
+                                get: { validUntil[p.kind] },
+                                set: { validUntil[p.kind] = $0 }))
+                        }
+                    } header: {
+                        Text(L10n.t("entry.validUntil"))
+                    } footer: {
+                        Text(L10n.t("entry.validUntilFooter"))
+                    }
+                }
+
+                Section {
+                    if selected.count > 1 {
+                        Toggle(L10n.t("entry.splitCosts"), isOn: $splitCosts).frame(minHeight: 44)
+                    }
+                    if splitCosts && selected.count > 1 {
+                        LabeledField(label: L10n.t("entry.total")) {
+                            Text(AssistantFormat.money(itemCosts.values.reduce(0, +), currency, L10n.assistantLanguage))
+                                .fontWeight(.semibold)
+                        }
+                    } else {
+                        LabeledField(label: L10n.t("entry.total")) {
+                            MoneyField(currency: currency, value: $total).frame(maxWidth: 140)
+                        }
+                    }
+                } header: {
+                    Text(L10n.t("entry.cost"))
+                }
+
+                Section {
+                    TextField(L10n.t("entry.notePlaceholder"), text: $note, axis: .vertical)
+                        .limitLength($note, 500)
+                        .lineLimit(2...6)
+                } header: {
+                    Text(L10n.t("entry.note"))
                 }
 
                 if entry != nil {
@@ -385,10 +447,17 @@ struct EntryEditorView: View {
             date = e.date
             odometer = e.odometerKm
             source = e.sortedItems
+            note = e.note
+            total = e.costTotal
+            splitCosts = e.hasSplitCosts
+            for s in e.snapshot { if let c = s.cost { itemCosts[.existing(s.itemID)] = c } }
         } else {
             source = preselected.compactMap { id in allItems.first { $0.uuid == id } }
         }
         selected = source.map { PickedItem(kind: .existing($0.uuid), name: $0.displayName) }
+        for item in source where item.kind == .expiry {
+            if let until = item.validUntil { validUntil[.existing(item.uuid)] = until }
+        }
     }
 
     private func trySave() {
@@ -406,22 +475,41 @@ struct EntryEditorView: View {
     private func save() {
         guard let km = odometer, let d = date else { return }
         var resolved: [Item] = []
+        var costs: [UUID: Double] = [:]
         for (index, p) in selected.enumerated() {
+            let item: Item?
             switch p.kind {
             case .existing(let id):
-                if let item = allItems.first(where: { $0.uuid == id }) { resolved.append(item) }
+                item = allItems.first { $0.uuid == id }
             case .draft(let draft):
-                resolved.append(ItemActions.makeItem(draft, order: index, context: context))
+                item = ItemActions.makeItem(draft, order: index, context: context)
             }
+            guard let item else { continue }
+            resolved.append(item)
+            if let until = validUntil[p.kind] { item.validUntil = until }
+            if splitCosts, let c = itemCosts[p.kind] { costs[item.uuid] = c }
         }
+        let target: ServiceEntry
         if let e = entry {
+            target = e
             e.date = d
             e.odometerKm = km
             e.setItems(resolved)
         } else {
-            context.insert(ServiceEntry(date: d, odometerKm: km, items: resolved))
+            target = ServiceEntry(date: d, odometerKm: km, items: resolved)
+            target.currency = settings.currency
+            context.insert(target)
+        }
+        target.note = note.trimmed
+        if splitCosts && resolved.count > 1 {
+            target.setItemCosts(costs)
+            if costs.isEmpty { target.costTotal = nil }
+        } else {
+            target.setItemCosts([:])
+            target.costTotal = (total ?? 0) > 0 ? total : nil
         }
         DataEvents.changed(context)
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
         dismiss()
     }
 }

@@ -58,6 +58,14 @@ targets:
         CCAppGroup: $(CC_APP_GROUP)
         CCICloudContainer: $(CC_ICLOUD_CONTAINER)
         CCICloudEnabled: $(CC_ICLOUD)
+        # Automatic backups are visible in Files (On My iPhone / iCloud Drive → CarCare Log).
+        UIFileSharingEnabled: true
+        LSSupportsOpeningDocumentsInPlace: true
+        NSUbiquitousContainers:
+          iCloud.com.carcarelog.app:
+            NSUbiquitousContainerIsDocumentScopePublic: true
+            NSUbiquitousContainerName: CarCare Log
+            NSUbiquitousContainerSupportedFolderLevels: Any
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.carcarelog.app

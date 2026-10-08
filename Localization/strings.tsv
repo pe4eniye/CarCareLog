@@ -39,7 +39,6 @@ home.odometer	Пробіг	Пробег	Odometer
 home.overdue	Прострочено	Просрочено	Overdue
 home.overdueSince	термін: %@	срок: %@	was due: %@
 home.undated	За пробігом	По пробегу	By mileage
-home.undatedFooter	Дату не розраховано: вкажіть середній пробіг за місяць у налаштуваннях.	Дата не рассчитана: укажите средний пробег за месяц в настройках.	No date estimate: set the average km per month in Settings.
 home.update	Оновити	Обновить	Update
 icloud.checking	Перевірка…	Проверка…	Checking…
 icloud.errorShort	Помилка синхронізації	Ошибка синхронизации	Sync error
@@ -111,7 +110,6 @@ settings.faceIDUnavailable	Face ID або код пристрою недосту
 settings.icloudFooter	iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone.	iCloud — только резервная копия и синхронизация. Основная копия данных — на этом iPhone.	iCloud is only a backup and sync layer. The main copy of your data is on this iPhone.
 settings.language	Мова	Язык	Language
 settings.leadTime	Нагадувати	Напоминать	Remind
-settings.reminders	Нагадування	Напоминания	Reminders
 settings.security	Захист	Защита	Security
 settings.theme	Тема	Тема	Theme
 settings.themeDark	Темна	Тёмная	Dark
@@ -169,8 +167,6 @@ parts.archiveFooter	Позиції в архіві не потрапляють �
 parts.archiveTitle	Архів (%d)	Архив (%d)	Archive (%d)
 parts.deleteKeepsHistory	Видалити «%@»? Записи в Історії залишаться.	Удалить «%@»? Записи в Истории останутся.	Delete “%@”? History entries stay.
 parts.lastLine	остання: %1$@ · %2$@	последняя: %1$@ · %2$@	last: %1$@ · %2$@
-parts.nextKmOnly	наступна: при %@	следующая: на %@	next: at %@
-parts.nextLine	наступна: ≈ %1$@ · %2$@	следующая: ≈ %1$@ · %2$@	next: ≈ %1$@ · %2$@
 parts.restore	Повернути	Вернуть	Restore
 parts.restoreBlocked	Не можна повернути: активна позиція «%@» має таку саму назву. Спочатку перейменуйте одну з них.	Нельзя вернуть: активная позиция «%@» с таким же названием. Сначала переименуйте одну из них.	Can’t restore: the active item “%@” has the same name. Rename one of them first.
 bulk.dontKnow	Не знаю — для всіх від сьогодні	Не знаю — для всех от сегодня	Don’t know — count all from today
@@ -200,7 +196,6 @@ history.deleteMany	Видалити записів: %d?	Удалить запи�
 history.itemSummary	Замін: %1$d · остання %2$@ · %3$@	Замен: %1$d · последняя %2$@ · %3$@	%1$d times · last %2$@ · %3$@
 history.sincePrevious	+%1$@ і %2$d міс. від попередньої заміни	+%1$@ и %2$d мес. с предыдущей замены	+%1$@ and %2$d mo since the previous one
 home.inKm	через %@	через %@	in %@
-home.noForecastCount	Позицій без прогнозу: %d — задайте інтервал у Регламенті	Позиций без прогноза: %d — задайте интервал в Регламенте	%d items without a forecast — set an interval in the Schedule
 home.overBy	уже +%@	уже +%@	%@ over
 home.overdueDate	термін був %@	срок был %@	was due %@
 home.overdueKm	термін був %@	срок был %@	was due at %@
@@ -254,3 +249,103 @@ wipe.title	Видалити всі дані?	Удалить все данные?
 picker.search	Пошук	Поиск	Search
 home.emptyText	Оберіть, що ви обслуговуєте: оливу, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях.	Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам.	Choose what you maintain: oil, filters, brakes, insurance — from the list or your own items. A month-by-month forecast will appear here.
 parts.empty	Тут буде ваш регламент: що ви обслуговуєте і як часто. Оберіть позиції з довідника — можна одразу кілька.	Здесь будет ваш регламент: что вы обслуживаете и как часто. Выберите позиции из справочника — можно сразу несколько.	Your schedule lives here: what you maintain and how often. Pick items from the list — several at once.
+autobackup.footer	Раз на тиждень копія автоматично зберігається в iCloud Drive → CarCare Log (останні 5 файлів).	Раз в неделю копия автоматически сохраняется в iCloud Drive → CarCare Log (последние 5 файлов).	Once a week a copy is saved automatically to iCloud Drive → CarCare Log (last 5 files).
+autobackup.footerLocal	iCloud недоступний, тому копії зберігаються у «Файли» → «На iPhone» → CarCare Log. Від втрати телефону це не захищає — час від часу експортуйте копію.	iCloud недоступен, поэтому копии сохраняются в «Файлы» → «На iPhone» → CarCare Log. От потери телефона это не защищает — время от времени экспортируйте копию.	iCloud isn’t available, so copies go to Files → On My iPhone → CarCare Log. That doesn’t protect against losing the phone — export a copy now and then.
+autobackup.last	Остання копія	Последняя копия	Last backup
+autobackup.never	ще не було	ещё не было	never
+autobackup.section	Автоматична копія	Автоматическая копия	Automatic backup
+backup.now	Зробити копію зараз	Сделать копию сейчас	Back up now
+backup.overdue	Резервної копії не було понад 2 тижні.	Резервной копии не было больше 2 недель.	No backup for more than 2 weeks.
+chip.ok	%d в нормі	%d в норме	%d fine
+chip.overdue	%d прострочено	%d просрочено	%d overdue
+chip.soon	%d скоро	%d скоро	%d soon
+currency.eur	Євро	Евро	Euro
+currency.uah	Гривня	Гривна	Hryvnia
+currency.usd	Долар	Доллар	Dollar
+entry.cost	Вартість (необов’язково)	Стоимость (необязательно)	Cost (optional)
+entry.note	Нотатка (необов’язково)	Заметка (необязательно)	Note (optional)
+entry.notePlaceholder	Марка оливи, СТО, що ще зроблено…	Марка масла, СТО, что ещё сделано…	Oil brand, workshop, anything else…
+entry.splitCosts	Розбити за позиціями	Разбить по позициям	Split by item
+entry.total	Разом	Итого	Total
+entry.validUntil	Діє до	Действует до	Valid until
+entry.validUntilFooter	Дата закінчення поліса або техогляду — від неї прийде нагадування.	Дата окончания полиса или техосмотра — от неё придёт напоминание.	End date of the policy or inspection; the reminder is based on it.
+expenses.all	Усе	Всё	All
+expenses.allTime	За весь час	За всё время	All time
+expenses.backTo	Показати в %@	Показать в %@	Show in %@
+expenses.byCategory	За категоріями	По категориям	By category
+expenses.empty	Тут з’являться обслуговування з указаною вартістю.	Здесь появятся обслуживания с указанной стоимостью.	Services with a cost will appear here.
+expenses.list	Обслуговування	Обслуживания	Services
+expenses.month	Місяць	Месяц	Month
+expenses.other	Інше	Прочее	Other
+expenses.otherCurrency	+ %@ в іншій валюті	+ %@ в другой валюте	+ %@ in another currency
+expenses.summary	Обслуговувань з вартістю: %d	Обслуживаний со стоимостью: %d	Services with a cost: %d
+expenses.year	Рік	Год	Year
+field.setDate	Вказати	Указать	Set
+home.staleDays	пробіг не оновлювався %d дн.	пробег не обновлялся %d дн.	odometer not updated for %d d
+import.again	Вставити інший текст	Вставить другой текст	Paste other text
+import.button	Імпортувати записів: %d	Импортировать записей: %d	Import %d entries
+import.done	Імпортовано записів: %d	Импортировано записей: %d	Imported %d entries
+import.example	По одному обслуговуванню в рядку, наприклад:\n12.03.2024 185000 масло, фільтр салону\n05.2023 170 тис — колодки передні\nжовт 2022 158к ГРМ+помпа	По одному обслуживанию в строке, например:\n12.03.2024 185000 масло, фильтр салона\n05.2023 170 тыс — колодки передние\nокт 2022 158к ГРМ+помпа	One service per line, for example:\n12.03.2024 185000 oil, cabin filter\n05.2023 170k — front pads\nOct 2022 158k timing belt + water pump
+import.fix	Виправити	Исправить	Fix
+import.noDate	дата?	дата?	date?
+import.noItems	позиції не розпізнано	позиции не распознаны	no items recognized
+import.noKm	пробіг?	пробег?	odometer?
+import.parse	Розібрати	Разобрать	Recognize
+import.paste	Вставити з буфера	Вставить из буфера	Paste from clipboard
+import.pasteHeader	Текст із нотаток	Текст из заметок	Text from your notes
+import.previewFooter	✓ — буде імпортовано (натисніть, щоб зняти). ⚠ — щось вгадано або не знайдено: проведіть ліворуч → «Виправити». ✦ — нова позиція, з’явиться в Регламенті.	✓ — будет импортировано (нажмите, чтобы снять). ⚠ — что-то угадано или не найдено: свайп влево → «Исправить». ✦ — новая позиция, появится в Регламенте.	✓ will be imported (tap to skip). ⚠ something was guessed or missing: swipe left → Fix. ✦ a new item, will appear in the Schedule.
+import.previewHeader	Розпізнано: %1$d з %2$d	Распознано: %1$d из %2$d	Recognized: %1$d of %2$d
+import.settingsFooter	Перенесіть історію з нотаток чи блокнота за кілька секунд — вставте текст, перевірте й імпортуйте.	Перенесите историю из заметок или блокнота за пару секунд — вставьте текст, проверьте и импортируйте.	Move your history from notes in seconds: paste, check, import.
+import.title	Імпорт історії з нотаток	Импорт истории из заметок	Import history from notes
+item.expiryFooter	Для страховки, техогляду тощо: нагадування прийде до дати закінчення.	Для страховки, техосмотра и т. п.: напоминание придёт до даты окончания.	For insurance, inspection etc.: you’ll be reminded before the end date.
+item.lastPrice	Остання ціна	Последняя цена	Last price
+item.needInterval	Вкажіть кілометри або місяці	Укажите километры или месяцы	Set km or months
+item.needMonths	Оберіть хоча б один місяць	Выберите хотя бы один месяц	Choose at least one month
+item.seasonFooter	Наприклад, шини — квітень і жовтень. Нагадування прийде на початку місяця.	Например, шины — апрель и октябрь. Напоминание придёт в начале месяца.	For example tires: April and October. You’ll be reminded at the start of the month.
+item.validUntil	Діє до	Действует до	Valid until
+kind.expiry	Термін до	Срок до	Valid until
+kind.interval	Інтервал	Интервал	Interval
+kind.seasonal	Сезон	Сезон	Season
+notif.backupBody	Резервної копії не було понад 2 тижні. Відкрийте застосунок — копія збережеться.	Резервной копии не было больше 2 недель. Откройте приложение — копия сохранится.	No backup for over 2 weeks. Open the app to save one.
+notif.backupTitle	Резервна копія	Резервная копия	Backup
+notify.all	Сповіщення	Уведомления	Notifications
+notify.backup	Резервна копія	Резервная копия	Backup
+notify.denied	Сповіщення вимкнені в налаштуваннях iPhone.	Уведомления выключены в настройках iPhone.	Notifications are turned off in iPhone Settings.
+notify.everyDay	щодня	каждый день	every day
+notify.everyDays	кожні %d дн.	каждые %d дн.	every %d days
+notify.leadTime	Нагадувати про заміну	Напоминать о замене	Remind about service
+notify.odometer	Пробіг	Пробег	Odometer
+notify.odometerEvery	Нагадувати оновити пробіг	Напоминать обновить пробег	Remind to update the odometer
+notify.odometerFooter	Також визначає, коли картка пробігу на Головній стає помаранчевою.	Также определяет, когда карточка пробега на Главной становится оранжевой.	Also sets when the odometer card on Home turns orange.
+notify.odometerOff	вимкнено	выключено	off
+notify.openSettings	Відкрити налаштування	Открыть настройки	Open Settings
+notify.service	Заміни та обслуговування	Замены и обслуживание	Service reminders
+notify.time	Час сповіщень	Время уведомлений	Notification time
+notify.footer	Сповіщення приходять у вибраний час за місцевим часом телефона.	Уведомления приходят в выбранное время по местному времени телефона.	Notifications arrive at the chosen time, local to the phone.
+notify.offFooter	Сповіщення вимкнені. Головна все одно показує, що прострочено.	Уведомления выключены. Главная всё равно показывает, что просрочено.	Notifications are off. Home still shows what is overdue.
+parts.noValidUntil	дату закінчення не вказано	дата окончания не указана	no end date set
+parts.seasonMonths	сезон: %@	сезон: %@	season: %@
+settings.accent	Колір теми	Цвет темы	Theme color
+settings.currency	Валюта	Валюта	Currency
+settings.notifications	Сповіщення	Уведомления	Notifications
+settings.off	вимкнено	выключено	off
+status.ok	В нормі	В норме	Fine
+status.overdue	Прострочено	Просрочено	Overdue
+status.soon	Скоро	Скоро	Soon
+tab.expenses	Витрати	Расходы	Expenses
+text.expired	термін минув %@	срок истёк %@	expired %@
+text.inDays	через %d дн.	через %d дн.	in %d d
+text.inMonths	через ~%d міс.	через ~%d мес.	in ~%d mo
+text.season	сезон: %@	сезон: %@	season: %@
+text.seasonMissed	сезон пропущено: %@	сезон пропущен: %@	season missed: %@
+text.shortDays	%d дн	%d дн	%d d
+text.shortKm	%d км	%d км	%d km
+text.shortMonths	%d міс	%d мес	%d mo
+text.shortThousandKm	%@т км	%@т км	%@k km
+text.today	сьогодні	сегодня	today
+text.validUntil	до %@	до %@	until %@
+theme.blue	Синій	Синий	Blue
+theme.coral	Корал	Коралл	Coral
+theme.graphite	Графіт	Графит	Graphite
+theme.purple	Фіолетовий	Фиолетовый	Purple
+theme.teal	Бірюзовий	Бирюзовый	Teal

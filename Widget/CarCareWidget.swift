@@ -49,7 +49,7 @@ struct NextDueWidget: Widget {
         }
         .configurationDisplayName("CarCare Log")
         .description("Найближче обслуговування · Next service")
-        .supportedFamilies([.systemSmall, .systemMedium])
+        .supportedFamilies([.systemSmall, .systemMedium, .accessoryCircular, .accessoryRectangular])
     }
 
     /// Opens "Log service" with the items of the nearest due day, or just Home.
@@ -64,6 +64,41 @@ struct NextDueView: View {
     @Environment(\.widgetFamily) private var family
 
     var body: some View {
+        switch family {
+        case .accessoryCircular: circular
+        case .accessoryRectangular: rectangular
+        default: homeScreen
+        }
+    }
+
+    /// Lock screen, round: wear gauge of the most urgent item with its short value ("8.9k km", "38 d").
+    private var circular: some View {
+        let s = entry.snapshot
+        return Gauge(value: s?.nextFraction ?? 0) {
+            Text(s?.nextTitle ?? "")
+        } currentValueLabel: {
+            Text(s?.nextValue.isEmpty == false ? s!.nextValue : "—").minimumScaleFactor(0.5)
+        }
+        .gaugeStyle(.accessoryCircular)
+        .widgetAccentable()
+    }
+
+    /// Lock screen, rectangular: nearest month and what is due, plus overdue count.
+    private var rectangular: some View {
+        VStack(alignment: .leading, spacing: 1) {
+            if let s = entry.snapshot, s.dueDay != nil {
+                Text("CarCare · " + s.dueDayText).font(.caption2).widgetAccentable()
+                Text(s.itemsText).font(.headline).lineLimit(2)
+                if !s.overdueText.isEmpty { Text(s.overdueText).font(.caption2) }
+            } else {
+                Text("CarCare Log").font(.caption2).widgetAccentable()
+                Text(entry.snapshot?.emptyText ?? "—").font(.footnote)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var homeScreen: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(spacing: 4) {
                 Image(systemName: "wrench.and.screwdriver.fill")
