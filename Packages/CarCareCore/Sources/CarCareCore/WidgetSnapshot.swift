@@ -39,7 +39,7 @@ public enum WidgetSummary {
         public var itemIDs: [UUID] = []
     }
 
-    /// Nearest due day with all items due that day (in list order), plus overdue items.
+    /// Nearest month card (first day of the month) with all items due that month (in list order), plus overdue items.
     public static func make(snapshot: DataSnapshot, today: Date, calendar: Calendar) -> Result {
         let statuses = ForecastEngine.statuses(for: snapshot, today: today, calendar: calendar)
         let groups = ForecastGroups.make(from: statuses, calendar: calendar)
@@ -50,7 +50,7 @@ public enum WidgetSummary {
         }
         let next = groups.upcoming.first
         let ids = (next?.forecasts ?? []).sorted { (order[$0.itemID] ?? 0) < (order[$1.itemID] ?? 0) }.map { $0.itemID }
-        return Result(dueDay: next?.day, itemNames: next.map { sortedNames($0.forecasts) } ?? [],
+        return Result(dueDay: next?.month, itemNames: next.map { sortedNames($0.forecasts) } ?? [],
                       overdueNames: sortedNames(groups.overdue), itemIDs: ids)
     }
 }
