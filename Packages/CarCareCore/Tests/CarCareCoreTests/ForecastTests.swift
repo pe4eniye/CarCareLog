@@ -151,7 +151,7 @@ final class ForecastTests: XCTestCase {
         XCTAssertEqual(groups.upcoming.first?.month, TS.d(2026, 10, 1))
         XCTAssertEqual(Set(groups.upcoming.first?.forecasts.map(\.itemID) ?? []),
                        Set([g.engineOil.id, g.oilFilter.id, g.lpg.id]))
-        let days = groups.upcoming.map(\.day)
+        let days = groups.upcoming.map(\.month)
         XCTAssertEqual(days, days.sorted())
         XCTAssertNil(statuses[g.airFilter.id]?.forecast)
     }
