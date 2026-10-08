@@ -3,12 +3,12 @@ import SwiftData
 import CarCareCore
 
 /// "Service book" PDF in the current app language: cover info, schedule summary, full history, part numbers.
-@MainActor
 enum ServiceBookPDF {
     private static let page = CGRect(x: 0, y: 0, width: 595, height: 842) // A4 in points
     private static let margin: CGFloat = 40
     private static let accent = UIColor(red: 0.06, green: 0.55, blue: 0.49, alpha: 1)
 
+    @MainActor
     static func make(context: ModelContext) -> URL? {
         let snap = SnapshotBuilder.fetch(context)
         let now = Date()
@@ -16,6 +16,9 @@ enum ServiceBookPDF {
         let statuses = ForecastEngine.statuses(for: snap, today: now, calendar: cal)
         let current = snap.currentOdometerKm
         let carName = snap.car?.name.isEmpty == false ? snap.car!.name : "CarCare Log"
+        // Computed here: the drawing closure below is not on the main actor.
+        let intervals = Dictionary(snap.items.map { ($0.id, ItemRow.intervalText(km: $0.intervalKm, months: $0.intervalMonths)) },
+                                   uniquingKeysWith: { a, _ in a })
 
         let renderer = UIGraphicsPDFRenderer(bounds: page)
         let data = renderer.pdfData { ctx in
@@ -102,7 +105,7 @@ enum ServiceBookPDF {
                 row([L10n.t("pdf.colItem"), L10n.t("pdf.colInterval"), L10n.t("pdf.colLast"), L10n.t("pdf.colNext")],
                     bold: true)
                 for item in active {
-                    let interval = ItemRow.intervalText(km: item.intervalKm, months: item.intervalMonths)
+                    let interval = intervals[item.id] ?? ""
                     let last = ForecastEngine.lastEntry(for: item.id, entries: snap.entries)
                         .map { "\(Fmt.date($0.date))\n\(Fmt.km($0.odometerKm))" } ?? "—"
                     var next = "—"
