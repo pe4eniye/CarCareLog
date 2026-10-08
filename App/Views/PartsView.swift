@@ -131,9 +131,15 @@ struct PartsView: View {
             }
         }
         .foregroundStyle(item.isArchived ? .secondary : .primary)
-        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded { _ in
-            if !selecting { selecting = true; selection = [item.uuid] }
-        })
+        // Long press → menu with "Select". A long-press gesture on the row itself blocks scrolling and taps (iOS 18).
+        .contextMenu {
+            if !selecting {
+                Button(L10n.t("select.start"), systemImage: "checkmark.circle") {
+                    selecting = true
+                    selection = [item.uuid]
+                }
+            }
+        }
         .swipeActions {
             if !selecting {
                 if item.isArchived {

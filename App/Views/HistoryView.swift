@@ -45,9 +45,15 @@ struct HistoryView: View {
                             }
                         }
                         .foregroundStyle(.primary)
-                        .simultaneousGesture(LongPressGesture(minimumDuration: 0.5).onEnded { _ in
-                            startSelecting(with: entry.uuid)
-                        })
+                        // Long press → menu with "Select". A long-press gesture on the row itself blocks
+                        // scrolling and taps (iOS 18).
+                        .contextMenu {
+                            if !selecting {
+                                Button(L10n.t("select.start"), systemImage: "checkmark.circle") {
+                                    startSelecting(with: entry.uuid)
+                                }
+                            }
+                        }
                         .swipeActions {
                             if !selecting {
                                 Button(L10n.t("common.delete"), role: .destructive) {

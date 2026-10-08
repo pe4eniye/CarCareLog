@@ -4,11 +4,11 @@ assistant.copied	Скопійовано	Скопировано	Copied
 assistant.intro	Питайте своїми словами: «коли міняв масло?», «що міняти на 240 тис?», «скільки витратив цього року?». Розуміє українську, російську та англійську, працює без інтернету й відповідає лише за вашими записами.	Спрашивайте своими словами: «когда менял масло?», «что менять на 240 тыс?», «сколько потратил в этом году?». Понимает украинский, русский и английский, работает без интернета и отвечает только по вашим записям.	Ask in your own words: “when did I change the oil?”, “what’s due at 240k?”, “how much did I spend this year?”. Understands Ukrainian, Russian and English, works offline and answers only from your records.
 assistant.placeholder	Ваше запитання	Ваш вопрос	Your question
 assistant.send	Надіслати	Отправить	Send
-backup.confirmText	Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено.	Файл от %1$@: позиций — %2$d, записей — %3$d. Все текущие данные на этом iPhone будут заменены.	File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced.
+backup.confirmText	Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено.	Файл от %1$@: позиций — %2$d, записей — %3$d. Все текущие данные на этом iPhone будут заменены.	File from %1$@: %2$d items, %3$d entries. All current data on this iPhone will be replaced.
 backup.confirmTitle	Замінити дані?	Заменить данные?	Replace data?
 backup.export	Експортувати резервну копію	Экспортировать резервную копию	Export backup
 backup.exportFailed	Не вдалося створити файл.	Не удалось создать файл.	Could not create the file.
-backup.footer	Один файл з усіма даними. Збережіть його у «Файли», на комп’ютер або надішліть собі — знадобиться при зміні телефона.	Один файл со всеми данными. Сохраните его в «Файлы», на компьютер или отправьте себе — пригодится при смене телефона.	One file with all your data. Save it to Files, to a computer, or send it to yourself — handy when you change phones.
+backup.footer	Один файл з усіма даними. Збережіть його у «Файли», на комп’ютер або надішліть собі — знадобиться при зміні телефону.	Один файл со всеми данными. Сохраните его в «Файлы», на компьютер или отправьте себе — пригодится при смене телефона.	One file with all your data. Save it to Files, to a computer, or send it to yourself — handy when you change phones.
 backup.import	Імпортувати резервну копію	Импортировать резервную копию	Import backup
 backup.invalid	Це не файл резервної копії CarCare Log.	Это не файл резервной копии CarCare Log.	This is not a CarCare Log backup file.
 backup.newerFormat	Файл створено новішою версією застосунку. Оновіть застосунок.	Файл создан более новой версией приложения. Обновите приложение.	The file was made by a newer app version. Please update the app.
@@ -28,7 +28,7 @@ entry.delete	Видалити запис	Удалить запись	Delete entr
 entry.deleteConfirm	Видалити цей запис?	Удалить эту запись?	Delete this entry?
 entry.editTitle	Запис	Запись	Entry
 entry.km	км	км	km
-entry.needParts	Додайте хоча б одну позицію.	Добавьте хотя бы одну позицию.	Add at least one part.
+entry.needParts	Додайте хоча б одну позицію.	Добавьте хотя бы одну позицию.	Add at least one item.
 entry.odometer	Пробіг	Пробег	Odometer
 entry.parts	Що замінено	Что заменено	What was replaced
 entry.pickParts	Обрати позиції	Выбрать позиции	Choose items
@@ -54,14 +54,14 @@ icloud.unavailableShort	Недоступний	Недоступен	Unavailable
 item.aliases	Інші назви (необов’язково)	Другие названия (необязательно)	Other names (optional)
 item.analogs	Аналоги (необов’язково)	Аналоги (необязательно)	Analogs (optional)
 item.duplicateLine	%1$@ вже є у «%2$@»	%1$@ уже есть в «%2$@»	%1$@ is already on “%2$@”
-item.duplicateTitle	Такий номер уже є	Такой номер уже есть	Number already used
-item.editTitle	Позиція	Позиция	Part
+item.duplicateTitle	Такий номер вже є	Такой номер уже есть	Number already used
+item.editTitle	Позиція	Позиция	Item
 item.interval	Інтервал заміни	Интервал замены	Replacement interval
 item.intervalKm	Кожні, км	Каждые, км	Every, km
 item.intervalMonths	Кожні, місяців	Каждые, месяцев	Every, months
 item.keep	Залишити як є	Оставить как есть	Keep as is
 item.name	Назва (обов’язково)	Название (обязательно)	Name (required)
-item.newTitle	Нова позиція	Новая позиция	New part
+item.newTitle	Нова позиція	Новая позиция	New item
 item.oem	OEM-номер (необов’язково)	OEM-номер (необязательно)	OEM number (optional)
 item.optional	—	—	—
 item.replace	Замінити	Заменить	Replace
@@ -96,7 +96,7 @@ reason.mileage	за пробігом	по пробегу	by mileage
 reason.time	за часом	по времени	by time
 settings.appearance	Вигляд	Внешний вид	Appearance
 settings.avgKm	Пробіг за місяць, км	Пробег в месяц, км	Km per month
-settings.avgKmFooter	Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці.	Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца.	Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away.
+settings.avgKmFooter	Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці.	Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца.	Turns kilometers into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away.
 settings.car	Авто	Авто	Car
 settings.carSection	Авто	Авто	Car
 settings.faceID	Face ID / код пристрою	Face ID / код устройства	Face ID / passcode
@@ -125,7 +125,7 @@ add.menu	Додати	Добавить	Add
 car.name	Назва авто (обов’язково)	Название авто (обязательно)	Car name (required)
 car.nameFooter	Будь-яка назва: «Octavia», «Синя» тощо. VIN — необов’язково.	Любое название: «Octavia», «Синяя» и т. п. VIN — необязательно.	Any name: “Octavia”, “Blue one”. VIN is optional.
 entry.lowerText	Пробіг менший за поточний, а дата — найновіша. Перевірте, чи немає помилки.	Пробег меньше текущего, а дата — самая новая. Проверьте, нет ли ошибки.	The odometer is lower than the current one while the date is the newest. Please check for a typo.
-error.duplicate	Позиція «%@» уже є	Позиция «%@» уже есть	“%@” already exists
+error.duplicate	Позиція «%@» вже є	Позиция «%@» уже есть	“%@” already exists
 error.future	Дата не може бути в майбутньому	Дата не может быть в будущем	The date can’t be in the future
 error.range	Від %1$@ до %2$@	От %1$@ до %2$@	From %1$@ to %2$@
 error.required	Заповніть це поле	Заполните это поле	Please fill this in
@@ -151,26 +151,26 @@ item.more	Додатково: номери деталей, інші назви	�
 item.moreFooter	Номери аналогів та інші назви — через кому. Інші назви допомагають помічнику знайти позицію.	Номера аналогов и другие названия — через запятую. Другие названия помогают помощнику найти позицию.	Analog numbers and other names, comma-separated. Other names help the assistant find the item.
 item.noRecords	Записів ще немає	Записей пока нет	No records yet
 item.renameOther	Це інша деталь	Это другая деталь	It’s a different part
-item.renameText	Було: %1$@\nСтане: %2$@\n\nОпечатка — назву буде виправлено й у старих записах. Інша деталь — стара позиція піде в архів разом з історією, а нова почнеться з нуля.	Было: %1$@\nСтанет: %2$@\n\nОпечатка — название исправится и в старых записях. Другая деталь — старая позиция уйдёт в архив вместе с историей, а новая начнётся с нуля.	Old: %1$@\nNew: %2$@\n\nTypo: the name is fixed in past entries too. Different part: the old item goes to the archive with its history, the new one starts fresh.
+item.renameText	Було: %1$@\nСтане: %2$@\n\nПомилка в назві — назву буде виправлено й у старих записах. Інша деталь — стара позиція піде в архів разом з історією, а нова почнеться з нуля.	Было: %1$@\nСтанет: %2$@\n\nОпечатка — название исправится и в старых записях. Другая деталь — старая позиция уйдёт в архив вместе с историей, а новая начнётся с нуля.	Old: %1$@\nNew: %2$@\n\nTypo: the name is fixed in past entries too. Different part: the old item goes to the archive with its history, the new one starts fresh.
 item.renameTitle	Змінити назву позиції з історією?	Переименовать позицию с историей?	Rename an item that has history?
-item.renameTypo	Виправити опечатку	Исправить опечатку	Fix a typo
+item.renameTypo	Виправити помилку в назві	Исправить опечатку	Fix a typo
 item.restoreFromArchive	Повернути з архіву	Вернуть из архива	Restore from archive
 notif.todayTitle	Сьогодні за регламентом	Сегодня по регламенту	Due today
 parts.archive	В архів	В архив	Archive
-parts.archiveFooter	Позиції в архіві не потрапляють у прогноз і нагадування, але їхня історія збережена. Свайп ліворуч — повернути або видалити.	Позиции в архиве не попадают в прогноз и напоминания, но их история сохранена. Свайп влево — вернуть или удалить.	Archived items have no forecast or reminders, but their history is kept. Swipe left to restore or delete.
+parts.archiveFooter	Позиції в архіві не потрапляють у прогноз і нагадування, але їхня історія збережена. Проведіть ліворуч, щоб повернути або видалити.	Позиции в архиве не попадают в прогноз и напоминания, но их история сохранена. Проведите влево, чтобы вернуть или удалить.	Archived items have no forecast or reminders, but their history is kept. Swipe left to restore or delete.
 parts.archiveTitle	Архів (%d)	Архив (%d)	Archive (%d)
 parts.deleteKeepsHistory	Видалити «%@»? Записи в Історії залишаться.	Удалить «%@»? Записи в Истории останутся.	Delete “%@”? History entries stay.
 parts.lastLine	остання: %1$@ · %2$@	последняя: %1$@ · %2$@	last: %1$@ · %2$@
 parts.restore	Повернути	Вернуть	Restore
 parts.restoreBlocked	Не можна повернути: активна позиція «%@» має таку саму назву. Спочатку перейменуйте одну з них.	Нельзя вернуть: активная позиция «%@» с таким же названием. Сначала переименуйте одну из них.	Can’t restore: the active item “%@” has the same name. Rename one of them first.
 bulk.dontKnow	Не знаю — для всіх від сьогодні	Не знаю — для всех от сегодня	Don’t know — count all from today
-bulk.dontKnowFooter	Відлік для всіх позицій почнеться з сьогодні й поточного пробігу.	Отсчёт для всех позиций начнётся с сегодняшнего дня и текущего пробега.	All items will count from today and the current odometer.
+bulk.dontKnowFooter	Відлік для всіх позицій почнеться із сьогоднішнього дня й поточного пробігу.	Отсчёт для всех позиций начнётся с сегодняшнего дня и текущего пробега.	All items will count from today and the current odometer.
 bulk.lastFooter	Від цього рахується наступна заміна. Стане записом в Історії.	От этого считается следующая замена. Станет записью в Истории.	The next replacement is counted from this. It becomes a History entry.
 bulk.sameForAll	Одна дата й пробіг для всіх	Одна дата и пробег для всех	Same date and odometer for all
 bulk.saveAll	Зберегти все	Сохранить все	Save all
 bulk.title	Інтервали й остання заміна	Интервалы и последняя замена	Intervals and last service
 catalog.addCustom	Додати	Добавить	Add
-catalog.added	уже в регламенті	уже в регламенте	already added
+catalog.added	вже в регламенті	уже в регламенте	already added
 catalog.custom	Своя позиція	Своя позиция	Custom item
 catalog.customFooter	Якщо потрібного немає в довіднику — введіть свою назву. Свої назви не перекладаються.	Если нужного нет в справочнике — введите своё название. Свои названия не переводятся.	If it’s not in the list, type your own name. Custom names aren’t translated.
 catalog.customPlaceholder	Наприклад: Чищення радіатора	Например: Чистка радиатора	For example: Radiator cleaning
@@ -190,13 +190,13 @@ history.deleteMany	Видалити записів: %d?	Удалить запи�
 history.itemSummary	Замін: %1$d · остання %2$@ · %3$@	Замен: %1$d · последняя %2$@ · %3$@	%1$d times · last %2$@ · %3$@
 history.sincePrevious	+%1$@ і %2$d міс. від попередньої заміни	+%1$@ и %2$d мес. с предыдущей замены	+%1$@ and %2$d mo since the previous one
 home.inKm	через %@	через %@	in %@
-home.overBy	уже +%@	уже +%@	%@ over
+home.overBy	вже +%@	уже +%@	%@ over
 home.overdueDate	термін був %@	срок был %@	was due %@
 home.overdueKm	термін був %@	срок был %@	was due at %@
 item.catalogNameFooter	Назва з довідника: перекладається мовою застосунку й не редагується. Інтервал і номери деталей — ваші.	Название из справочника: переводится на язык приложения и не редактируется. Интервал и номера деталей — ваши.	A name from the list follows the app language and can’t be edited. The interval and part numbers are yours.
 item.inCatalog	Така позиція є в довіднику: «%@». Краще додати її звідти — тоді назва перекладатиметься.	Такая позиция есть в справочнике: «%@». Лучше добавить её оттуда — тогда название будет переводиться.	This item is in the list: “%@”. Add it from there so its name gets translated.
 item.nameLabel	Назва	Название	Name
-notif.actionDone	Відмітити виконаним	Отметить выполненным	Mark as done
+notif.actionDone	Позначити виконаним	Отметить выполненным	Mark as done
 notif.actionOdometer	Ввести пробіг	Ввести пробег	Enter odometer
 notif.actionSnooze	Нагадати завтра	Напомнить завтра	Remind me tomorrow
 parts.archivedBadge	архів	архив	archived
@@ -231,7 +231,7 @@ select.delete	Видалити (%d)	Удалить (%d)	Delete (%d)
 select.none	Зняти все	Снять все	Deselect all
 select.start	Обрати	Выбрать	Select
 settings.avgAuto	Зараз: %1$@ км/міс — пораховано за вашими даними за %2$d міс. Ручне значення вище — запасне.	Сейчас: %1$@ км/мес — посчитано по вашим данным за %2$d мес. Ручное значение выше — запасное.	Now: %1$@ km/month, from your data over %2$d months. The value above is a fallback.
-settings.avgManual	Поки даних мало, тому використовується це значення. Через 2 місяці оновлень пробігу застосунок рахуватиме сам.	Пока данных мало, поэтому используется это значение. Через 2 месяца обновлений пробега приложение будет считать само.	Not enough data yet, so this value is used. After 2 months of odometer updates the app calculates it itself.
+settings.avgManual	Поки що даних мало, тому використовується це значення. Через 2 місяці оновлень пробігу застосунок рахуватиме сам.	Пока данных мало, поэтому используется это значение. Через 2 месяца обновлений пробега приложение будет считать само.	Not enough data yet, so this value is used. After 2 months of odometer updates the app calculates it itself.
 wipe.button	Видалити всі дані	Удалить все данные	Delete all data
 wipe.continue	Продовжити	Продолжить	Continue
 wipe.finalButton	Видалити все	Удалить всё	Delete everything
@@ -241,7 +241,7 @@ wipe.footer	Спершу збережіть резервну копію, якщ�
 wipe.text	Рекомендуємо спершу експортувати резервну копію.	Рекомендуем сначала экспортировать резервную копию.	We recommend exporting a backup first.
 wipe.title	Видалити всі дані?	Удалить все данные?	Delete all data?
 picker.search	Пошук	Поиск	Search
-home.emptyText	Оберіть, що ви обслуговуєте: масло, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях.	Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам.	Choose what you maintain — oil, filters, brakes, insurance — from the catalog or add your own. Then a month-by-month forecast appears here.
+home.emptyText	Оберіть, що ви обслуговуєте: масло, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях.	Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам.	Choose what you maintain — oil, filters, brakes, insurance — from the list or add your own. Then a month-by-month forecast appears here.
 parts.empty	Тут буде ваш регламент: що ви обслуговуєте і як часто. Оберіть позиції з довідника — можна одразу кілька.	Здесь будет ваш регламент: что вы обслуживаете и как часто. Выберите позиции из справочника — можно сразу несколько.	Your schedule lives here: what you maintain and how often. Pick items from the list — several at once.
 autobackup.footer	Раз на тиждень копія автоматично зберігається в iCloud Drive → CarCare Log (останні 5 файлів).	Раз в неделю копия автоматически сохраняется в iCloud Drive → CarCare Log (последние 5 файлов).	Once a week a copy is saved automatically to iCloud Drive → CarCare Log (last 5 files).
 autobackup.footerLocal	iCloud недоступний, тому копії зберігаються у «Файли» → «На iPhone» → CarCare Log. Від втрати телефону це не захищає — час від часу експортуйте копію.	iCloud недоступен, поэтому копии сохраняются в «Файлы» → «На iPhone» → CarCare Log. От потери телефона это не защищает — время от времени экспортируйте копию.	iCloud isn’t available, so copies go to Files → On My iPhone → CarCare Log. That doesn’t protect against losing the phone — export a copy now and then.
@@ -284,7 +284,7 @@ import.fix	Виправити	Исправить	Fix
 import.noDate	дата?	дата?	date?
 import.noItems	позиції не розпізнано	позиции не распознаны	no items recognized
 import.noKm	пробіг?	пробег?	odometer?
-import.parse	Розібрати	Разобрать	Recognize
+import.parse	Розпізнати	Распознать	Recognize
 import.paste	Вставити з буфера	Вставить из буфера	Paste from clipboard
 import.pasteHeader	Текст із нотаток	Текст из заметок	Text from your notes
 import.previewFooter	✓ — буде імпортовано (натисніть, щоб зняти). ⚠ — щось вгадано або не знайдено: проведіть ліворуч → «Виправити». ✦ — нова позиція, з’явиться в Регламенті.	✓ — будет импортировано (нажмите, чтобы снять). ⚠ — что-то угадано или не найдено: свайп влево → «Исправить». ✦ — новая позиция, появится в Регламенте.	✓ will be imported (tap to skip). ⚠ something was guessed or missing: swipe left → Fix. ✦ a new item, will appear in the Schedule.
@@ -315,7 +315,7 @@ notify.odometerOff	вимкнено	выключено	off
 notify.openSettings	Відкрити налаштування	Открыть настройки	Open Settings
 notify.service	Заміни та обслуговування	Замены и обслуживание	Service reminders
 notify.time	Час сповіщень	Время уведомлений	Notification time
-notify.footer	Сповіщення приходять в обраний час за місцевим часом телефона.	Уведомления приходят в выбранное время по местному времени телефона.	Notifications arrive at the chosen time, local to the phone.
+notify.footer	Сповіщення приходять в обраний час за місцевим часом телефону.	Уведомления приходят в выбранное время по местному времени телефона.	Notifications arrive at the chosen time, local to the phone.
 notify.offFooter	Сповіщення вимкнені. Головна все одно показує, що прострочено.	Уведомления выключены. Главная всё равно показывает, что просрочено.	Notifications are off. Home still shows what is overdue.
 parts.noValidUntil	дату закінчення не вказано	дата окончания не указана	no end date set
 parts.seasonMonths	сезон: %@	сезон: %@	season: %@

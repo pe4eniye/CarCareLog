@@ -108,7 +108,7 @@
     "backup.confirmText" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File from %1$@: %2$d items, %3$d entries. All current data on this iPhone will be replaced." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Файл от %1$@: позиций — %2$d, записей — %3$d. Все текущие данные на этом iPhone будут заменены." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено." } }
       }
@@ -142,7 +142,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "One file with all your data. Save it to Files, to a computer, or send it to yourself — handy when you change phones." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Один файл со всеми данными. Сохраните его в «Файлы», на компьютер или отправьте себе — пригодится при смене телефона." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Один файл з усіма даними. Збережіть його у «Файли», на комп’ютер або надішліть собі — знадобиться при зміні телефона." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Один файл з усіма даними. Збережіть його у «Файли», на комп’ютер або надішліть собі — знадобиться при зміні телефону." } }
       }
     },
     "backup.import" : {
@@ -230,7 +230,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "All items will count from today and the current odometer." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отсчёт для всех позиций начнётся с сегодняшнего дня и текущего пробега." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Відлік для всіх позицій почнеться з сьогодні й поточного пробігу." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Відлік для всіх позицій почнеться із сьогоднішнього дня й поточного пробігу." } }
       }
     },
     "bulk.lastFooter" : {
@@ -310,7 +310,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "already added" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "уже в регламенте" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "уже в регламенті" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "вже в регламенті" } }
       }
     },
     "catalog.custom" : {
@@ -532,7 +532,7 @@
     "entry.needParts" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add at least one part." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add at least one item." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добавьте хотя бы одну позицию." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Додайте хоча б одну позицію." } }
       }
@@ -638,7 +638,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "“%@” already exists" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Позиция «%@» уже есть" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиція «%@» уже є" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиція «%@» вже є" } }
       }
     },
     "error.future" : {
@@ -868,7 +868,7 @@
     "home.emptyText" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose what you maintain — oil, filters, brakes, insurance — from the catalog or add your own. Then a month-by-month forecast appears here." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose what you maintain — oil, filters, brakes, insurance — from the list or add your own. Then a month-by-month forecast appears here." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оберіть, що ви обслуговуєте: масло, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях." } }
       }
@@ -918,7 +918,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "%@ over" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "уже +%@" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "уже +%@" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "вже +%@" } }
       }
     },
     "home.overdue" : {
@@ -1157,8 +1157,8 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Recognize" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разобрать" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розібрати" } }
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Распознать" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Розпізнати" } }
       }
     },
     "import.paste" : {
@@ -1286,13 +1286,13 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Number already used" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Такой номер уже есть" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Такий номер уже є" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Такий номер вже є" } }
       }
     },
     "item.editTitle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Part" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Item" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Позиция" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиція" } }
       }
@@ -1436,7 +1436,7 @@
     "item.newTitle" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "New part" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "New item" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Новая позиция" } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нова позиція" } }
       }
@@ -1478,7 +1478,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Old: %1$@\nNew: %2$@\n\nTypo: the name is fixed in past entries too. Different part: the old item goes to the archive with its history, the new one starts fresh." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Было: %1$@\nСтанет: %2$@\n\nОпечатка — название исправится и в старых записях. Другая деталь — старая позиция уйдёт в архив вместе с историей, а новая начнётся с нуля." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Було: %1$@\nСтане: %2$@\n\nОпечатка — назву буде виправлено й у старих записах. Інша деталь — стара позиція піде в архів разом з історією, а нова почнеться з нуля." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Було: %1$@\nСтане: %2$@\n\nПомилка в назві — назву буде виправлено й у старих записах. Інша деталь — стара позиція піде в архів разом з історією, а нова почнеться з нуля." } }
       }
     },
     "item.renameTitle" : {
@@ -1494,7 +1494,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Fix a typo" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Исправить опечатку" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Виправити опечатку" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Виправити помилку в назві" } }
       }
     },
     "item.replace" : {
@@ -1638,7 +1638,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Mark as done" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Отметить выполненным" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Відмітити виконаним" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позначити виконаним" } }
       }
     },
     "notif.actionOdometer" : {
@@ -1758,7 +1758,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Notifications arrive at the chosen time, local to the phone." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Уведомления приходят в выбранное время по местному времени телефона." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сповіщення приходять в обраний час за місцевим часом телефона." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сповіщення приходять в обраний час за місцевим часом телефону." } }
       }
     },
     "notify.leadTime" : {
@@ -2053,8 +2053,8 @@
       "extractionState" : "manual",
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Archived items have no forecast or reminders, but their history is kept. Swipe left to restore or delete." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Позиции в архиве не попадают в прогноз и напоминания, но их история сохранена. Свайп влево — вернуть или удалить." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиції в архіві не потрапляють у прогноз і нагадування, але їхня історія збережена. Свайп ліворуч — повернути або видалити." } }
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Позиции в архиве не попадают в прогноз и напоминания, но их история сохранена. Проведите влево, чтобы вернуть или удалить." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Позиції в архіві не потрапляють у прогноз і нагадування, але їхня історія збережена. Проведіть ліворуч, щоб повернути або видалити." } }
       }
     },
     "parts.archiveTitle" : {
@@ -2452,7 +2452,7 @@
     "settings.avgKmFooter" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turns kilometers into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца." } },
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці." } }
       }
@@ -2462,7 +2462,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Not enough data yet, so this value is used. After 2 months of odometer updates the app calculates it itself." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Пока данных мало, поэтому используется это значение. Через 2 месяца обновлений пробега приложение будет считать само." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поки даних мало, тому використовується це значення. Через 2 місяці оновлень пробігу застосунок рахуватиме сам." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поки що даних мало, тому використовується це значення. Через 2 місяці оновлень пробігу застосунок рахуватиме сам." } }
       }
     },
     "settings.car" : {

@@ -100,6 +100,55 @@ final class CarCareLogUITests: XCTestCase {
             .waitForExistence(timeout: 5))
     }
 
+    /// Every list scrolls, and tapping a row opens its form: Home, History (both modes), Schedule, Expenses.
+    func testListsScrollAndRowsOpen() {
+        func assertScrolls(_ name: String) {
+            let first = app.cells.firstMatch
+            XCTAssertTrue(first.waitForExistence(timeout: 5), "\(name): no rows")
+            let before = first.frame.minY
+            app.swipeUp(velocity: .slow)
+            RunLoop.current.run(until: Date().addingTimeInterval(1))
+            XCTAssertNotEqual(app.cells.firstMatch.frame.minY, before, "\(name): list doesn't scroll")
+            app.swipeDown(velocity: .slow)
+            app.swipeDown(velocity: .slow)
+        }
+        func assertRowOpens(_ name: String, cell index: Int, form identifier: String) {
+            let cell = app.cells.element(boundBy: index)
+            XCTAssertTrue(cell.waitForExistence(timeout: 5), "\(name): no row \(index)")
+            cell.tap()
+            let save = app.buttons[identifier]
+            XCTAssertTrue(save.waitForExistence(timeout: 5), "\(name): tapping a row doesn't open the form")
+            app.buttons["Cancel"].firstMatch.tap()
+            XCTAssertFalse(save.waitForExistence(timeout: 2), "\(name): the form doesn't close")
+        }
+
+        assertScrolls("Home")
+        let overdueRow = app.staticTexts["LPG filters"].firstMatch
+        XCTAssertTrue(overdueRow.waitForExistence(timeout: 5))
+        overdueRow.tap()
+        XCTAssertTrue(app.buttons["item.save"].waitForExistence(timeout: 5), "Home: tapping a row doesn't open the item")
+        app.buttons["Cancel"].firstMatch.tap()
+        XCTAssertFalse(app.buttons["item.save"].waitForExistence(timeout: 2))
+
+        app.tabBars.buttons["History"].tap()
+        assertScrolls("History by date")
+        assertRowOpens("History by date", cell: 1, form: "entry.save")
+        app.buttons["By item"].tap()
+        let row = app.cells.element(boundBy: 1)
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        row.tap()
+        XCTAssertTrue(app.navigationBars.buttons["History"].waitForExistence(timeout: 5), "History by item: row doesn't open")
+        app.navigationBars.buttons["History"].tap()
+
+        app.tabBars.buttons["Schedule"].tap()
+        assertScrolls("Schedule")
+        assertRowOpens("Schedule", cell: 0, form: "item.save")
+
+        app.tabBars.buttons["Expenses"].tap()
+        app.buttons["All"].firstMatch.tap()
+        assertScrolls("Expenses")
+    }
+
     /// Selection mode in History: select two entries, delete them, they're gone.
     func testHistoryMultiSelectDelete() {
         app.tabBars.buttons["History"].tap()
