@@ -14,10 +14,10 @@ final class CarCareLogUITests: XCTestCase {
     }
 
     private func openLogService() {
-        // Every tab has its own "+"; tap the one that is on screen.
-        let plus = app.buttons.matching(identifier: "addMenu").allElementsBoundByIndex.first { $0.isHittable }
-        XCTAssertNotNil(plus)
-        plus?.tap()
+        // Toolbar buttons can't be "scrolled to visible" by XCUITest on iOS 18, so tap by coordinate.
+        let plus = app.buttons["addMenu"].firstMatch
+        XCTAssertTrue(plus.waitForExistence(timeout: 5))
+        plus.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
         let item = app.buttons["Log service"].firstMatch
         XCTAssertTrue(item.waitForExistence(timeout: 5))
         item.tap()

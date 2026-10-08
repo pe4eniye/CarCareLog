@@ -103,3 +103,32 @@
 - Backup format version 2 (reads version 1 files).
 - Appetize preview: `.github/workflows/appetize.yml` builds a demo simulator build (`DEMO_BUILD`), publishes the zip as
   the `appetize-preview` GitHub release asset (Appetize needs a public URL) and updates the same Appetize app.
+
+## Round 2 (2026-10-08)
+- **Built-in catalog** (`CarCareCore/Catalog.swift`, 58 items in 10 categories, uk/ru/en). Items added from it store
+  `catalogKey`; their name always follows the app language (Schedule, Home, History, notifications, PDF) and can't
+  be edited. Interval, part numbers and other names stay editable. Catalog items can be archived/deleted like any
+  other. Typical intervals are shown only as gray hints in empty fields ("usually 10 000"), never saved.
+  Custom items keep the typed name. A custom name equal to a catalog name ticks the catalog item instead.
+- **Adding items** goes through one flow everywhere (+ menu, empty Schedule, onboarding step "What do you maintain?"):
+  multi-select catalog + custom names → one form with intervals and last replacement, with "Same date and
+  odometer for all" (one History entry for all) and "Don't know — count all from today".
+- **Log service picker**: your schedule, the catalog (collapsed), and "Custom item «…»" for a search with no match.
+  Catalog/custom picks become schedule items when the entry is saved (no interval yet → "No interval" block).
+  A "Done · N selected" bar stays visible while searching; search closes after each pick.
+- **Home**: one card per calendar month. Colors: red = overdue, yellow = due within 2 months, green = later; the
+  card takes the most urgent color, every row has its own dot. Rows: "≈ 236 000 km · in 7 900 km". The stale
+  odometer warning is now the orange odometer card itself (no separate banner).
+- **Schedule order**: overdue first (most overdue on top), then by expected date (km limit converted to a date with
+  the average km/month; earlier limit wins), km-only without a date, items without forecast last.
+- **Average km/month** is computed from odometer updates and service entries of the last 6 months once they span
+  ≥ 60 days (`MileageEstimator`); until then the manual value is used. Settings shows which one is active.
+- **History**: "By date / By item" switch; "By item" shows each item's full replacement history with distance and
+  months between replacements (also in the item card).
+- **Multi-select** ("Select" button or long press) in History (delete) and Schedule (archive items with history,
+  delete the rest). Settings → "Delete all data" with two confirmations.
+- **Notifications**: buttons "Mark as done" (opens Log service with the items), "Remind me tomorrow" (copy tomorrow
+  11:00) and "Enter odometer". Dismissing a notification changes nothing. App icon badge = number of overdue items.
+- **Service book PDF** (Settings): cover, schedule table with status dots, full history, part numbers.
+- **UI tests** (`UITests/`) run on CI in demo mode: picker select/deselect/search, custom item from Log service,
+  odometer update → overdue on Home and Schedule, History multi-delete.
