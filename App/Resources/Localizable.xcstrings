@@ -44,9 +44,9 @@
     "assistant.intro" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ask about maintenance in Ukrainian, Russian or English. You can dictate with the microphone key on the keyboard. The assistant works offline and answers only from your records." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Спросите про обслуживание на украинском, русском или английском. Можно диктовать — кнопка микрофона на клавиатуре. Помощник работает без интернета и отвечает только по вашим записям." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Запитайте про обслуговування українською, російською чи англійською. Можна диктувати — кнопка мікрофона на клавіатурі. Помічник працює без інтернету і відповідає лише за вашими записами." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ask in your own words: “when did I change the oil?”, “what’s due at 240k?”, “how much did I spend this year?”. Understands Ukrainian, Russian and English, works offline and answers only from your records." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Спрашивайте своими словами: «когда менял масло?», «что менять на 240 тыс?», «сколько потратил в этом году?». Понимает украинский, русский и английский, работает без интернета и отвечает только по вашим записям." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Питайте своїми словами: «коли міняв масло?», «що міняти на 240 тис?», «скільки витратив цього року?». Розуміє українську, російську та англійську, працює без інтернету й відповідає лише за вашими записами." } }
       }
     },
     "assistant.placeholder" : {
@@ -140,9 +140,9 @@
     "backup.footer" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "One file with all your data. Save it to Files or send it via AirDrop." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Один файл со всеми данными. Сохраните его в «Файлы» или отправьте через AirDrop." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Один файл з усіма даними. Збережіть його у «Файли» або надішліть через AirDrop." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "One file with all your data. Save it to Files, to a computer, or send it to yourself — handy when you change phones." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Один файл со всеми данными. Сохраните его в «Файлы», на компьютер или отправьте себе — пригодится при смене телефона." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Один файл з усіма даними. Збережіть його у «Файли», на комп’ютер або надішліть собі — знадобиться при зміні телефона." } }
       }
     },
     "backup.import" : {
@@ -572,9 +572,9 @@
     "entry.notePlaceholder" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Oil brand, workshop, anything else…" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Oil brand, garage, what else was done…" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Марка масла, СТО, что ещё сделано…" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Марка оливи, СТО, що ще зроблено…" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Марка масла, СТО, що ще зроблено…" } }
       }
     },
     "entry.odometer" : {
@@ -596,9 +596,9 @@
     "entry.pickParts" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose parts" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose items" } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выбрать позиции" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вибрати позиції" } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Обрати позиції" } }
       }
     },
     "entry.splitCosts" : {
@@ -660,9 +660,9 @@
     "error.required" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Required" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Обязательное поле" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Обов’язкове поле" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Please fill this in" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Заполните это поле" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Заповніть це поле" } }
       }
     },
     "error.tooLong" : {
@@ -708,9 +708,9 @@
     "expenses.empty" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Services with a cost will appear here." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Здесь появятся обслуживания с указанной стоимостью." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тут з’являться обслуговування з указаною вартістю." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Add the cost when you log a service, and you’ll see here how much the car takes each month and what for." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Указывайте стоимость, когда записываете обслуживание, — и здесь будет видно, сколько уходит на машину по месяцам и на что именно." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вказуйте вартість, коли записуєте обслуговування, — і тут буде видно, скільки йде на машину по місяцях і на що саме." } }
       }
     },
     "expenses.list" : {
@@ -828,9 +828,9 @@
     "history.empty" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your service entries will appear here. Tap “+” to add the first one." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Здесь появятся ваши записи об обслуживании. Нажмите «+», чтобы добавить первую." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Your service history will be here. Tap “+” → “Log service”. Old records can be moved over from Notes: Settings → Import." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Здесь будет история обслуживания. Нажмите «+» → «Записать обслуживание». Старые записи можно перенести из заметок: Настройки → Импорт." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Тут буде історія обслуговування. Натисніть «+» → «Записати обслуговування». Старі записи можна перенести з нотаток: Налаштування → Імпорт." } }
       }
     },
     "history.itemSummary" : {
@@ -868,9 +868,9 @@
     "home.emptyText" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose what you maintain: oil, filters, brakes, insurance — from the list or your own items. A month-by-month forecast will appear here." } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose what you maintain — oil, filters, brakes, insurance — from the catalog or add your own. Then a month-by-month forecast appears here." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оберіть, що ви обслуговуєте: оливу, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Оберіть, що ви обслуговуєте: масло, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях." } }
       }
     },
     "home.emptyTitle" : {
@@ -1036,9 +1036,9 @@
     "icloud.noAccount" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is unavailable (not signed in?). Data is stored on this iPhone only." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступен (не выполнен вход?). Данные хранятся только на этом iPhone." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud недоступний (не виконано вхід?). Дані зберігаються лише на цьому iPhone." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You’re not signed in to iCloud, so your data is stored only on this iPhone." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Вход в iCloud не выполнен — данные хранятся только на этом iPhone." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вхід в iCloud не виконано — дані зберігаються лише на цьому iPhone." } }
       }
     },
     "icloud.noAccountShort" : {
@@ -1324,9 +1324,9 @@
     "item.intervalFooter" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set km, months or both; whichever comes first counts." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Укажите километры, месяцы или оба — сработает то, что наступит раньше." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вкажіть кілометри, місяці або обидва — спрацює те, що настане раніше." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "For example, oil every 10,000 km or 12 months. We’ll remind you by whichever comes first." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Например, масло — каждые 10 000 км или 12 месяцев. Напомним по тому, что наступит раньше." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Наприклад, масло — кожні 10 000 км або 12 місяців. Нагадаємо за тим, що настане раніше." } }
       }
     },
     "item.intervalKm" : {
@@ -1758,7 +1758,7 @@
       "localizations" : {
         "en" : { "stringUnit" : { "state" : "translated", "value" : "Notifications arrive at the chosen time, local to the phone." } },
         "ru" : { "stringUnit" : { "state" : "translated", "value" : "Уведомления приходят в выбранное время по местному времени телефона." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сповіщення приходять у вибраний час за місцевим часом телефона." } }
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Сповіщення приходять в обраний час за місцевим часом телефона." } }
       }
     },
     "notify.leadTime" : {
@@ -1873,12 +1873,28 @@
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пробіг" } }
       }
     },
-    "onb.allow" : {
+    "onb.appearanceFooter" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Allow" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Разрешить" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Дозволити" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "You can change all of this later in Settings — the gear at the top of every screen." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Всё это можно изменить позже в Настройках — шестерёнка вверху каждого экрана." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Усе це можна змінити пізніше в Налаштуваннях — шестерня вгорі кожного екрана." } }
+      }
+    },
+    "onb.back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Back" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Назад" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Назад" } }
+      }
+    },
+    "onb.backupText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Once a week the app saves a backup by itself: to iCloud Drive if it’s on, otherwise to Files on your iPhone. Nothing to set up." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Раз в неделю приложение само сохраняет резервную копию: в iCloud Drive, если он включён, иначе — в «Файлы» на iPhone. Настраивать ничего не нужно." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Раз на тиждень застосунок сам зберігає резервну копію: в iCloud Drive, якщо він увімкнений, інакше — у «Файли» на iPhone. Налаштовувати нічого не треба." } }
       }
     },
     "onb.carTitle" : {
@@ -1889,28 +1905,36 @@
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Ваше авто" } }
       }
     },
-    "onb.enable" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turn on" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Включить" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Увімкнути" } }
-      }
-    },
     "onb.faceIDText" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The app will open only after Face ID or your device passcode. You can change this in Settings." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Приложение будет открываться только после Face ID или кода устройства. Это можно изменить в настройках." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Застосунок відкриватиметься лише після Face ID або коду пристрою. Це можна змінити в налаштуваннях." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "If your phone ends up in someone else’s hands, the log won’t open without Face ID or your passcode. You can change this in Settings." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Если телефон окажется в чужих руках, журнал не откроется без Face ID или кода. Это можно изменить в Настройках." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Якщо телефон опиниться в чужих руках, журнал не відкриється без Face ID або коду. Це можна змінити в Налаштуваннях." } }
       }
     },
-    "onb.faceIDTitle" : {
+    "onb.faceIDUnavailable" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Protect with Face ID?" } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Защитить Face ID?" } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Захистити Face ID?" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Face ID and a passcode aren’t set up on this device — you can turn protection on later in Settings." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "На этом устройстве Face ID и код не настроены — защиту можно включить позже в Настройках." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "На цьому пристрої Face ID і код не налаштовані — захист можна увімкнути пізніше в Налаштуваннях." } }
+      }
+    },
+    "onb.import" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Have your history in Notes? Import it" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Есть история в заметках? Импортировать" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Є історія в нотатках? Імпортувати" } }
+      }
+    },
+    "onb.importFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Paste the text — the app recognizes dates, odometer and items by itself." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Вставьте текст — приложение само распознает даты, пробег и позиции." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вставте текст — застосунок сам розпізнає дати, пробіг і позиції." } }
       }
     },
     "onb.next" : {
@@ -1921,12 +1945,20 @@
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Далі" } }
       }
     },
+    "onb.notifFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "After “Next”, your iPhone will ask for permission to send notifications." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "После «Далее» iPhone спросит разрешение на уведомления." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Після «Далі» iPhone запитає дозвіл на сповіщення." } }
+      }
+    },
     "onb.notifText" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "We’ll remind you ahead of replacements and ask for the odometer every two weeks." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Напомним заранее о заменах и попросим обновить пробег раз в две недели." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Нагадаємо заздалегідь про заміни та попросимо оновити пробіг раз на два тижні." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "We’ll tell you ahead of time when a replacement is due and sometimes ask for the odometer, so the forecast stays accurate. Your iPhone creates the notifications itself — no internet needed." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Заранее подскажем, когда пора на замену, и иногда попросим обновить пробег — чтобы прогноз был точным. Уведомления создаёт сам iPhone, интернет не нужен." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Заздалегідь підкажемо, коли час на заміну, та іноді попросимо оновити пробіг — щоб прогноз був точним. Сповіщення створює сам iPhone, інтернет не потрібен." } }
       }
     },
     "onb.notifTitle" : {
@@ -1945,6 +1977,22 @@
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Поточний пробіг" } }
       }
     },
+    "onb.odometerFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Check the dashboard. After that, just update it from time to time." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Посмотрите на приборной панели. Дальше достаточно иногда его обновлять." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Подивіться на приладовій панелі. Далі достатньо іноді його оновлювати." } }
+      }
+    },
+    "onb.securityTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Privacy and backups" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Защита и копии" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Захист і копії" } }
+      }
+    },
     "onb.skip" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1953,12 +2001,36 @@
         "uk" : { "stringUnit" : { "state" : "translated", "value" : "Пропустити" } }
       }
     },
+    "onb.start" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Get started" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Начать" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Почати" } }
+      }
+    },
+    "onb.step" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Step %1$d of %2$d" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Шаг %1$d из %2$d" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Крок %1$d з %2$d" } }
+      }
+    },
     "onb.welcome" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome! This is your personal car-maintenance log. All data stays on your iPhone." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добро пожаловать! Это личный журнал обслуживания авто. Все данные хранятся на вашем iPhone." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A service log for your car: what was replaced, when and for how much — and what’s due next.\n\n• Works offline.\n• No sign-up, servers or ads. Your data stays on your iPhone, and nobody, including us, can see it.\n• Optional backup to your personal iCloud." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Журнал обслуживания вашего авто: что, когда и за сколько менялось — и когда менять дальше.\n\n• Работает без интернета.\n• Без регистрации, серверов и рекламы. Данные хранятся на вашем iPhone, и никто, включая нас, их не видит.\n• Резервная копия — по желанию в вашем личном iCloud." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Журнал обслуговування вашого авто: що, коли й за скільки міняли — і коли міняти далі.\n\n• Працює без інтернету.\n• Без реєстрації, серверів і реклами. Дані зберігаються на вашому iPhone, і ніхто, зокрема ми, їх не бачить.\n• Резервна копія — за бажанням у вашому особистому iCloud." } }
+      }
+    },
+    "onb.welcomeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Welcome" } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Добро пожаловать" } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Вітаємо" } }
       }
     },
     "parts.archive" : {
@@ -2380,9 +2452,9 @@
     "settings.avgKmFooter" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Average km per month turns mileage into a date." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Средний пробег за месяц нужен, чтобы перевести километры в дату." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці." } }
       }
     },
     "settings.avgManual" : {
@@ -2436,9 +2508,9 @@
     "settings.icloudFooter" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "iCloud is only a backup and sync layer. The main copy of your data is on this iPhone." } },
-        "ru" : { "stringUnit" : { "state" : "translated", "value" : "iCloud — только резервная копия и синхронизация. Основная копия данных — на этом iPhone." } },
-        "uk" : { "stringUnit" : { "state" : "translated", "value" : "iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone." } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Backup and sync use your personal iCloud. Your data always lives on this iPhone; the developer has no access to it." } },
+        "ru" : { "stringUnit" : { "state" : "translated", "value" : "Копия и синхронизация — в вашем личном iCloud. Основные данные всегда на этом iPhone, у разработчика к ним доступа нет." } },
+        "uk" : { "stringUnit" : { "state" : "translated", "value" : "Копія та синхронізація — у вашому особистому iCloud. Основні дані завжди на цьому iPhone, розробник доступу до них не має." } }
       }
     },
     "settings.language" : {

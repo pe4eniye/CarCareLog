@@ -20,7 +20,7 @@ for L in $LANGS; do
     -destination "id=$DEVICE_ID" \
     -derivedDataPath build/dd \
     -only-testing:CarCareLogUITests/ScreenshotTour \
-    > "build/shots-$L.log" 2>&1 || { echo "some tour steps failed (screens still saved):"; \
-      grep -E "error:|failed" "build/shots-$L.log" | head -40 || true; }
+    2>&1 | tee "build/shots-$L.log" | grep --line-buffered -E "Test Case|error:" || true
+  echo "saved: $(ls shots | wc -l) files"
 done
 ls -la shots

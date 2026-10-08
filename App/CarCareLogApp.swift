@@ -105,7 +105,8 @@ struct RootView: View {
             guard !didLaunch else { return }
             didLaunch = true
             if DemoMode.isOn {
-                DemoMode.seed(context)
+                // Onboarding starts from an empty garage, like a real first launch.
+                if settings.onboardingDone { DemoMode.seed(context) }
                 DemoMode.openSheet(context, router: router)
             }
             lock.lockIfEnabled(settings.faceIDEnabled)

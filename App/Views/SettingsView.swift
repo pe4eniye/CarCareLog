@@ -24,42 +24,7 @@ struct SettingsView: View {
         NavigationStack {
             Form {
                 Section(L10n.t("settings.appearance")) {
-                    Picker(L10n.t("settings.language"), selection: $settings.language) {
-                        ForEach(L10n.choices, id: \.code) { Text($0.name).tag($0.code) }
-                    }
-                    .frame(minHeight: 44)
-                    Picker(L10n.t("settings.theme"), selection: $settings.theme) {
-                        Text(L10n.t("settings.themeLight")).tag("light")
-                        Text(L10n.t("settings.themeDark")).tag("dark")
-                        Text(L10n.t("settings.themeSystem")).tag("system")
-                    }
-                    .frame(minHeight: 44)
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text(L10n.t("settings.accent"))
-                        HStack(spacing: 14) {
-                            ForEach(AccentTheme.allCases) { theme in
-                                Button {
-                                    settings.accentRaw = theme.rawValue
-                                    UISelectionFeedbackGenerator().selectionChanged()
-                                } label: {
-                                    Circle().fill(theme.color).frame(width: 32, height: 32)
-                                        .overlay(Circle().strokeBorder(.white, lineWidth: 2).padding(2)
-                                            .opacity(settings.accent == theme ? 1 : 0))
-                                        .overlay(Circle().strokeBorder(theme.color, lineWidth: 2).padding(-3)
-                                            .opacity(settings.accent == theme ? 1 : 0))
-                                }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel(L10n.t(theme.titleKey))
-                            }
-                        }
-                    }
-                    .padding(.vertical, 6)
-                    Picker(L10n.t("settings.currency"), selection: $settings.currencyRaw) {
-                        Text("₴ " + L10n.t("currency.uah")).tag(Currency.uah.rawValue)
-                        Text("$ " + L10n.t("currency.usd")).tag(Currency.usd.rawValue)
-                        Text("€ " + L10n.t("currency.eur")).tag(Currency.eur.rawValue)
-                    }
-                    .frame(minHeight: 44)
+                    AppearanceFields()
                 }
 
                 Section {

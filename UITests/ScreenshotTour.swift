@@ -89,30 +89,52 @@ final class ScreenshotTour: XCTestCase {
 
     func test01Onboarding() {
         launch(["-demoOnboarding"])
-        snap("01-onboarding-car")
-        tapLabel("Далі")
-        snap("02-onboarding-car-errors")
+        snap("01-onboarding-welcome")
+        scrollDown()
+        snap("02-onboarding-welcome-bottom")
+        tap("onb.next", byCoordinate: true)
+        snap("03-onboarding-car")
+        scrollDown()
+        tap("onb.next", byCoordinate: true)
+        app.swipeDown(velocity: .slow)
+        pause()
+        snap("04-onboarding-car-errors")
         let fields = app.textFields
         type(into: fields.element(boundBy: 0), "Škoda Octavia")
         type(into: fields.element(boundBy: 2), "228100")
         type(into: fields.element(boundBy: 3), "1500")
         hideKeyboard()
-        if !tapLabel("Далі", timeout: 2) {
-            scrollDown()
-            tapLabel("Далі")
-        }
+        scrollDown()
+        tap("onb.next", byCoordinate: true)
         pause(1.5)
-        snap("03-onboarding-items")
+        snap("05-onboarding-items")
+        if tap("onb.import") {
+            snap("06-onboarding-import")
+            app.navigationBars.buttons.element(boundBy: 0).tap()
+            pause()
+        }
+        tap("check.Моторне масло")
+        tap("check.Масляний фільтр")
         tap("check.Антифриз")
-        tap("check.Щітки склоочисника")
-        snap("04-onboarding-items-picked")
+        snap("07-onboarding-items-picked")
         tap("catalog.next", byCoordinate: true)
-        snap("05-onboarding-intervals")
+        snap("08-onboarding-intervals")
         tap("bulk.save", byCoordinate: true)
         pause(1.5)
-        snap("06-onboarding-next-step")
-        tapLabel("Пропустити")
-        snap("07-onboarding-last-step")
+        snap("09-onboarding-reminders")
+        scrollDown(2)
+        snap("10-onboarding-reminders-bottom")
+        tap("onb.next", byCoordinate: true)
+        pause(1.5)
+        snap("11-onboarding-notification-permission")
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let alertButtons = springboard.alerts.firstMatch.buttons
+        if alertButtons.count > 1 { alertButtons.element(boundBy: 1).tap() }
+        pause(1.5)
+        snap("12-onboarding-security")
+        tap("onb.next", byCoordinate: true)
+        pause(1.5)
+        snap("13-onboarding-done-home")
     }
 
     func test02Home() {

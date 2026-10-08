@@ -8,6 +8,9 @@ struct AddItemsFlow: View {
     /// Called after saving or skipping (onboarding continues with the next step).
     var onFinish: () -> Void = {}
     var skippable = false
+    /// Onboarding: "Back" on the left, "Skip" on the right, "Step N of M" under the title, import link on top.
+    var onBack: (() -> Void)?
+    var stepLabel: String?
 
     @Environment(\.dismiss) private var dismiss
     @State private var picked: [ItemChoiceDraft] = []
@@ -15,12 +18,26 @@ struct AddItemsFlow: View {
 
     var body: some View {
         NavigationStack {
-            CatalogPickerView(picked: $picked)
+            CatalogPickerView(picked: $picked, showImport: onBack != nil)
                 .navigationTitle(L10n.t("catalog.title"))
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button(skippable ? L10n.t("onb.skip") : L10n.t("common.cancel")) { finish() }
+                    if let onBack {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(L10n.t("onb.back"), action: onBack)
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(L10n.t("onb.skip")) { finish() }
+                        }
+                    } else {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(skippable ? L10n.t("onb.skip") : L10n.t("common.cancel")) { finish() }
+                        }
+                    }
+                    if let stepLabel {
+                        ToolbarItem(placement: .principal) {
+                            StepTitle(title: L10n.t("catalog.title"), step: stepLabel)
+                        }
                     }
                 }
                 .safeAreaInset(edge: .bottom) {
@@ -51,6 +68,7 @@ struct AddItemsFlow: View {
 /// Catalog by category with checkmarks and search, plus "Custom item" at the bottom.
 struct CatalogPickerView: View {
     @Binding var picked: [ItemChoiceDraft]
+    var showImport = false
 
     @Query(sort: \Item.createdAt) private var items: [Item]
     @State private var search = ""
@@ -69,6 +87,18 @@ struct CatalogPickerView: View {
 
     var body: some View {
         List {
+            if showImport && search.isEmpty {
+                Section {
+                    NavigationLink {
+                        ImportHistoryView()
+                    } label: {
+                        Label(L10n.t("onb.import"), systemImage: "doc.on.clipboard").frame(minHeight: 44)
+                    }
+                    .accessibilityIdentifier("onb.import")
+                } footer: {
+                    Text(L10n.t("onb.importFooter"))
+                }
+            }
             let customs = picked.compactMap { choice -> String? in
                 if case .custom(let n) = choice { return n }
                 return nil

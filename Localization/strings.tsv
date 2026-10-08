@@ -1,14 +1,14 @@
 key	uk	ru	en
 assistant.clear	Очистити	Очистить	Clear
 assistant.copied	Скопійовано	Скопировано	Copied
-assistant.intro	Запитайте про обслуговування українською, російською чи англійською. Можна диктувати — кнопка мікрофона на клавіатурі. Помічник працює без інтернету і відповідає лише за вашими записами.	Спросите про обслуживание на украинском, русском или английском. Можно диктовать — кнопка микрофона на клавиатуре. Помощник работает без интернета и отвечает только по вашим записям.	Ask about maintenance in Ukrainian, Russian or English. You can dictate with the microphone key on the keyboard. The assistant works offline and answers only from your records.
+assistant.intro	Питайте своїми словами: «коли міняв масло?», «що міняти на 240 тис?», «скільки витратив цього року?». Розуміє українську, російську та англійську, працює без інтернету й відповідає лише за вашими записами.	Спрашивайте своими словами: «когда менял масло?», «что менять на 240 тыс?», «сколько потратил в этом году?». Понимает украинский, русский и английский, работает без интернета и отвечает только по вашим записям.	Ask in your own words: “when did I change the oil?”, “what’s due at 240k?”, “how much did I spend this year?”. Understands Ukrainian, Russian and English, works offline and answers only from your records.
 assistant.placeholder	Ваше запитання	Ваш вопрос	Your question
 assistant.send	Надіслати	Отправить	Send
 backup.confirmText	Файл від %1$@: позицій — %2$d, записів — %3$d. Усі поточні дані на цьому iPhone буде замінено.	Файл от %1$@: позиций — %2$d, записей — %3$d. Все текущие данные на этом iPhone будут заменены.	File from %1$@: %2$d parts, %3$d entries. All current data on this iPhone will be replaced.
 backup.confirmTitle	Замінити дані?	Заменить данные?	Replace data?
 backup.export	Експортувати резервну копію	Экспортировать резервную копию	Export backup
 backup.exportFailed	Не вдалося створити файл.	Не удалось создать файл.	Could not create the file.
-backup.footer	Один файл з усіма даними. Збережіть його у «Файли» або надішліть через AirDrop.	Один файл со всеми данными. Сохраните его в «Файлы» или отправьте через AirDrop.	One file with all your data. Save it to Files or send it via AirDrop.
+backup.footer	Один файл з усіма даними. Збережіть його у «Файли», на комп’ютер або надішліть собі — знадобиться при зміні телефона.	Один файл со всеми данными. Сохраните его в «Файлы», на компьютер или отправьте себе — пригодится при смене телефона.	One file with all your data. Save it to Files, to a computer, or send it to yourself — handy when you change phones.
 backup.import	Імпортувати резервну копію	Импортировать резервную копию	Import backup
 backup.invalid	Це не файл резервної копії CarCare Log.	Это не файл резервной копии CarCare Log.	This is not a CarCare Log backup file.
 backup.newerFormat	Файл створено новішою версією застосунку. Оновіть застосунок.	Файл создан более новой версией приложения. Обновите приложение.	The file was made by a newer app version. Please update the app.
@@ -31,8 +31,8 @@ entry.km	км	км	km
 entry.needParts	Додайте хоча б одну позицію.	Добавьте хотя бы одну позицию.	Add at least one part.
 entry.odometer	Пробіг	Пробег	Odometer
 entry.parts	Що замінено	Что заменено	What was replaced
-entry.pickParts	Вибрати позиції	Выбрать позиции	Choose parts
-history.empty	Тут з’являться ваші записи про обслуговування. Натисніть «+», щоб додати перший.	Здесь появятся ваши записи об обслуживании. Нажмите «+», чтобы добавить первую.	Your service entries will appear here. Tap “+” to add the first one.
+entry.pickParts	Обрати позиції	Выбрать позиции	Choose items
+history.empty	Тут буде історія обслуговування. Натисніть «+» → «Записати обслуговування». Старі записи можна перенести з нотаток: Налаштування → Імпорт.	Здесь будет история обслуживания. Нажмите «+» → «Записать обслуживание». Старые записи можно перенести из заметок: Настройки → Импорт.	Your service history will be here. Tap “+” → “Log service”. Old records can be moved over from Notes: Settings → Import.
 home.atKm	при %@	на %@	at %@
 home.emptyTitle	Почнімо	Начнём	Let’s start
 home.odometer	Пробіг	Пробег	Odometer
@@ -44,7 +44,7 @@ icloud.checking	Перевірка…	Проверка…	Checking…
 icloud.errorShort	Помилка синхронізації	Ошибка синхронизации	Sync error
 icloud.full	Сховище iCloud заповнене — резервне копіювання зупинено. Дані на iPhone у безпеці; звільніть місце або зробіть експорт у файл.	Хранилище iCloud заполнено — резервное копирование остановлено. Данные на iPhone в безопасности; освободите место или сделайте экспорт в файл.	iCloud storage is full, so backup has stopped. Your data on this iPhone is safe; free up space or export a backup file.
 icloud.fullShort	Сховище заповнене	Хранилище заполнено	Storage full
-icloud.noAccount	iCloud недоступний (не виконано вхід?). Дані зберігаються лише на цьому iPhone.	iCloud недоступен (не выполнен вход?). Данные хранятся только на этом iPhone.	iCloud is unavailable (not signed in?). Data is stored on this iPhone only.
+icloud.noAccount	Вхід в iCloud не виконано — дані зберігаються лише на цьому iPhone.	Вход в iCloud не выполнен — данные хранятся только на этом iPhone.	You’re not signed in to iCloud, so your data is stored only on this iPhone.
 icloud.noAccountShort	Немає входу	Нет входа	Not signed in
 icloud.off	Вимкнено	Выключено	Off
 icloud.on	Увімкнено	Включено	On
@@ -84,17 +84,11 @@ odometer.lowerText	Нове значення менше за попереднє.
 odometer.lowerTitle	Пробіг менший за попередній	Пробег меньше предыдущего	Lower than before
 odometer.placeholder	Поточний пробіг, км	Текущий пробег, км	Current odometer, km
 odometer.title	Пробіг	Пробег	Odometer
-onb.allow	Дозволити	Разрешить	Allow
 onb.carTitle	Ваше авто	Ваше авто	Your car
-onb.enable	Увімкнути	Включить	Turn on
-onb.faceIDText	Застосунок відкриватиметься лише після Face ID або коду пристрою. Це можна змінити в налаштуваннях.	Приложение будет открываться только после Face ID или кода устройства. Это можно изменить в настройках.	The app will open only after Face ID or your device passcode. You can change this in Settings.
-onb.faceIDTitle	Захистити Face ID?	Защитить Face ID?	Protect with Face ID?
 onb.next	Далі	Далее	Next
-onb.notifText	Нагадаємо заздалегідь про заміни та попросимо оновити пробіг раз на два тижні.	Напомним заранее о заменах и попросим обновить пробег раз в две недели.	We’ll remind you ahead of replacements and ask for the odometer every two weeks.
 onb.notifTitle	Нагадування	Напоминания	Reminders
 onb.odometer	Поточний пробіг	Текущий пробег	Current odometer
 onb.skip	Пропустити	Пропустить	Skip
-onb.welcome	Вітаємо! Це особистий журнал обслуговування авто. Усі дані зберігаються на вашому iPhone.	Добро пожаловать! Это личный журнал обслуживания авто. Все данные хранятся на вашем iPhone.	Welcome! This is your personal car-maintenance log. All data stays on your iPhone.
 parts.deleteConfirm	Видалити «%@»?	Удалить «%@»?	Delete “%@”?
 parts.everyKm	кожні %@	каждые %@	every %@
 parts.everyMonths	кожні %d міс.	каждые %d мес.	every %d mo
@@ -102,12 +96,12 @@ reason.mileage	за пробігом	по пробегу	by mileage
 reason.time	за часом	по времени	by time
 settings.appearance	Вигляд	Внешний вид	Appearance
 settings.avgKm	Пробіг за місяць, км	Пробег в месяц, км	Km per month
-settings.avgKmFooter	Середній пробіг за місяць потрібен, щоб перетворити кілометри на дату.	Средний пробег за месяц нужен, чтобы перевести километры в дату.	Average km per month turns mileage into a date.
+settings.avgKmFooter	Потрібен, щоб перевести кілометри в дату. Наприклад, при 1 500 км на місяць заміна через 3 000 км — це приблизно через 2 місяці.	Нужен, чтобы перевести километры в дату. Например, при 1 500 км в месяц замена через 3 000 км — это примерно через 2 месяца.	Turns kilometres into dates. For example, at 1,500 km a month a replacement due in 3,000 km is about 2 months away.
 settings.car	Авто	Авто	Car
 settings.carSection	Авто	Авто	Car
 settings.faceID	Face ID / код пристрою	Face ID / код устройства	Face ID / passcode
 settings.faceIDUnavailable	Face ID або код пристрою недоступні.	Face ID или код устройства недоступны.	Face ID or passcode is not available.
-settings.icloudFooter	iCloud — лише резервна копія та синхронізація. Основна копія даних — на цьому iPhone.	iCloud — только резервная копия и синхронизация. Основная копия данных — на этом iPhone.	iCloud is only a backup and sync layer. The main copy of your data is on this iPhone.
+settings.icloudFooter	Копія та синхронізація — у вашому особистому iCloud. Основні дані завжди на цьому iPhone, розробник доступу до них не має.	Копия и синхронизация — в вашем личном iCloud. Основные данные всегда на этом iPhone, у разработчика к ним доступа нет.	Backup and sync use your personal iCloud. Your data always lives on this iPhone; the developer has no access to it.
 settings.language	Мова	Язык	Language
 settings.leadTime	Нагадувати	Напоминать	Remind
 settings.security	Захист	Защита	Security
@@ -134,7 +128,7 @@ entry.lowerText	Пробіг менший за поточний, а дата —
 error.duplicate	Позиція «%@» уже є	Позиция «%@» уже есть	“%@” already exists
 error.future	Дата не може бути в майбутньому	Дата не может быть в будущем	The date can’t be in the future
 error.range	Від %1$@ до %2$@	От %1$@ до %2$@	From %1$@ to %2$@
-error.required	Обов’язкове поле	Обязательное поле	Required
+error.required	Заповніть це поле	Заполните это поле	Please fill this in
 error.tooLong	Не більше %d символів	Не больше %d символов	At most %d characters
 field.chooseDate	Обрати дату	Выбрать дату	Choose date
 field.useDate	Обрати цю дату	Выбрать эту дату	Use this date
@@ -149,7 +143,7 @@ item.archivedDuplicateTitle	«%@» є в архіві	«%@» есть в арх�
 item.archivedFooter	Позиція в архіві: прогнозу й нагадувань немає, історія збережена.	Позиция в архиве: прогноза и напоминаний нет, история сохранена.	Archived: no forecast or reminders, history is kept.
 item.createNew	Створити нову	Создать новую	Create new
 item.dontKnow	Не знаю — рахувати від сьогодні	Не знаю — считать от сегодня	Don’t know — count from today
-item.intervalFooter	Вкажіть кілометри, місяці або обидва — спрацює те, що настане раніше.	Укажите километры, месяцы или оба — сработает то, что наступит раньше.	Set km, months or both; whichever comes first counts.
+item.intervalFooter	Наприклад, масло — кожні 10 000 км або 12 місяців. Нагадаємо за тим, що настане раніше.	Например, масло — каждые 10 000 км или 12 месяцев. Напомним по тому, что наступит раньше.	For example, oil every 10,000 km or 12 months. We’ll remind you by whichever comes first.
 item.lastFooter	Береться з Історії. Щоб змінити, запишіть обслуговування або виправте запис в Історії.	Берётся из Истории. Чтобы изменить, запишите обслуживание или исправьте запись в Истории.	Taken from History. To change it, log a service or edit the History entry.
 item.lastFooterNew	Від цього рахується наступна заміна. Стане першим записом в Історії.	От этого считается следующая замена. Станет первой записью в Истории.	The next replacement is counted from this. It becomes the first History entry.
 item.lastSection	Остання заміна	Последняя замена	Last done
@@ -247,7 +241,7 @@ wipe.footer	Спершу збережіть резервну копію, якщ�
 wipe.text	Рекомендуємо спершу експортувати резервну копію.	Рекомендуем сначала экспортировать резервную копию.	We recommend exporting a backup first.
 wipe.title	Видалити всі дані?	Удалить все данные?	Delete all data?
 picker.search	Пошук	Поиск	Search
-home.emptyText	Оберіть, що ви обслуговуєте: оливу, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях.	Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам.	Choose what you maintain: oil, filters, brakes, insurance — from the list or your own items. A month-by-month forecast will appear here.
+home.emptyText	Оберіть, що ви обслуговуєте: масло, фільтри, гальма, страховку — з довідника або свої позиції. Тоді тут з’явиться прогноз по місяцях.	Выберите, что вы обслуживаете: масло, фильтры, тормоза, страховку — из справочника или свои позиции. Тогда здесь появится прогноз по месяцам.	Choose what you maintain — oil, filters, brakes, insurance — from the catalog or add your own. Then a month-by-month forecast appears here.
 parts.empty	Тут буде ваш регламент: що ви обслуговуєте і як часто. Оберіть позиції з довідника — можна одразу кілька.	Здесь будет ваш регламент: что вы обслуживаете и как часто. Выберите позиции из справочника — можно сразу несколько.	Your schedule lives here: what you maintain and how often. Pick items from the list — several at once.
 autobackup.footer	Раз на тиждень копія автоматично зберігається в iCloud Drive → CarCare Log (останні 5 файлів).	Раз в неделю копия автоматически сохраняется в iCloud Drive → CarCare Log (последние 5 файлов).	Once a week a copy is saved automatically to iCloud Drive → CarCare Log (last 5 files).
 autobackup.footerLocal	iCloud недоступний, тому копії зберігаються у «Файли» → «На iPhone» → CarCare Log. Від втрати телефону це не захищає — час від часу експортуйте копію.	iCloud недоступен, поэтому копии сохраняются в «Файлы» → «На iPhone» → CarCare Log. От потери телефона это не защищает — время от времени экспортируйте копию.	iCloud isn’t available, so copies go to Files → On My iPhone → CarCare Log. That doesn’t protect against losing the phone — export a copy now and then.
@@ -264,7 +258,7 @@ currency.uah	Гривня	Гривна	Hryvnia
 currency.usd	Долар	Доллар	Dollar
 entry.cost	Вартість (необов’язково)	Стоимость (необязательно)	Cost (optional)
 entry.note	Нотатка (необов’язково)	Заметка (необязательно)	Note (optional)
-entry.notePlaceholder	Марка оливи, СТО, що ще зроблено…	Марка масла, СТО, что ещё сделано…	Oil brand, workshop, anything else…
+entry.notePlaceholder	Марка масла, СТО, що ще зроблено…	Марка масла, СТО, что ещё сделано…	Oil brand, garage, what else was done…
 entry.splitCosts	Розбити за позиціями	Разбить по позициям	Split by item
 entry.total	Разом	Итого	Total
 entry.validUntil	Діє до	Действует до	Valid until
@@ -273,7 +267,7 @@ expenses.all	Усе	Всё	All
 expenses.allTime	За весь час	За всё время	All time
 expenses.backTo	Показати в %@	Показать в %@	Show in %@
 expenses.byCategory	За категоріями	По категориям	By category
-expenses.empty	Тут з’являться обслуговування з указаною вартістю.	Здесь появятся обслуживания с указанной стоимостью.	Services with a cost will appear here.
+expenses.empty	Вказуйте вартість, коли записуєте обслуговування, — і тут буде видно, скільки йде на машину по місяцях і на що саме.	Указывайте стоимость, когда записываете обслуживание, — и здесь будет видно, сколько уходит на машину по месяцам и на что именно.	Add the cost when you log a service, and you’ll see here how much the car takes each month and what for.
 expenses.list	Обслуговування	Обслуживания	Services
 expenses.month	Місяць	Месяц	Month
 expenses.other	Інше	Прочее	Other
@@ -321,7 +315,7 @@ notify.odometerOff	вимкнено	выключено	off
 notify.openSettings	Відкрити налаштування	Открыть настройки	Open Settings
 notify.service	Заміни та обслуговування	Замены и обслуживание	Service reminders
 notify.time	Час сповіщень	Время уведомлений	Notification time
-notify.footer	Сповіщення приходять у вибраний час за місцевим часом телефона.	Уведомления приходят в выбранное время по местному времени телефона.	Notifications arrive at the chosen time, local to the phone.
+notify.footer	Сповіщення приходять в обраний час за місцевим часом телефона.	Уведомления приходят в выбранное время по местному времени телефона.	Notifications arrive at the chosen time, local to the phone.
 notify.offFooter	Сповіщення вимкнені. Головна все одно показує, що прострочено.	Уведомления выключены. Главная всё равно показывает, что просрочено.	Notifications are off. Home still shows what is overdue.
 parts.noValidUntil	дату закінчення не вказано	дата окончания не указана	no end date set
 parts.seasonMonths	сезон: %@	сезон: %@	season: %@
@@ -350,3 +344,18 @@ theme.graphite	Графіт	Графит	Graphite
 theme.purple	Фіолетовий	Фиолетовый	Purple
 theme.teal	Бірюзовий	Бирюзовый	Teal
 text.thisMonth	цього місяця	в этом месяце	this month
+onb.welcome	Журнал обслуговування вашого авто: що, коли й за скільки міняли — і коли міняти далі.\n\n• Працює без інтернету.\n• Без реєстрації, серверів і реклами. Дані зберігаються на вашому iPhone, і ніхто, зокрема ми, їх не бачить.\n• Резервна копія — за бажанням у вашому особистому iCloud.	Журнал обслуживания вашего авто: что, когда и за сколько менялось — и когда менять дальше.\n\n• Работает без интернета.\n• Без регистрации, серверов и рекламы. Данные хранятся на вашем iPhone, и никто, включая нас, их не видит.\n• Резервная копия — по желанию в вашем личном iCloud.	A service log for your car: what was replaced, when and for how much — and what’s due next.\n\n• Works offline.\n• No sign-up, servers or ads. Your data stays on your iPhone, and nobody, including us, can see it.\n• Optional backup to your personal iCloud.
+onb.welcomeTitle	Вітаємо	Добро пожаловать	Welcome
+onb.appearanceFooter	Усе це можна змінити пізніше в Налаштуваннях — шестерня вгорі кожного екрана.	Всё это можно изменить позже в Настройках — шестерёнка вверху каждого экрана.	You can change all of this later in Settings — the gear at the top of every screen.
+onb.step	Крок %1$d з %2$d	Шаг %1$d из %2$d	Step %1$d of %2$d
+onb.back	Назад	Назад	Back
+onb.odometerFooter	Подивіться на приладовій панелі. Далі достатньо іноді його оновлювати.	Посмотрите на приборной панели. Дальше достаточно иногда его обновлять.	Check the dashboard. After that, just update it from time to time.
+onb.notifText	Заздалегідь підкажемо, коли час на заміну, та іноді попросимо оновити пробіг — щоб прогноз був точним. Сповіщення створює сам iPhone, інтернет не потрібен.	Заранее подскажем, когда пора на замену, и иногда попросим обновить пробег — чтобы прогноз был точным. Уведомления создаёт сам iPhone, интернет не нужен.	We’ll tell you ahead of time when a replacement is due and sometimes ask for the odometer, so the forecast stays accurate. Your iPhone creates the notifications itself — no internet needed.
+onb.notifFooter	Після «Далі» iPhone запитає дозвіл на сповіщення.	После «Далее» iPhone спросит разрешение на уведомления.	After “Next”, your iPhone will ask for permission to send notifications.
+onb.securityTitle	Захист і копії	Защита и копии	Privacy and backups
+onb.faceIDText	Якщо телефон опиниться в чужих руках, журнал не відкриється без Face ID або коду. Це можна змінити в Налаштуваннях.	Если телефон окажется в чужих руках, журнал не откроется без Face ID или кода. Это можно изменить в Настройках.	If your phone ends up in someone else’s hands, the log won’t open without Face ID or your passcode. You can change this in Settings.
+onb.faceIDUnavailable	На цьому пристрої Face ID і код не налаштовані — захист можна увімкнути пізніше в Налаштуваннях.	На этом устройстве Face ID и код не настроены — защиту можно включить позже в Настройках.	Face ID and a passcode aren’t set up on this device — you can turn protection on later in Settings.
+onb.backupText	Раз на тиждень застосунок сам зберігає резервну копію: в iCloud Drive, якщо він увімкнений, інакше — у «Файли» на iPhone. Налаштовувати нічого не треба.	Раз в неделю приложение само сохраняет резервную копию: в iCloud Drive, если он включён, иначе — в «Файлы» на iPhone. Настраивать ничего не нужно.	Once a week the app saves a backup by itself: to iCloud Drive if it’s on, otherwise to Files on your iPhone. Nothing to set up.
+onb.start	Почати	Начать	Get started
+onb.import	Є історія в нотатках? Імпортувати	Есть история в заметках? Импортировать	Have your history in Notes? Import it
+onb.importFooter	Вставте текст — застосунок сам розпізнає дати, пробіг і позиції.	Вставьте текст — приложение само распознает даты, пробег и позиции.	Paste the text — the app recognizes dates, odometer and items by itself.

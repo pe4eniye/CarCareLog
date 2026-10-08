@@ -76,7 +76,7 @@ final class CarCareLogUITests: XCTestCase {
 
         // Saving without date and odometer is not allowed: errors are shown, the form stays open.
         app.buttons["entry.save"].tap()
-        XCTAssertTrue(app.staticTexts["Required"].waitForExistence(timeout: 3))
+        XCTAssertTrue(app.staticTexts["Please fill this in"].waitForExistence(timeout: 3))
     }
 
     /// A new odometer above the next oil change (237 000 km in demo data) makes it overdue on Home and in the Schedule.
